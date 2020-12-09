@@ -114,7 +114,7 @@ public class Plant implements Serializable {
     @Enumerated(EnumType.STRING)
     private Climate climate;
     @Lob
-    private byte[] imagen;
+    private byte[] image;
     
     @OneToMany(cascade=ALL,mappedBy="plant")
     private Set<UserPlant> plants;
@@ -200,11 +200,11 @@ public class Plant implements Serializable {
     }
 
     public byte[] getImagen() {
-        return imagen;
+        return image;
     }
 
     public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
+        this.image = imagen;
     }
 
     @XmlTransient

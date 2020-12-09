@@ -46,10 +46,10 @@ public class Equipment implements Serializable {
     private float price;
 
     @Lob
-    private byte[] imagen;
+    private byte[] image;
 
     @Enumerated(EnumType.STRING)
-    private Use usos;
+    private Use uses;
 
     @ManyToOne
     @JoinColumn(name = "equipment_shop")
@@ -111,19 +111,19 @@ public class Equipment implements Serializable {
     }
 
     public byte[] getImagen() {
-        return imagen;
+        return image;
     }
 
     public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
+        this.image = imagen;
     }
 
     public Use getUse() {
-        return usos;
+        return uses;
     }
 
     public void setUse(Use use) {
-        this.usos = use;
+        this.uses = use;
     }
 
     @Override
