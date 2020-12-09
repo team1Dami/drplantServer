@@ -5,7 +5,7 @@
  */
 package DrPlant.entity;
 
-import com.sun.istack.internal.NotNull;
+;
 import DrPlant.enumerations.Use;
 import java.io.Serializable;
 import java.util.Set;
@@ -22,6 +22,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -46,10 +47,10 @@ public class Equipment implements Serializable {
     private float price;
 
     @Lob
-    private byte[] imagen;
+    private byte[] image;
 
     @Enumerated(EnumType.STRING)
-    private Use usos;
+    private Use uses;
 
     @ManyToOne
     @JoinColumn(name = "equipment_shop")
@@ -110,20 +111,20 @@ public class Equipment implements Serializable {
         this.price = price;
     }
 
-    public byte[] getImagen() {
-        return imagen;
+    public byte[] getImage() {
+        return image;
     }
 
     public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
+        this.image = image;
     }
 
     public Use getUse() {
-        return usos;
+        return uses;
     }
 
-    public void setUse(Use use) {
-        this.usos = use;
+    public void setUse(Use uses) {
+        this.uses = uses;
     }
 
     @Override

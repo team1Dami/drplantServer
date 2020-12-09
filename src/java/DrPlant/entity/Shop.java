@@ -1,7 +1,7 @@
 
 package DrPlant.entity;
  
-import com.sun.istack.internal.NotNull;
+
 import java.io.Serializable;
 import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**

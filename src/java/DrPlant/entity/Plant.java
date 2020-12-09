@@ -3,7 +3,7 @@
  *
  */
 package DrPlant.entity;
- 
+
 import DrPlant.enumerations.Climate;
 import DrPlant.enumerations.PetFriendly;
 import DrPlant.enumerations.PlantType;
@@ -28,75 +28,91 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 /**
  * This entity class encapsulates the data of each Plague.
  * <ul>
- *  <li><strong>scienceName:</strong> The id of the plant. Name of the plant</li>
- *  <li><strong>commonName:</strong> Also the name of the plant known by users</li>
- *  <li><strong>description:</strong> The description of the plant</li>
- *  <li><strong>cares:</strong> The description how to care the plant</li>
- *  <li><strong>climate:</strong> It's the clima of the plant, that can be:
- *      <ul>
- *          <li>Dry</li>
- *          <li>wet</li>
- *          <li>Hot</li>
- *          <li>Cold<li
- *      </ul>
- *  </li>
- *  <li><strong>type:</strong> Password of the user</li>
- *      <ul>
- *          <li>succulent</li>
- *          <li>indoor</li>
- *          <li>outdoor</li>
- *      </ul>
- *  <li><strong>petfriendly:</strong> Last time the user login in the app</li>
- *      <ul>
- *          <li>dog</li>
- *          <li>cat</li>
- *          <li>both</li>
- *          <li>no</li>
- *      </ul> 
+ * <li><strong>scienceName:</strong> The id of the plant. Name of the plant</li>
+ * <li><strong>commonName:</strong> Also the name of the plant known by
+ * users</li>
+ * <li><strong>description:</strong> The description of the plant</li>
+ * <li><strong>cares:</strong> The description how to care the plant</li>
+ * <li><strong>climate:</strong> It's the clima of the plant, that can be:
+ * <ul>
+ * <li>Dry</li>
+ * <li>wet</li>
+ * <li>Hot</li>
+ * <li>Cold<li </ul> </li>
+ * <li><strong>type:</strong> Password of the user</li>
+ * <ul>
+ * <li>succulent</li>
+ * <li>indoor</li>
+ * <li>outdoor</li>
+ * </ul>
+ * <li><strong>petfriendly:</strong> Last time the user login in the app</li>
+ * <ul>
+ * <li>dog</li>
+ * <li>cat</li>
+ * <li>both</li>
+ * <li>no</li>
+ * </ul>
  * <li><strong>image:</strong> Last time the user change the password </li>
  * </ul>
  *
  * @author Ruben
  */
-
 @NamedQueries({
-    @NamedQuery(name="getPlantData",
-            query="SELECT p FROM Plant p WHERE p.scienceName=:scienceName"),
-    @NamedQuery(name="getAllPlants",
-            query="SELECT p FROM Plant p"),
-  //  @NamedQuery(name="updatePlant",
-    //        query="UPDATE Plant p SET p.description=:description,p.commonName=:commonName, p.plantType=:plantType,p.wateringFrequence=:waterFrequence WHERE p.scienceNameRE p.scienceName=:scienceName"),
-    @NamedQuery(name="deletePlant",
-            query="DELETE FROM Plant p where p.scienceName=:scienceName"),
-    @NamedQuery(name="getPlantByType",
-            query="SELECT p FROM Plant p WHERE p.plantType=:plantType"),
-    @NamedQuery(name="getPlantByPetFriendly",
-            query="SELECT p FROM Plant p WHERE p.petfriendly=:petFriendly"),
-    @NamedQuery(name="getPlantByClimate",
-            query="SELECT p FROM Plant p WHERE p.climate=:climate"),
-    //@NamedQuery(name="getPlantByTypeAndPetFriendly",
-      //      query="SELECT p FROM Plant p WHERE p.plantType:plantType AND p.petfriendly=:petFriendly"),
-    @NamedQuery(name="getPlantByTypeAndClimate",
-            query="SELECT p FROM Plant p WHERE p.plantType=:plantType AND p.climate=:climate"),
-   // @NamedQuery(name="getPlantByPetFriendlyAndClimate",
-     //       query="SELECT p FROM Plant p WHERE p.petfriendly:petFriendly AND p.climate=:climate"),
-    @NamedQuery(name="getPlantWithAll",
-            query="SELECT p FROM Plant p WHERE p.plantType=:plantType AND p.climate=:climate AND p.petfriendly=:petFriendly"),
-    @NamedQuery(name="getPlantByCommonName",
-            query="SELECT p FROM Plant p WHERE p.commonName=:commonName"),
+    @NamedQuery(name = "getAllPlants",
+            query = "SELECT p FROM Plant p")
+    ,
     
+    @NamedQuery(name = "getPlantData",
+            query = "SELECT p FROM Plant p WHERE p.scienceName=:scienceName")
+    ,
+    
+    @NamedQuery(name = "updatePlant",
+            query = "UPDATE Plant p SET p.description=:description,p.commonName=:commonName, p.plantType=:plantType, p.wateringFrequence=:waterFrequence WHERE p.scienceName=:scienceName")
+    ,
+    @NamedQuery(name = "deletePlant",
+            query = "DELETE FROM Plant p where p.scienceName=:scienceName")
+    ,
+    
+    @NamedQuery(name = "getPlantByType",
+            query = "SELECT p FROM Plant p WHERE p.plantType=:plantType")
+    ,
+    
+    @NamedQuery(name = "getPlantByPetFriendly",
+            query = "SELECT p FROM Plant p WHERE p.petfriendly=:petfriendly")
+    ,
+    
+    @NamedQuery(name = "getPlantByClimate",
+            query = "SELECT p FROM Plant p WHERE p.climate=:climate")
+    ,
+    @NamedQuery(name = "getPlantByTypeAndPetFriendly",
+            query = "SELECT p FROM Plant p WHERE p.plantType=:plantType AND p.petfriendly=:petfriendly")
+    ,
+    
+    @NamedQuery(name = "getPlantByTypeAndClimate",
+            query = "SELECT p FROM Plant p WHERE p.plantType=:plantType AND p.climate=:climate")
+    ,
+    
+    @NamedQuery(name = "getPlantByPetFriendlyAndClimate",
+            query = "SELECT p FROM Plant p WHERE p.petfriendly=:petfriendly AND p.climate=:climate")
+    ,
+    
+    @NamedQuery(name = "getPlantWithAll",
+            query = "SELECT p FROM Plant p WHERE p.plantType=:plantType AND p.climate=:climate AND p.petfriendly=:petfriendly")
+    ,
+    
+    @NamedQuery(name = "getPlantByCommonName",
+            query = "SELECT p FROM Plant p WHERE p.commonName=:commonName")
 })
 @Entity
-@Table(name="Plant",schema="drplant")
+@Table(name = "Plant", schema = "drplant")
 @XmlRootElement
 public class Plant implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @NotNull
     private String scienceName;
@@ -114,17 +130,17 @@ public class Plant implements Serializable {
     @Enumerated(EnumType.STRING)
     private Climate climate;
     @Lob
-    private byte[] imagen;
-    
-    @OneToMany(cascade=ALL,mappedBy="plant")
+    private byte[] image;
+
+    @OneToMany(cascade = ALL, mappedBy = "plant")
     private Set<UserPlant> plants;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="plant_shop",schema="drplant", joinColumns = @JoinColumn (name = "plant_scienceName", referencedColumnName = "scienceName" ),
-            inverseJoinColumns = @JoinColumn (name = "shop", referencedColumnName = "id_shop"))
+    @JoinTable(name = "plant_shop", schema = "drplant", joinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"),
+            inverseJoinColumns = @JoinColumn(name = "shop", referencedColumnName = "id_shop"))
     private Set<Shop> shops;
-    
-    @ManyToMany(mappedBy="plants", fetch = FetchType.EAGER)
+
+    @ManyToMany(mappedBy = "plants", fetch = FetchType.EAGER)
     private Set<Plague> plagues;
 
     public Set<Plague> getPlagues() {
@@ -134,7 +150,7 @@ public class Plant implements Serializable {
     public void setPlagues(Set<Plague> plagues) {
         this.plagues = plagues;
     }
-    
+
     public String getScienceName() {
         return scienceName;
     }
@@ -153,7 +169,7 @@ public class Plant implements Serializable {
 
     public String getDescription() {
         return description;
-    } 
+    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -175,7 +191,7 @@ public class Plant implements Serializable {
         this.wateringFrequence = wateringFrequence;
     }
 
-    public PetFriendly getPetfriendly() {       
+    public PetFriendly getPetfriendly() {
         return petfriendly;
     }
 
@@ -199,12 +215,12 @@ public class Plant implements Serializable {
         this.climate = climate;
     }
 
-    public byte[] getImagen() {
-        return imagen;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @XmlTransient
@@ -224,7 +240,6 @@ public class Plant implements Serializable {
     public void setShops(Set<Shop> shops) {
         this.shops = shops;
     }
-    
 
     @Override
     public boolean equals(Object object) {
@@ -232,23 +247,23 @@ public class Plant implements Serializable {
             return false;
         }
         Plant other = (Plant) object;
-        if((this.scienceName==null && other.scienceName!= null) || 
-                (this.scienceName != null && !this.scienceName.equals(other.scienceName))){
+        if ((this.scienceName == null && other.scienceName != null)
+                || (this.scienceName != null && !this.scienceName.equals(other.scienceName))) {
             return false;
         }
         return true;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (scienceName != null ? scienceName.hashCode() : 0);
         return hash;
     }
-    
+
     @Override
     public String toString() {
-       return "DrPlant.Entity.Plant[ id=" + scienceName + " ]";
+        return "DrPlant.Entity.Plant[ id=" + scienceName + " ]";
     }
-    
+
 }

@@ -86,8 +86,10 @@ public class User implements Serializable {
     private Set<UserPlant> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_equipment", schema = "drplant", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "equipment", referencedColumnName = "id_equipment"))
+    @JoinTable(name = "user_equipment", schema = "drplant",
+            joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "equipment", 
+                    referencedColumnName = "id_equipment"))
     private Set<Equipment> equipments;
 
     public String getPrivilage() {
