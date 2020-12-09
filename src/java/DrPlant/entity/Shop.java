@@ -1,7 +1,7 @@
 
 package DrPlant.entity;
  
-import com.sun.istack.internal.NotNull;
+
 import java.io.Serializable;
 import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
@@ -12,14 +12,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author gonzalo
  */
+@NamedQueries({
+    @NamedQuery(name="getAllShops",
+            query="SELECT p FROM Shop p") 
+})
 @Entity
 @Table(name="Shop",schema="drplant")
 @XmlRootElement

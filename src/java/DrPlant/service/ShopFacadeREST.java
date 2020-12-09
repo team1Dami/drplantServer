@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
  * @author rubir
  */
 @Stateless
-@Path("drplant.entity.shop")
+@Path("shop")
 public class ShopFacadeREST extends AbstractFacade<Shop> {
 
     @PersistenceContext(unitName = "drplantPU")
@@ -53,13 +53,20 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
     public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
     }
-
+    //find shop by id from the database
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Shop find(@PathParam("id") Long id) {
         return super.find(id);
     }
+    //find all shops from the database
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Shop> findAll() {
+        return super.findAll();
+    }
+    
 
     @Override
     protected EntityManager getEntityManager() {
