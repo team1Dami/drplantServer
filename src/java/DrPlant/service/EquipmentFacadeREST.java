@@ -6,6 +6,7 @@
 package DrPlant.service;
 
 import DrPlant.entity.Equipment;
+import DrPlant.enumerations.Use;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,5 +66,29 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     protected EntityManager getEntityManager() {
         return em;
     }
+
     
+    /**
+     * 
+     * @param id_equipment the equipment ID
+     * @return The equipment of the sended ID
+     */
+    @GET 
+    @Path("{id_equipment}")
+    public Equipment findEquipmentById (@PathParam("id_equipment") Long id_equipment){      
+        return super.find(id_equipment);
+    }
+    
+    /**
+     * 
+     * @param uses
+     * @return plague with 
+     */
+    @GET
+    @Path("{uses}")
+    public List<Equipment> findEquipmentByUse (@PathParam("uses") Use uses){     
+        List <Equipment> equipment = null;
+        equipment = em.createNamedQuery("findEquipmentByUse").getResultList();  // throws exception query: IllegalArgumentException 
+        return equipment;
+    }
 }
