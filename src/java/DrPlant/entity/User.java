@@ -6,7 +6,6 @@ package DrPlant.entity;
 
 import DrPlant.enumerations.UserPrivilege;
 import DrPlant.enumerations.Userstatus;
-import static com.oracle.jrockit.jfr.ContentType.Timestamp;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -25,8 +24,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**

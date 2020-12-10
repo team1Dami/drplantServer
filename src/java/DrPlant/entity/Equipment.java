@@ -5,7 +5,7 @@
  */
 package DrPlant.entity;
 
-import com.sun.istack.internal.NotNull;
+
 import DrPlant.enumerations.Use;
 import java.io.Serializable;
 import java.util.Set;
@@ -22,6 +22,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
