@@ -67,8 +67,6 @@ import javax.xml.bind.annotation.XmlRootElement;
             query = "UPDATE Plague p SET p.commonName =:commonName, p.description =:description, p.type =:type, p.control =:control, p.remedy =:remedy, p.photo =photo"
     )
     ,
-    @NamedQuery(name = "deletePlague",
-            query = "DELETE FROM Plague p where p.scienceName=:scienceName"),
 })
 
 @XmlRootElement
