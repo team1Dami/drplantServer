@@ -65,16 +65,16 @@ import javax.xml.bind.annotation.XmlTransient;
             query = "SELECT p FROM Plant p")
     ,
     
-    @NamedQuery(name = "getPlantData",
+    /*@NamedQuery(name = "getPlantData",
             query = "SELECT p FROM Plant p WHERE p.scienceName=:scienceName")
-    ,
+    ,*/
     
     @NamedQuery(name = "updatePlant",
             query = "UPDATE Plant p SET p.description=:description,p.commonName=:commonName, p.plantType=:plantType, p.wateringFrequence=:waterFrequence WHERE p.scienceName=:scienceName")
     ,
-    @NamedQuery(name = "deletePlant",
+    /*@NamedQuery(name = "deletePlant",
             query = "DELETE FROM Plant p where p.scienceName=:scienceName")
-    ,
+    ,*/
     
     @NamedQuery(name = "getPlantByType",
             query = "SELECT p FROM Plant p WHERE p.plantType=:plantType")
@@ -121,10 +121,10 @@ public class Plant implements Serializable {
     private String description;
     private String cares;
     private Timestamp wateringFrequence;
-    @NotNull
+    //@NotNull
     @Enumerated(EnumType.STRING)
     private PetFriendly petfriendly;
-    @NotNull
+    //@NotNull
     @Enumerated(EnumType.STRING)
     private PlantType plantType;
     @Enumerated(EnumType.STRING)

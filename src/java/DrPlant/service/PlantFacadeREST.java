@@ -61,9 +61,67 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         return super.find(id);
     }
 
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getAllPlants() {
+        return super.getAllPlants();
+    }
+
+    @GET
+    @Path("plantType/{plantType}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getPlantByType(@PathParam("plantType") String plantType){
+        return super.getPlantByType(plantType);
+        
+    }
+
+    @GET
+    @Path("petFriendly/{petFriendly}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getPlantByPetFriendly(@PathParam("petFriendly") String petFriendly){
+        return super.getPlantByType(petFriendly);
+}
+    @GET
+    @Path("climate/{climate}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getPlantByClimate(@PathParam("climate") String climate){
+        return super.getPlantByType(climate);
+        
+    }
+    @GET
+    @Path("TypeAndPetFriendly/{plantType}/{petFriendly}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getPlantByTypeAndPetFriendly(@PathParam("plantType") String plantType,@PathParam("petFriendly")  String petFriendly){
+        return super.getPlantByTypeAndPetFriendly(plantType, petFriendly);
+        
+    }
+    @GET
+    @Path("TypeAndClimate/{plantType}/{climate}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getPlantByTypeAndClimate(@PathParam("plantType") String plantType,@PathParam("climate") String climate){
+        return super.getPlantByTypeAndClimate(plantType,climate);
+        
+    }
+    @GET
+    @Path("getPlantByPetFriendlyAndClimate/{petFriendly}/{climate}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getPlantByPetFriendlyAndClimate(@PathParam("petFriendly") String petFriendly,@PathParam("climate") String climate){
+        return super.getPlantByPetFriendlyAndClimate(petFriendly,climate);
+    
+        
+    }
+    @GET
+    @Path("getPlantWithAll/{plantType}/{petFriendly}/{climate}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Plant> getPlantWithAll(@PathParam("plantType") String plantType, @PathParam("petFriendly") String petFriendly, @PathParam("climate") String climate){
+        return super.getPlantWithAll(plantType,petFriendly,climate);
+        
+    }
+    
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }
