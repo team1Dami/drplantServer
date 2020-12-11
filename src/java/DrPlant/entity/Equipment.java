@@ -44,20 +44,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries ({
     @NamedQuery(
-            name = "listEquipment",
-            query = "SELECT e FROM Equipment e ORDER BY e.id_equipment"
-    ),
-    @NamedQuery(
-            name = "findEquipmentById",
-            query = "SELECT e FROM Equipment e WHERE e.equipment_id = :equipment_id"
+            name = "findEquipmentByName",
+            query = "SELECT e FROM Equipment e WHERE e.equipment_name like :equipment_name"
     ),
     @NamedQuery(
             name = "findEquipmentByUse",
-            query = "SELECT e FROM Equipment e WHERE e.uses like '%':use_equipment'%' ORDER BY e.id_equipment"
+            query = "SELECT e FROM Equipment e WHERE e.uses like :use_equipment ORDER BY e.id_equipment"
     ),
-    
-    @NamedQuery(name="deleteEquipment",
-            query="DELETE FROM Equipment e WHERE e.equipment_name=:equipment_name"),
 
 })
 public class Equipment implements Serializable {

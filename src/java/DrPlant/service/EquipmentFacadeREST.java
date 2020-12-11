@@ -70,13 +70,16 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     
     /**
      * 
-     * @param id_equipment the equipment ID
-     * @return The equipment of the sended ID
+     * @param equipment_name the equipment name
+     * @return The equipment of the sended name
      */
     @GET 
-    @Path("{id_equipment}")
-    public Equipment findEquipmentById (@PathParam("id_equipment") Long id_equipment){      
-        return super.find(id_equipment);
+    @Path("equipment_name/{equipment_name}")
+    @Produces ({MediaType.APPLICATION_XML})
+    public List<Equipment> findEquipmentByName (@PathParam("equipment_name") String equipment_name){      
+        List <Equipment> equipment;
+        equipment = em.createNamedQuery("findEquipmentByName").getResultList();  // throws exception query: IllegalArgumentException 
+        return equipment;
     }
     
     /**
@@ -85,9 +88,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
      * @return plague with 
      */
     @GET
-    @Path("{uses}")
+    @Path("uses/{uses}")
+    @Produces ({MediaType.APPLICATION_XML})
     public List<Equipment> findEquipmentByUse (@PathParam("uses") Use uses){     
-        List <Equipment> equipment = null;
+        List <Equipment> equipment;
         equipment = em.createNamedQuery("findEquipmentByUse").getResultList();  // throws exception query: IllegalArgumentException 
         return equipment;
     }
