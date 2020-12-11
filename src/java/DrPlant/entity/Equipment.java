@@ -21,6 +21,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,6 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Eneko
  */
+
+ @NamedQuery(
+            name = "findEquipmentByName",
+            query = "SELECT e FROM Equipment e WHERE e.equipment_name =:equipment_name"
+    )
 @Entity
 @Table(name = "Equipment", schema = "drplant")
 @XmlRootElement

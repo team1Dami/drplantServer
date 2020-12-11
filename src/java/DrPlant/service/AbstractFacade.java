@@ -6,8 +6,8 @@
 package DrPlant.service;
 
 import DrPlant.entity.Plant;
+import DrPlant.enumerations.*;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.EntityManager;
 
 /**
@@ -43,32 +43,34 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getAllPlants(){
         return getEntityManager().createNamedQuery("getAllPlants").getResultList();
     }
-    public List<Plant> getPlantByType(String type){
-        return getEntityManager().createNamedQuery("getPlantByType").setParameter("plantType", type).getResultList();
+    public List<Plant> getPlantByType(PlantType plantType){
+        return getEntityManager().createNamedQuery("getPlantByType").setParameter("plantType", plantType).getResultList();
     }
-     public List<Plant> getPlantByPetFriendly(String petFriendly){
+     public List<Plant> getPlantByPetFriendly(PetFriendly petFriendly){
         return getEntityManager().createNamedQuery("getPlantByPetFriendly").setParameter("petfriendly", petFriendly).getResultList();
     }
-    public List<Plant> getPlantByClimate(String climate){
+    public List<Plant> getPlantByClimate(Climate climate){
         return getEntityManager().createNamedQuery("getPlantByClimate").setParameter("climate", climate).getResultList();
     }
-    public List<Plant> getPlantByTypeAndPetFriendly(String type, String petFriendly){
+    public List<Plant> getPlantByTypeAndPetFriendly(PlantType plantType, PetFriendly petFriendly){
         return getEntityManager().createNamedQuery("getPlantByTypeAndPetFriendly").
-                setParameter("plantType", type).setParameter("petfriendly", petFriendly).getResultList();
+                setParameter("plantType", plantType).setParameter("petfriendly", petFriendly).getResultList();
     }
-    public List<Plant> getPlantByTypeAndClimate(String type, String climate){
+    public List<Plant> getPlantByTypeAndClimate(PlantType plantType, Climate climate){
         return getEntityManager().createNamedQuery("getPlantByTypeAndClimate").
-                setParameter("plantType", type).setParameter("climate",climate).getResultList();
+                setParameter("plantType", plantType).setParameter("climate",climate).getResultList();
     }
-    public List<Plant> getPlantByPetFriendlyAndClimate(String petFriendly, String climate){
+    public List<Plant> getPlantByPetFriendlyAndClimate(PetFriendly petFriendly, Climate climate){
         return getEntityManager().createNamedQuery("getPlantByPetFriendlyAndClimate")
                 .setParameter("petfriendly", petFriendly).setParameter("climate", climate)
                 .getResultList();
     }
-    public List<Plant>  getPlantWithAll(String type,String climate, String petfriendly){
-        return getEntityManager().createNamedQuery("getPlantWithAll").setParameter("plantType", type)
+    
+    List<Plant> getPlantWithAll(PlantType plantType, PetFriendly petfriendly, Climate climate) {
+       return getEntityManager().createNamedQuery("getPlantWithAll").setParameter("plantType", plantType)
                 .setParameter("climate", climate).setParameter("petfriendly",petfriendly).getResultList();
     }
-    
-    
+    public List<Plant> getPlantByCommonName(String commonName){
+        return getEntityManager().createNamedQuery("getPlantByCommonName").setParameter("commonName", "%"+commonName+"%").getResultList();
+    }
 }

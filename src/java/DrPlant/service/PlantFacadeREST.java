@@ -6,6 +6,7 @@
 package DrPlant.service;
 
 import DrPlant.entity.Plant;
+import DrPlant.enumerations.*;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -70,7 +71,7 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     @GET
     @Path("plantType/{plantType}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByType(@PathParam("plantType") String plantType){
+    public List<Plant> getPlantByType(@PathParam("plantType") PlantType plantType){
         return super.getPlantByType(plantType);
         
     }
@@ -78,34 +79,34 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     @GET
     @Path("petFriendly/{petFriendly}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByPetFriendly(@PathParam("petFriendly") String petFriendly){
-        return super.getPlantByType(petFriendly);
+    public List<Plant> getPlantByPetFriendly(@PathParam("petFriendly") PetFriendly petFriendly){
+        return super.getPlantByPetFriendly(petFriendly);
 }
     @GET
     @Path("climate/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByClimate(@PathParam("climate") String climate){
-        return super.getPlantByType(climate);
+    public List<Plant> getPlantByClimate(@PathParam("climate") Climate climate){
+        return super.getPlantByClimate(climate);
         
     }
     @GET
     @Path("TypeAndPetFriendly/{plantType}/{petFriendly}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByTypeAndPetFriendly(@PathParam("plantType") String plantType,@PathParam("petFriendly")  String petFriendly){
+    public List<Plant> getPlantByTypeAndPetFriendly(@PathParam("plantType") PlantType plantType,@PathParam("petFriendly")  PetFriendly petFriendly){
         return super.getPlantByTypeAndPetFriendly(plantType, petFriendly);
         
     }
     @GET
     @Path("TypeAndClimate/{plantType}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByTypeAndClimate(@PathParam("plantType") String plantType,@PathParam("climate") String climate){
+    public List<Plant> getPlantByTypeAndClimate(@PathParam("plantType") PlantType plantType,@PathParam("climate") Climate climate){
         return super.getPlantByTypeAndClimate(plantType,climate);
         
     }
     @GET
     @Path("getPlantByPetFriendlyAndClimate/{petFriendly}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByPetFriendlyAndClimate(@PathParam("petFriendly") String petFriendly,@PathParam("climate") String climate){
+    public List<Plant> getPlantByPetFriendlyAndClimate(@PathParam("petFriendly") PetFriendly petFriendly,@PathParam("climate") Climate climate){
         return super.getPlantByPetFriendlyAndClimate(petFriendly,climate);
     
         
@@ -113,14 +114,14 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     @GET
     @Path("getPlantWithAll/{plantType}/{petFriendly}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantWithAll(@PathParam("plantType") String plantType, @PathParam("petFriendly") String petFriendly, @PathParam("climate") String climate){
+    public List<Plant> getPlantWithAll(@PathParam("plantType") PlantType plantType, @PathParam("petFriendly") PetFriendly petFriendly, @PathParam("climate") Climate climate){
         return super.getPlantWithAll(plantType,petFriendly,climate);
         
     }
     @GET
     @Path("getPlantByCommonName/{commonName}")
     @Produces({MediaType.APPLICATION_XML})
-    public Plant getPlantByCommonName(@PathParam("commonName") String commonName){
+    public List<Plant> getPlantByCommonName(@PathParam("commonName") String commonName){
         return super.getPlantByCommonName(commonName);
         
     }

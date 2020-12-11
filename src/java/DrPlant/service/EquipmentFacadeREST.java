@@ -61,6 +61,15 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         return super.find(id);
     }
 
+    /*@GET 
+    @Path("equipment_name/{equipment_name}")
+    @Produces ({MediaType.APPLICATION_XML})
+    public Equipment findEquipmentByName (@PathParam("equipment_name") String equipment_name){      
+        //List <Equipment> equipment;
+        //equipment = em.createNamedQuery("findEquipmentByName").setParameter("equipment_name", equipment_name).getResultList();  // throws exception query: IllegalArgumentException 
+        //return equipment;
+        return super.findEquipmentByName(equipment_name);
+    }*/
     @Override
     protected EntityManager getEntityManager() {
         return em;

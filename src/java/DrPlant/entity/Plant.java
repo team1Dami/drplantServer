@@ -38,9 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * <li><strong>cares:</strong> The description how to care the plant</li>
  * <li><strong>climate:</strong> It's the clima of the plant, that can be:
  * <ul>
- * <li>Dry</li>
+ * <li>dry</li>
  * <li>wet</li>
- * <li>Hot</li>
+ * <li>hot</li>
  * <li>Cold<li </ul> </li>
  * <li><strong>type:</strong> Password of the user</li>
  * <ul>
@@ -65,18 +65,8 @@ import javax.xml.bind.annotation.XmlTransient;
             query = "SELECT p FROM Plant p")
     ,
     
-    /*@NamedQuery(name = "getPlantData",
-            query = "SELECT p FROM Plant p WHERE p.scienceName=:scienceName")
-    ,*/
-    @NamedQuery(name = "updatePlant",
-            query = "UPDATE Plant p SET p.description=:description,p.commonName=:commonName, p.plantType=:plantType, p.wateringFrequence=:waterFrequence WHERE p.scienceName=:scienceName")
-    ,
-    /*@NamedQuery(name = "deletePlant",
-            query = "DELETE FROM Plant p where p.scienceName=:scienceName")
-    ,*/
-    
     @NamedQuery(name = "getPlantByType",
-            query = "SELECT p FROM Plant p WHERE p.plantType=:plantType")
+            query = "SELECT p FROM Plant p WHERE p.plantType =:plantType")
     ,
     
     @NamedQuery(name = "getPlantByPetFriendly",
@@ -103,7 +93,7 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
     
     @NamedQuery(name = "getPlantByCommonName",
-            query = "SELECT p FROM Plant p WHERE p.commonName=:commonName")
+            query = "SELECT p FROM Plant p WHERE p.commonName LIKE :commonName ORDER BY commonName")
 })
 @Entity
 @Table(name = "Plant", schema = "drplant")
@@ -119,13 +109,15 @@ public class Plant implements Serializable {
     private String commonName;
     private String description;
     private String cares;
-    private Timestamp wateringFrequence;
+    private float wateringFrequence;
     //@NotNull
     @Enumerated(EnumType.STRING)
     private PetFriendly petfriendly;
     //@NotNull
+    
     @Enumerated(EnumType.STRING)
     private PlantType plantType;
+    
     @Enumerated(EnumType.STRING)
     private Climate climate;
     @Lob
@@ -182,11 +174,11 @@ public class Plant implements Serializable {
         this.cares = cares;
     }
 
-    public Timestamp getWateringFrequence() {
+    public float getWateringFrequence() {
         return wateringFrequence;
     }
 
-    public void setWateringFrequence(Timestamp wateringFrequence) {
+    public void setWateringFrequence(float wateringFrequence) {
         this.wateringFrequence = wateringFrequence;
     }
 
