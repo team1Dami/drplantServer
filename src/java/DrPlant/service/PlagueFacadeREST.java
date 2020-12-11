@@ -92,7 +92,8 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * @return the plague with the common name sended
      */
     @GET  // capturar excepciones
-    @Path("{commonName}")
+    @Path("commonName/{commonName}")
+    @Produces({MediaType.APPLICATION_XML})
     public Plague findPlagueByCommonName (@PathParam("commonName") String commonName){      
         return super.find(commonName);
     }
@@ -103,7 +104,8 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * @return plague with 
      */
     @GET
-    @Path("{type}")
+    @Path("type/{type}")
+    @Produces({MediaType.APPLICATION_XML})
     public List<Plague> findPlaguesByType (@PathParam("type") PlagueType type){     
         List <Plague> plagues = null;
         plagues = em.createNamedQuery("findAllPlagues").getResultList();  // throws exception query: IllegalArgumentException 
