@@ -5,6 +5,7 @@
  */
 package DrPlant.service;
 
+import DrPlant.entity.Plague;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -37,4 +38,13 @@ public abstract class AbstractFacade<T> {
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
+
+    public Plague findPlagueByCommonName(Object commonName) {
+        return (Plague) getEntityManager().createNamedQuery("findPlagueByCommonName").setParameter("commonName", commonName).getSingleResult();     
+    }
+    
+    public List <Plague> findPlaguesByType(Object type) {
+        List <Plague> plagues = null;      
+        return getEntityManager().createNamedQuery("findPlaguesByType").setParameter("type", type).getResultList();
+    } 
 }
