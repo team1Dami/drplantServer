@@ -117,6 +117,13 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         return super.getPlantWithAll(plantType,petFriendly,climate);
         
     }
+    @GET
+    @Path("getPlantByCommonName/{commonName}")
+    @Produces({MediaType.APPLICATION_XML})
+    public Plant getPlantByCommonName(@PathParam("commonName") String commonName){
+        return super.getPlantByCommonName(commonName);
+        
+    }
     
     
     @Override

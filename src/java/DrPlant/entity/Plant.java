@@ -68,7 +68,6 @@ import javax.xml.bind.annotation.XmlTransient;
     /*@NamedQuery(name = "getPlantData",
             query = "SELECT p FROM Plant p WHERE p.scienceName=:scienceName")
     ,*/
-    
     @NamedQuery(name = "updatePlant",
             query = "UPDATE Plant p SET p.description=:description,p.commonName=:commonName, p.plantType=:plantType, p.wateringFrequence=:waterFrequence WHERE p.scienceName=:scienceName")
     ,
