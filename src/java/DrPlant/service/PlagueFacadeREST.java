@@ -28,7 +28,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
     private EntityManager em;
 
     /**
-     * 
+     * The constructor
      */
     public PlagueFacadeREST() {
         super(Plague.class);
@@ -91,11 +91,11 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * @param commonName the common name of the plague
      * @return the plague with the common name sended
      */
-    @GET  // capturar excepciones
+    @GET  
     @Path("findPlagueByCommonName/{commonName}")
     @Produces({MediaType.APPLICATION_XML})
     public Plague findPlagueByCommonName (@PathParam("commonName") String commonName){      
-        return super.findPlagueByCommonName(commonName);
+        return super.findPlagueByCommonName(commonName);   
     }
     
     /**
@@ -110,5 +110,8 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
         return super.findPlaguesByType(type);
     }
     
-    
+    @GET
+    public List<Plague> findAllPlagues() {      
+        return super.findAllPlagues();
+    }  
 }

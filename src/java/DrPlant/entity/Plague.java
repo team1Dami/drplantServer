@@ -62,11 +62,6 @@ import javax.xml.bind.annotation.XmlRootElement;
             query = "SELECT p FROM Plague p WHERE p.scienceName =:scienceName"
     )
     ,
-    @NamedQuery(
-            name = "updatePlague",
-            query = "UPDATE Plague p SET p.commonName =:commonName, p.description =:description, p.type =:type, p.control =:control, p.remedy =:remedy, p.photo =photo"
-    )
-    ,
 })
 
 @XmlRootElement
