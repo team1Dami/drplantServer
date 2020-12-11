@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries ({
     @NamedQuery(
             name = "findEquipmentByName",
-            query = "SELECT e FROM Equipment e WHERE e.equipment_name like :equipment_name"
+            query = "SELECT e FROM Equipment e WHERE e.equipment_name IS :equipment_name"
     ),
     @NamedQuery(
             name = "findEquipmentByUse",

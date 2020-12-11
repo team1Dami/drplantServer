@@ -5,8 +5,10 @@
  */
 package DrPlant.service;
 
+import DrPlant.entity.Equipment;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.ws.rs.PathParam;
 
 /**
  *
@@ -36,5 +38,9 @@ public abstract class AbstractFacade<T> {
 
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
+    }
+    
+    public Equipment findEquipmentByName (@PathParam("equipment_name") String equipment_name){      
+        return (Equipment) getEntityManager().createNamedQuery("findEquipmentByName").setParameter("equipment_name", equipment_name).getSingleResult();
     }
 }
