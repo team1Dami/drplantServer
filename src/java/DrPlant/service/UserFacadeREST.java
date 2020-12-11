@@ -60,6 +60,18 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public User find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    public List<User> findAll() {
+        return super.findAllUsers();
+    }
+    
+     @GET
+    @Path("login/{login}/{passwd}")
+    @Produces({MediaType.APPLICATION_XML})
+    public User login(@PathParam("login") String  login,@PathParam("passwd")String passwd) {
+        return super.findLogin(login,passwd);
+    }
 
     @Override
     protected EntityManager getEntityManager() {

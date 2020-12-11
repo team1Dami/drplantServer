@@ -22,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author rubir
+ * @author Gonza
  */
 @Stateless
 @Path("shop")
@@ -39,7 +39,11 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Shop entity) {
-        super.create(entity);
+        try{
+            super.create(entity);
+        }catch(Exception e){
+           // throw new InternalServerError(e);
+        }
     }
 
     @PUT
@@ -53,6 +57,7 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
     public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
     }
+    
     //find shop by id from the database
     @GET
     @Path("{id}")
@@ -60,11 +65,20 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
     public Shop find(@PathParam("id") Long id) {
         return super.find(id);
     }
+    
     //find all shops from the database
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    public List<Shop> findAll() {
-        return super.findAll();
+    public List<Shop> findAllShops() {
+        return super.findAllShops();
+    }
+    
+    //find shop by name from the database
+    @GET
+    @Path("shop_name/{shop_name}")
+    @Produces({MediaType.APPLICATION_XML})
+    public Shop getShopByName(@PathParam("shop_name") String shop_name) {
+        return super.findShopName(shop_name);
     }
     
 

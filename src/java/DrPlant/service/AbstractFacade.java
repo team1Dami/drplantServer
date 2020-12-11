@@ -37,7 +37,16 @@ public abstract class AbstractFacade<T> {
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
-     public List<T> findAll() {
-        return (List<T>) getEntityManager().createNamedQuery("getAllShops");
+    public List<T> findAllShops() {
+        return (List<T>) getEntityManager().createNamedQuery("getAllShops").getResultList();
+    }
+    public T findShopName(Object shop_name) {
+        return (T) getEntityManager().createNamedQuery("getShopByName").setParameter("shop_name",shop_name).getSingleResult();
+    }
+    public List<T> findAllUsers() {
+        return (List<T>) getEntityManager().createNamedQuery("getAllUsers").getResultList();
+    }
+    public T findLogin(Object login,Object passwd) {
+        return (T) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
     }
 }
