@@ -9,8 +9,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
+ * This class encapsulates the methods of the abstract facade 
  * 
- * @author rubir
+ * @author rubir, saray, eneko, gonzalo
  */
 public abstract class AbstractFacade<T> {
 
