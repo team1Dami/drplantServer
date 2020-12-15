@@ -5,10 +5,14 @@
  */
 package DrPlant.service;
 
+
+import DrPlant.entity.Equipment;
+import DrPlant.exceptions.ReadException;
 import DrPlant.entity.Plant;
 import DrPlant.enumerations.*;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.ws.rs.PathParam;
 
 /**
  *
@@ -39,6 +43,24 @@ public abstract class AbstractFacade<T> {
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
+
+    
+    public List<Equipment> findEquipmentByName (Object equipment_name) throws ReadException{      
+        return getEntityManager().createNamedQuery("findEquipmentByName").setParameter("equipment_name", "%"+equipment_name+"%").getResultList();
+    }
+    
+    public List<Equipment> findEquipmentByUse (Object uses) throws ReadException{
+        return getEntityManager().createNamedQuery("findEquipmentByUse").setParameter("use_equipment", uses).getResultList();
+    }
+
+    public List<Equipment> findAllEquipment() throws ReadException {
+        return getEntityManager().createNamedQuery("findAllEquipment").getResultList();
+    }
+
+    public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException{
+        return getEntityManager().createNamedQuery("findEquipmentByPrice").setParameter("min_price", minPrice).setParameter("max_price", maxPrice).getResultList();
+    
+
     /**
      *  Search all the plants in the database
      * @return the list of all the plants
@@ -127,5 +149,6 @@ public abstract class AbstractFacade<T> {
      */
     public List<Plant> getPlantByCommonName(String commonName) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByCommonName").setParameter("commonName", "%"+commonName+"%").getResultList();
+
     }
 }

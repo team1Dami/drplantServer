@@ -123,7 +123,9 @@ public class Plant implements Serializable {
     @Lob
     private byte[] image;
 
+
     @OneToMany(cascade = ALL, mappedBy = "plant")
+
     private Set<UserPlant> plants;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -206,12 +208,16 @@ public class Plant implements Serializable {
         this.climate = climate;
     }
 
+
+   
+
     public byte[] getImage() {
         return image;
     }
 
     public void setImage(byte[] image) {
         this.image = image;
+
     }
 
     @XmlTransient
