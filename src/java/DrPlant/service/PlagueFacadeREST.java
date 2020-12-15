@@ -6,6 +6,7 @@ import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
+import DrPlant.exceptions.UserExistException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +60,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
         
         try {
             super.create(entity);
-        } catch (CreateException ex) {
+        } catch (CreateException | UserExistException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
             
             throw new InternalServerErrorException(ex);

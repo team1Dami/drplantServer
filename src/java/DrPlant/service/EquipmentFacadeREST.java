@@ -7,10 +7,11 @@ package DrPlant.service;
 
 import DrPlant.entity.Equipment;
 import DrPlant.enumerations.Use;
-import DrPlant.exceptions.ReadException;
+import DrPlant.exceptions.*;
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -44,26 +45,44 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Equipment entity) {
-        super.create(entity);
+        try {
+            super.create(entity);
+        } catch (CreateException | UserExistException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Equipment entity) {
-        super.edit(entity);
+        try {
+            super.edit(entity);
+        } catch (UpdateException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
+        try {
+            super.remove(super.find(id));
+        } catch (DeleteException | ReadException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Equipment find(@PathParam("id") Long id) {
-        return super.find(id);
+        try {
+            return super.find(id);
+        } catch (ReadException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /*@GET 

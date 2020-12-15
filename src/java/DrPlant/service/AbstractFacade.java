@@ -7,7 +7,7 @@ package DrPlant.service;
 
 
 import DrPlant.entity.Equipment;
-import DrPlant.exceptions.ReadException;
+import DrPlant.exceptions.*;
 import DrPlant.entity.*;
 import DrPlant.enumerations.*;
 import java.util.List;
@@ -28,19 +28,19 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
+    public void create(T entity) throws CreateException, UserExistException{
         getEntityManager().persist(entity);
     }
 
-    public void edit(T entity) {
+    public void edit(T entity) throws UpdateException{
         getEntityManager().merge(entity);
     }
 
-    public void remove(T entity) {
+    public void remove(T entity) throws DeleteException{
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    public T find(Object id) {
+    public T find(Object id) throws ReadException {
         return getEntityManager().find(entityClass, id);
     }
 
@@ -59,7 +59,7 @@ public abstract class AbstractFacade<T> {
 
     public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException{
         return getEntityManager().createNamedQuery("findEquipmentByPrice").setParameter("min_price", minPrice).setParameter("max_price", maxPrice).getResultList();
-    
+    }
 
     /**
      *  Search all the plants in the database
@@ -151,7 +151,12 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().createNamedQuery("getPlantByCommonName").setParameter("commonName", "%"+commonName+"%").getResultList();
 
     }
-       //Method to list every shop in the database
+       
+    /**
+     * Method to list every shop in the database
+     * @return
+     * @throws ReadException 
+     */
     public List<Shop> findAllShops() throws ReadException {
         return (List<Shop>) getEntityManager().createNamedQuery("getAllShops").getResultList();
     }
@@ -159,11 +164,23 @@ public abstract class AbstractFacade<T> {
     public Shop findShopName(Object shop_name) throws ReadException {
         return (Shop) getEntityManager().createNamedQuery("getShopByName").setParameter("shop_name",shop_name).getSingleResult();
     }
-    //Method to list every user in the database
+    
+    /**
+     * Method to list every user in the database
+     * @return
+     * @throws ReadException 
+     */
     public List<User> findAllUsers() throws ReadException {
         return (List<User>) getEntityManager().createNamedQuery("getAllUsers").getResultList();
     }
-    //Method tofind a especific user by the login and the password
+    
+    /**
+     * Method tofind a especific user by the login and the password
+     * @param login
+     * @param passwd
+     * @return
+     * @throws ReadException 
+     */
     public User findLogin(Object login,Object passwd)throws ReadException {
         return  (User) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
     }
