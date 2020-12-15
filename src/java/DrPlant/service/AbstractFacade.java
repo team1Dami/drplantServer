@@ -40,7 +40,15 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().find(entityClass, id);
     }
     
-    public Equipment findEquipmentByName (@PathParam("equipment_name") String equipment_name){      
-        return (Equipment) getEntityManager().createNamedQuery("findEquipmentByName").setParameter("equipment_name", equipment_name).getSingleResult();
+    public List<Equipment> findEquipmentByName (Object equipment_name){      
+        return getEntityManager().createNamedQuery("findEquipmentByName").setParameter("equipment_name", "%"+equipment_name+"%").getResultList();
+    }
+    
+    public List<Equipment> findEquipmentByUse (Object uses){
+        return getEntityManager().createNamedQuery("findEquipmentByUse").setParameter("use_equipment", uses).getResultList();
+    }
+
+    public List<Equipment> findAllEquipment() {
+        return getEntityManager().createNamedQuery("findAllEquipment").getResultList();
     }
 }

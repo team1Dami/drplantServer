@@ -69,17 +69,14 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
 
     
     /**
-     * 
+     * Select by the equipment name in the Database
      * @param equipment_name the equipment name
      * @return The equipment of the sended name
      */
     @GET 
     @Path("equipment_name/{equipment_name}")
     @Produces ({MediaType.APPLICATION_XML})
-    public Equipment findEquipmentByName (@PathParam("equipment_name") String equipment_name){      
-        //List <Equipment> equipment;
-        //equipment = em.createNamedQuery("findEquipmentByName").setParameter("equipment_name", equipment_name).getResultList();  // throws exception query: IllegalArgumentException 
-        //return equipment;
+    public List<Equipment> findEquipmentByName (@PathParam("equipment_name") String equipment_name){   
         return super.findEquipmentByName(equipment_name);
     }
     
@@ -92,8 +89,13 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     @Path("uses/{uses}")
     @Produces ({MediaType.APPLICATION_XML})
     public List<Equipment> findEquipmentByUse (@PathParam("uses") Use uses){     
-        List <Equipment> equipment;
-        equipment = em.createNamedQuery("findEquipmentByUse").getResultList();  // throws exception query: IllegalArgumentException 
-        return equipment;
+        return super.findEquipmentByUse(uses);
+    }
+    
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public List<Equipment> findAllEquipment() {
+        return super.findAllEquipment();
     }
 }

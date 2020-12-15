@@ -45,12 +45,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries ({
     @NamedQuery(
             name = "findEquipmentByName",
-            query = "SELECT e FROM Equipment e WHERE e.equipment_name IS :equipment_name"
+            query = "SELECT e FROM Equipment e WHERE e.equipment_name like :equipment_name ORDER BY e.equipment_name"
     ),
     @NamedQuery(
             name = "findEquipmentByUse",
-            query = "SELECT e FROM Equipment e WHERE e.uses like :use_equipment ORDER BY e.id_equipment"
+            query = "SELECT e FROM Equipment e WHERE e.uses = :use_equipment ORDER BY e.id_equipment"
     ),
+    
+    @NamedQuery(
+            name = "findAllEquipment",
+            query = "SELECT e FROM Equipment e ORDER BY e.id_equipment"
+    )
 
 })
 public class Equipment implements Serializable {
@@ -67,6 +72,7 @@ public class Equipment implements Serializable {
     @NotNull
     private float price;
 
+    
     @Lob
     private byte[] image;
 
