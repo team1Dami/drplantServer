@@ -46,14 +46,13 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Shop entity) {
 
-      
-         try {
-            
+        try {
+
             super.create(entity);
-            LOGGER.log(Level.INFO,"ShopRESTful service: create Shop");
-            
-        }catch (CreateException  | UserExistException ex) {
-            LOGGER.log(Level.SEVERE, 
+            LOGGER.log(Level.INFO, "ShopRESTful service: create Shop");
+
+        } catch (CreateException | UserExistException ex) {
+            LOGGER.log(Level.SEVERE,
                     "ShopRESTful service: Exception creating Shop",
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
@@ -64,15 +63,15 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Shop entity) {
-         try {
+        try {
             super.edit(entity);
-            LOGGER.log(Level.INFO,"ShopRESTful service: update Shop ");
+            LOGGER.log(Level.INFO, "ShopRESTful service: update Shop ");
         } catch (UpdateException ex) {
             LOGGER.log(Level.SEVERE,
-                    "ShopRESTful service: Exception updating Shop",ex.getMessage());
+                    "ShopRESTful service: Exception updating Shop", ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
-        
+
     }
 
     //Method to delete shop by id from the database
@@ -82,25 +81,25 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
 
         try {
             super.remove(super.find(id));
-            LOGGER.log(Level.INFO,"ShopRESTful service: delete shop by id");
+            LOGGER.log(Level.INFO, "ShopRESTful service: delete shop by id");
         } catch (DeleteException ex) {
             LOGGER.log(Level.SEVERE,
-                    "ShopRESTful service: Exception deleting shop by id",ex.getMessage());
+                    "ShopRESTful service: Exception deleting shop by id", ex.getMessage());
             throw new InternalServerErrorException(ex);
-        } 
+        }
     }
-    
+
     //Method to find shop by id from the database
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Shop find(@PathParam("id") Long id) {
-       
-        Shop shop=null;
+
+        Shop shop = null;
         try {
             super.find(id);
-            LOGGER.log(Level.INFO,"ShopRESTful service: find shop by id");
-           
+            LOGGER.log(Level.INFO, "ShopRESTful service: find shop by id");
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "ShopRESTful service: Exception reading shop by id",
@@ -109,17 +108,17 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
         }
         return shop;
     }
-    
+
     //Method to find all shops from the database
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<Shop> findAllShops() {
-        
+
         try {
-            
-            LOGGER.log(Level.INFO,"ShopRESTful service: find shops");
+
+            LOGGER.log(Level.INFO, "ShopRESTful service: find shops");
             return super.findAllShops();
-           
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "ShopRESTful service: Exception reading shops",
@@ -127,18 +126,18 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
             throw new InternalServerErrorException(ex);
         }
     }
-    
+
     //Method to find shop by name from the database
     @GET
     @Path("shop_name/{shop_name}")
     @Produces({MediaType.APPLICATION_XML})
     public Shop getShopByName(@PathParam("shop_name") String shop_name) {
-         
+
         try {
-            
-            LOGGER.log(Level.INFO,"ShopRESTful service: find shops");
+
+            LOGGER.log(Level.INFO, "ShopRESTful service: find shops");
             return super.findShopName(shop_name);
-           
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "ShopRESTful service: Exception reading shops",
@@ -146,11 +145,10 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
             throw new InternalServerErrorException(ex);
         }
     }
-    
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }

@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author rubir
+ * @author Eneko
  */
 @Stateless
 @Path("equipment")
@@ -47,7 +47,11 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     public void create(Equipment entity) {
         try {
             super.create(entity);
-        } catch (CreateException | UserExistException ex) {
+
+        } catch (CreateException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UserExistException ex) {
+
             Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -67,7 +71,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     public void remove(@PathParam("id") Long id) {
         try {
             super.remove(super.find(id));
-        } catch (DeleteException | ReadException ex) {
+
+        } catch (ReadException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DeleteException ex) {
             Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -77,12 +84,15 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Equipment find(@PathParam("id") Long id) {
+
+        Equipment equipment = null;
         try {
-            return super.find(id);
+            equipment = super.find(id);
         } catch (ReadException ex) {
             Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return equipment;
+
     }
 
     /*@GET 
@@ -103,7 +113,7 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
      * Select by the equipment name in the Database
      *
      * @param equipment_name the equipment name
-     * @return The equipment of the sended name
+     * @return The equipment object of the sended name
      */
     @GET
     @Path("equipment_name/{equipment_name}")
@@ -121,9 +131,9 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     }
 
     /**
-     *
-     * @param uses
-     * @return plague with
+     * Select of the equipments with a specific use
+     * @param uses The use of the equipment
+     * @return A List of the equipment of the specified use
      */
     @GET
     @Path("uses/{uses}")
@@ -140,6 +150,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         return equipment;
     }
 
+    /**
+     * List all the equipment stored
+     * @return A List with all the equipment
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
@@ -155,6 +169,12 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         return equipment;
     }
 
+    /**
+     * Find equipment by price
+     * @param minPrice 
+     * @param maxPrice
+     * @return A List with all the equipment in the price balance
+     */
     @GET
     @Path("price/{minPrice}/{maxPrice}")
     @Produces({MediaType.APPLICATION_XML})

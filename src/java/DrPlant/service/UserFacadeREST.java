@@ -49,31 +49,31 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(User entity) {
-        
+
         try {
-            
+
             super.create(entity);
-            LOGGER.log(Level.INFO,"UserRESTful service: create ");
-            
-        }catch (CreateException  | UserExistException ex) {
-            LOGGER.log(Level.SEVERE, 
+            LOGGER.log(Level.INFO, "UserRESTful service: create ");
+
+        } catch (CreateException | UserExistException ex) {
+            LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception creating user",
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
     }
-    
+
     //Method to delete a especific user by the id
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
-    public void edit( User entity) {
-    
+    public void edit(User entity) {
+
         try {
             super.edit(entity);
-            LOGGER.log(Level.INFO,"UserRESTful service: update ");
+            LOGGER.log(Level.INFO, "UserRESTful service: update ");
         } catch (UpdateException ex) {
             LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception updating user",ex.getMessage());
+                    "UserRESTful service: Exception updating user", ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
     }
@@ -82,27 +82,28 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) throws ReadException {
-        
+
         try {
             super.remove(super.find(id));
-            LOGGER.log(Level.INFO,"UserRESTful service: delete User by id");
+            LOGGER.log(Level.INFO, "UserRESTful service: delete User by id");
         } catch (DeleteException ex) {
             LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception deleting user by id",ex.getMessage());
+                    "UserRESTful service: Exception deleting user by id", ex.getMessage());
             throw new InternalServerErrorException(ex);
-        } 
+        }
     }
+
     //Method to find a especific user by the id
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public User find(@PathParam("id") Integer id) {
-        
-        User user=null;
+
+        User user = null;
         try {
-           user = super.find(id);
-            LOGGER.log(Level.INFO,"UserRESTful service: find User by id");
-           
+            user = super.find(id);
+            LOGGER.log(Level.INFO, "UserRESTful service: find User by id");
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception reading user by id",
@@ -111,17 +112,17 @@ public class UserFacadeREST extends AbstractFacade<User> {
         }
         return user;
     }
-    
+
     //Method to list every user in the database
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<User> findAll() {
-        
+
         try {
-            
-            LOGGER.log(Level.INFO,"UserRESTful service: find Users");
+
+            LOGGER.log(Level.INFO, "UserRESTful service: find Users");
             return super.findAllUsers();
-           
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception reading users",
@@ -129,17 +130,18 @@ public class UserFacadeREST extends AbstractFacade<User> {
             throw new InternalServerErrorException(ex);
         }
     }
+
     //Method to find a especific user by the login and the password 
-     @GET
+    @GET
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
-    public User login(@PathParam("login") String  login,@PathParam("passwd")String passwd) {
+    public User login(@PathParam("login") String login, @PathParam("passwd") String passwd) {
         User user;
         try {
-            
-           LOGGER.log(Level.INFO,"UserRESTful service: findByLogingAndPasswd User");
-           user= super.findLogin(login,passwd);
-           return user;
+
+            LOGGER.log(Level.INFO, "UserRESTful service: findByLogingAndPasswd User");
+            user = super.findLogin(login, passwd);
+            return user;
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception reading user",
@@ -152,5 +154,5 @@ public class UserFacadeREST extends AbstractFacade<User> {
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }

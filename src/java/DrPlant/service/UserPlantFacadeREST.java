@@ -71,7 +71,11 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
     public void create(UserPlant entity) {
         try {
             super.create(entity);
-        } catch (CreateException | UserExistException ex) {
+
+        } catch (CreateException ex) {
+            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UserExistException ex) {
+
             Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -92,8 +96,9 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         DrPlant.entity.UserPlantId key = getPrimaryKey(id);
         try {
             super.remove(super.find(key));
-
-        } catch (ReadException | DeleteException ex) {
+        } catch (ReadException ex) {
+            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DeleteException ex) {
             Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -102,13 +107,14 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public UserPlant find(@PathParam("id") PathSegment id) {
+        DrPlant.entity.UserPlantId key = getPrimaryKey(id);
+        UserPlant userPlant = null;
         try {
-            DrPlant.entity.UserPlantId key = getPrimaryKey(id);
-            return super.find(key);
+            userPlant = super.find(key);
         } catch (ReadException ex) {
             Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return userPlant;
     }
 
     @Override

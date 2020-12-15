@@ -12,8 +12,8 @@ import javax.persistence.Embeddable;
  *
  * This entity class encapsulates the ids of the plant and user.
  * <ul>
- *  <li><strong>userId: </strong>The id of the user</li>
- *  <li><strong>scienceName: </strong>The id of the plant</li>
+ * <li><strong>userId: </strong>The id of the user</li>
+ * <li><strong>scienceName: </strong>The id of the plant</li>
  * </ul>
  *
  *
@@ -21,15 +21,16 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class UserPlantId implements Serializable {
+
     private Integer userId;
     private String scienceName;
 
     public UserPlantId() {
     }
-    
-    public UserPlantId(Integer userId,String scienceName){
-        this.userId=userId;
-        this.scienceName=scienceName;
+
+    public UserPlantId(Integer userId, String scienceName) {
+        this.userId = userId;
+        this.scienceName = scienceName;
     }
 
     public Integer getUserId() {
@@ -47,7 +48,7 @@ public class UserPlantId implements Serializable {
     public void setScienceName(String scienceName) {
         this.scienceName = scienceName;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
