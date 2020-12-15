@@ -5,7 +5,6 @@
  */
 package DrPlant.entity;
 
-
 import DrPlant.enumerations.Use;
 import java.io.Serializable;
 import java.util.Set;
@@ -39,6 +38,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * </ul>
  * @author Eneko
  */
+
+ @NamedQuery(
+            name = "findEquipmentByName",
+            query = "SELECT e FROM Equipment e WHERE e.equipment_name =:equipment_name"
+    )
 @Entity
 @Table(name = "Equipment", schema = "drplant")
 @XmlRootElement
@@ -167,11 +171,13 @@ public class Equipment implements Serializable {
     public void setPrice(float price) {
         this.price = price;
     }
+
     /**
      * 
      * @return The equipment Image
      */
     public byte[] getImagen() {
+
         return image;
     }
     /**
@@ -179,7 +185,9 @@ public class Equipment implements Serializable {
      * @param imagen 
      */
     public void setImagen(byte[] imagen) {
+      
         this.image = imagen;
+
     }
     /**
      * 
@@ -188,12 +196,16 @@ public class Equipment implements Serializable {
     public Use getUse() {
         return uses;
     }
+
     /**
      * 
      * @param use 
      */
-    public void setUse(Use use) {
-        this.uses = use;
+
+
+    public void setUse(Use uses) {
+        this.uses = uses;
+
     }
     /**
      * 
