@@ -3,37 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package DrPlant.exceptions;
 
 /**
  *
- * @author 2dam
+ * @author saray
  */
-public class CreateException extends Exception{
-    
-    
-     private String message;
-    //  private Error code;
+public class CreateException extends Exception {
+  
+    public CreateException() {
 
-    /**
-     * Method to set the message
-     *
-     * @param m
-     */
-    public CreateException(String m) {
-        this.message = m;
     }
 
-    /**
-     * Method to get the message
-     *
-     * @return a string with the information to the user or null
-     */
-    public String getMessage() {
-        if (message == null) {
-            return "Ha ocurrido un error en el create";
-        } else {
-            return null;
-        }
+    public CreateException(String message) {
+        super(message);
     }
+
 }

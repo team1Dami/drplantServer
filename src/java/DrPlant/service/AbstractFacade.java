@@ -8,7 +8,7 @@ package DrPlant.service;
 
 import DrPlant.entity.Equipment;
 import DrPlant.exceptions.ReadException;
-import DrPlant.entity.Plant;
+import DrPlant.entity.*;
 import DrPlant.enumerations.*;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -166,6 +166,41 @@ public abstract class AbstractFacade<T> {
     //Method tofind a especific user by the login and the password
     public User findLogin(Object login,Object passwd)throws ReadException {
         return  (User) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
+    }
+      /**
+     * Method to get the plague by the common name sended
+     *
+     * @param commonName string commonName to find the plague if it has
+     * @return the object type Plague with the common Name sended
+     */
+    public Plague findPlagueByCommonName(Object commonName) throws ReadException{
+        return (Plague) getEntityManager()
+                .createNamedQuery("findPlagueByCommonName")
+                .setParameter("commonName", commonName)
+                .getSingleResult();
+    }
+
+    /**
+     * Method to get the List of the plagues by the plague type sended
+     *
+     * @param type enum PlagueType sended to search all the plagues of this type
+     * @return a List with the plagues that matches with the type sended
+     */
+    public List<Plague> findPlaguesByType(Object type) throws ReadException{
+        return getEntityManager()
+                .createNamedQuery("findPlaguesByType")
+                .setParameter("type", type)
+                .getResultList();
+    }
+    
+    /**
+     * Method to get all the plagues
+     * @return List with all the plagues in the DB
+     */
+    public List<Plague> findAllPlagues() throws ReadException{  // throw new WebApplicationException(Response.Status.NOT_FOUND);  // NotFoundException  //InternalServerErrorException  // ServiceUnavailableException
+        return getEntityManager()
+                .createNamedQuery("findAllPlagues")
+                .getResultList();
     }
 }
 

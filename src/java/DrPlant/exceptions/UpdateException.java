@@ -7,33 +7,16 @@ package DrPlant.exceptions;
 
 /**
  *
- * @author 2dam
+
+ * @author saray
  */
 public class UpdateException extends Exception {
-    
-    private String message;
-    //  private Error code;
 
-    /**
-     * Method to set the message
-     *
-     * @param m
-     */
-    public UpdateException(String m) {
-        this.message = m;
+    public UpdateException() {
     }
 
-    /**
-     * Method to get the message
-     *
-     * @return a string with the information to the user or null
-     */
-    public String getMessage() {
-        if (message == null) {
-            return "Ha ocurrido un error en el update";
-        } else {
-            return null;
-        }
+    public UpdateException(String message) {
+        super(message);
     }
-    
+
 }
