@@ -47,11 +47,25 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Ruben
  */
+/*
+<user>
+    <logIn>gonza</logIn>
+    <email>gon@gmail.com</email>
+    <fullname>gonzalo</fullname>
+    <status>enable</status>
+    <privilage>admin</privilage>
+    <passwd></passwd>
+    <lastAccess></lastAccess>
+    <lastPasswdChange></lastPasswdChange>
+</user>
+
+*/
 @Entity
 @Table(name = "User", schema = "drplant")
 @NamedQueries({
-    @NamedQuery(name = "login",
-            query = "SELECT u FROM User u WHERE u.logIn=:logIn")
+
+    @NamedQuery(name = "findUserByLoginAndPasswd",
+            query = "SELECT u FROM User u WHERE u.logIn=:login AND u.passwd=:passwd")
     ,
     /*@NamedQuery(name = "login",
             query = "SELECT u FROM User u WHERE u.logIn=:logIn AND u.passwd=:passwd")
@@ -61,6 +75,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     ,
     @NamedQuery(name = "changePasswd",
             query = "UPDATE User u SET u.passwd =:passwd WHERE u.logIn=:logIn")
+    ,
+    @NamedQuery(name="getAllUsers",
+            query="SELECT u FROM User u "),
 })
 @XmlRootElement
 public class User implements Serializable {

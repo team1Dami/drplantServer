@@ -151,4 +151,21 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().createNamedQuery("getPlantByCommonName").setParameter("commonName", "%"+commonName+"%").getResultList();
 
     }
+       //Method to list every shop in the database
+    public List<Shop> findAllShops() throws ReadException {
+        return (List<Shop>) getEntityManager().createNamedQuery("getAllShops").getResultList();
+    }
+    //Method to find a single shop inside the database with the name of the shop
+    public Shop findShopName(Object shop_name) throws ReadException {
+        return (Shop) getEntityManager().createNamedQuery("getShopByName").setParameter("shop_name",shop_name).getSingleResult();
+    }
+    //Method to list every user in the database
+    public List<User> findAllUsers() throws ReadException {
+        return (List<User>) getEntityManager().createNamedQuery("getAllUsers").getResultList();
+    }
+    //Method tofind a especific user by the login and the password
+    public User findLogin(Object login,Object passwd)throws ReadException {
+        return  (User) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
+    }
 }
+

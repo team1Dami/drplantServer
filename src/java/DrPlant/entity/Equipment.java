@@ -243,3 +243,4 @@ public class Equipment implements Serializable {
     }
 
 }
+
