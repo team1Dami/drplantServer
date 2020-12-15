@@ -5,6 +5,8 @@
  */
 package DrPlant.service;
 
+import DrPlant.entity.Shop;
+import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
@@ -43,19 +45,19 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().find(entityClass, id);
     }
     //Method to list every shop in the database
-    public List<T> findAllShops() throws ReadException {
-        return (List<T>) getEntityManager().createNamedQuery("getAllShops").getResultList();
+    public List<Shop> findAllShops() throws ReadException {
+        return (List<Shop>) getEntityManager().createNamedQuery("getAllShops").getResultList();
     }
     //Method to find a single shop inside the database with the name of the shop
-    public T findShopName(Object shop_name) throws ReadException {
-        return (T) getEntityManager().createNamedQuery("getShopByName").setParameter("shop_name",shop_name).getSingleResult();
+    public Shop findShopName(Object shop_name) throws ReadException {
+        return (Shop) getEntityManager().createNamedQuery("getShopByName").setParameter("shop_name",shop_name).getSingleResult();
     }
     //Method to list every user in the database
-    public List<T> findAllUsers() throws ReadException {
-        return (List<T>) getEntityManager().createNamedQuery("getAllUsers").getResultList();
+    public List<User> findAllUsers() throws ReadException {
+        return (List<User>) getEntityManager().createNamedQuery("getAllUsers").getResultList();
     }
     //Method tofind a especific user by the login and the password
-    public T findLogin(Object login,Object passwd)throws ReadException {
-        return (T) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
+    public User findLogin(Object login,Object passwd)throws ReadException {
+        return  (User) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
     }
 }

@@ -100,7 +100,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
         
         User user=null;
         try {
-            super.find(id);
+           user = super.find(id);
             LOGGER.log(Level.INFO,"UserRESTful service: find User by id");
            
         } catch (ReadException ex) {
@@ -134,11 +134,12 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
     public User login(@PathParam("login") String  login,@PathParam("passwd")String passwd) {
- 
+        User user;
         try {
             
-            LOGGER.log(Level.INFO,"UserRESTful service: findByLogingAndPasswd User");
-           return super.findLogin(login,passwd);
+           LOGGER.log(Level.INFO,"UserRESTful service: findByLogingAndPasswd User");
+           user= super.findLogin(login,passwd);
+           return user;
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception reading user",
