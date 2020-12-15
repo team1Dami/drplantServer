@@ -6,11 +6,7 @@
 package DrPlant.service;
 
 import DrPlant.entity.Shop;
-import DrPlant.exceptions.CreateException;
-import DrPlant.exceptions.DeleteException;
-import DrPlant.exceptions.ReadException;
-import DrPlant.exceptions.UpdateException;
-import DrPlant.exceptions.UserExistException;
+import DrPlant.exceptions.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 /**
  *
  * @author Gonza
- */
+ */ 
 @Stateless
 @Path("shop")
 public class ShopFacadeREST extends AbstractFacade<Shop> {

@@ -71,9 +71,11 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
     public void create(UserPlant entity) {
         try {
             super.create(entity);
+
         } catch (CreateException ex) {
             Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UserExistException ex) {
+
             Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

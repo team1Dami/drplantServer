@@ -7,11 +7,9 @@ package DrPlant.service;
 
 import DrPlant.entity.Plant;
 import DrPlant.enumerations.*;
-import DrPlant.exceptions.CreateException;
-import DrPlant.exceptions.DeleteException;
-import DrPlant.exceptions.ReadException;
-import DrPlant.exceptions.UpdateException;
-import DrPlant.exceptions.UserExistException;
+
+import DrPlant.exceptions.*;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +52,7 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: create: ", plant);
             super.create(plant);
-        } catch (CreateException ex) {
+        } catch (CreateException|UserExistException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception creating plant: ",
                     ex.getMessage());
             throw new InternalServerErrorException();
@@ -81,7 +79,7 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service:delete");
             super.remove(super.find(id));
-        } catch (DeleteException ex) {
+        } catch (DeleteException|ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by id: ",
                     ex.getMessage());
             throw new InternalServerErrorException();
