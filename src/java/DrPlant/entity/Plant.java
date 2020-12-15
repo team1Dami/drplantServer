@@ -114,15 +114,14 @@ public class Plant implements Serializable {
     @Enumerated(EnumType.STRING)
     private PetFriendly petfriendly;
     //@NotNull
-    
+
     @Enumerated(EnumType.STRING)
     private PlantType plantType;
-    
+
     @Enumerated(EnumType.STRING)
     private Climate climate;
     @Lob
     private byte[] image;
-
 
     @OneToMany(cascade = ALL, mappedBy = "plant")
 
@@ -207,9 +206,6 @@ public class Plant implements Serializable {
     public void setClimate(Climate climate) {
         this.climate = climate;
     }
-
-
-   
 
     public byte[] getImage() {
         return image;

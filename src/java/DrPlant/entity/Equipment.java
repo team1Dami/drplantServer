@@ -29,37 +29,37 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * * This entity class encapsulates the data of each equipment.
  * <ul>
- *  <li><strong>equipment_id:</strong> The id of the equipment.</li>
- *  <li><strong>equipment_name:</strong> The name of the equipment</li>
- *  <li><strong>equipment_description:</strong> The description of the equipment</li>
- *  <li><strong>use:</strong> The use you can give to the equipment</li>
- *  <li><strong>price:</strong>The equipment price</li>
- *  <li><strong>image:</strong>An image of the equipment</li>
+ * <li><strong>equipment_id:</strong> The id of the equipment.</li>
+ * <li><strong>equipment_name:</strong> The name of the equipment</li>
+ * <li><strong>equipment_description:</strong> The description of the
+ * equipment</li>
+ * <li><strong>use:</strong> The use you can give to the equipment</li>
+ * <li><strong>price:</strong>The equipment price</li>
+ * <li><strong>image:</strong>An image of the equipment</li>
  * </ul>
+ *
  * @author Eneko
  */
-
- @NamedQuery(
-            name = "findEquipmentByName",
-            query = "SELECT e FROM Equipment e WHERE e.equipment_name =:equipment_name"
-    )
 @Entity
 @Table(name = "Equipment", schema = "drplant")
 @XmlRootElement
-@NamedQueries ({
+@NamedQueries({
     @NamedQuery(
             name = "findEquipmentByName",
             query = "SELECT e FROM Equipment e WHERE e.equipment_name like :equipment_name ORDER BY e.equipment_name"
-    ),
+    )
+    ,
     @NamedQuery(
             name = "findEquipmentByUse",
             query = "SELECT e FROM Equipment e WHERE e.uses = :use_equipment ORDER BY e.id_equipment"
-    ),
+    )
+    ,
     
     @NamedQuery(
             name = "findAllEquipment",
             query = "SELECT e FROM Equipment e ORDER BY e.id_equipment"
-    ),
+    )
+    ,
         
     @NamedQuery(
             name = "findEquipmentByPrice",
@@ -81,7 +81,6 @@ public class Equipment implements Serializable {
     @NotNull
     private float price;
 
-    
     @Lob
     private byte[] image;
 
@@ -94,103 +93,116 @@ public class Equipment implements Serializable {
 
     @ManyToMany(mappedBy = "equipments", fetch = FetchType.EAGER)
     private Set<User> usuarios;
+
     /**
-     * 
+     *
      * @return ID
      */
     public Long getId_equipment() {
         return id_equipment;
     }
+
     /**
-     * 
-     * @param id_equipment 
+     *
+     * @param id_equipment
      */
     public void setId_equipment(Long id_equipment) {
         this.id_equipment = id_equipment;
     }
+
     /**
-     * 
+     *
      * @return A list of Users
      */
     public Set<User> getUsuarios() {
         return usuarios;
     }
+
     /**
-     * 
-     * @param usuarios 
+     *
+     * @param usuarios
      */
     public void setUsuarios(Set<User> usuarios) {
         this.usuarios = usuarios;
     }
+
     /**
-     * 
+     *
      * @return Shop
      */
     public Shop getShop() {
         return shop;
     }
+
     /**
-     * 
+     *
      * @return String name of the equipment
      */
     public String getEquipment_name() {
         return equipment_name;
     }
+
     /**
-     * 
-     * @param equipment_name 
+     *
+     * @param equipment_name
      */
     public void setEquipment_name(String equipment_name) {
         this.equipment_name = equipment_name;
     }
+
     /**
-     * 
+     *
      * @return String equipment description
      */
     public String getEquipment_description() {
         return equipment_description;
     }
+
     /**
-     * 
-     * @param equipment_description 
+     *
+     * @param equipment_description
      */
     public void setEquipment_description(String equipment_description) {
         this.equipment_description = equipment_description;
     }
+
     /**
-     * 
+     *
      * @return Float equipment price
      */
     public float getPrice() {
         return price;
     }
+
     /**
-     * 
-     * @param price 
+     *
+     * @param price
      */
     public void setPrice(float price) {
         this.price = price;
     }
 
     /**
-     * 
+     *
      * @return The equipment Image
      */
     public byte[] getImagen() {
 
         return image;
     }
+
     /**
-     * 
-     * @param imagen 
+     *
+     * @param imagen
      */
     public void setImagen(byte[] imagen) {
-      
+
         this.image = imagen;
 
     }
+
     /**
-     * 
+     *
      * @return Use the use of the equioment
      */
     public Use getUse() {
@@ -198,18 +210,17 @@ public class Equipment implements Serializable {
     }
 
     /**
-     * 
-     * @param use 
+     *
+     * @param use
      */
-
-
     public void setUse(Use uses) {
         this.uses = uses;
 
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -217,10 +228,11 @@ public class Equipment implements Serializable {
         hash += (id_equipment != null ? id_equipment.hashCode() : 0);
         return hash;
     }
+
     /**
-     * 
+     *
      * @param object
-     * @return 
+     * @return
      */
     @Override
     public boolean equals(Object object) {
@@ -233,9 +245,10 @@ public class Equipment implements Serializable {
         }
         return true;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -243,4 +256,3 @@ public class Equipment implements Serializable {
     }
 
 }
-

@@ -21,20 +21,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * This entity class encapsulates the data of each Plague.
  * <ul>
- *  <li><strong>scienceName:</strong> It's the scientist name of the plague. It's the identifier</li>
- *  <li><strong>commonName:</strong> It's the plague's common name</li>
- *  <li><strong>description:</strong> It's the plague's description</li>
- *  <li><strong>control:</strong> It's the plague's information about the control</li>
- *  <li><strong>remedy:</strong> It's the plague's remedy</li>
- *  <li><strong>type:</strong> It's the plague's type, that can be:
- *      <ul>
- *          <li>light</li>
- *          <li>middle</li>
- *          <li>severe</li>
- *      </ul>
- *  </li>
- *  <li><strong>photo:</strong> It's the plague's photo to help the user in order to recognize the plague</li>
- *  <li><strong>plants:</strong> Collection of objects of the Plant class that contains the data of the plants</li>
+ * <li><strong>scienceName:</strong> It's the scientist name of the plague. It's
+ * the identifier</li>
+ * <li><strong>commonName:</strong> It's the plague's common name</li>
+ * <li><strong>description:</strong> It's the plague's description</li>
+ * <li><strong>control:</strong> It's the plague's information about the
+ * control</li>
+ * <li><strong>remedy:</strong> It's the plague's remedy</li>
+ * <li><strong>type:</strong> It's the plague's type, that can be:
+ * <ul>
+ * <li>light</li>
+ * <li>middle</li>
+ * <li>severe</li>
+ * </ul>
+ * </li>
+ * <li><strong>photo:</strong> It's the plague's photo to help the user in order
+ * to recognize the plague</li>
+ * <li><strong>plants:</strong> Collection of objects of the Plant class that
+ * contains the data of the plants</li>
  * </ul>
  *
  * @author Saray
@@ -60,8 +64,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(
             name = "findPlagueById",
             query = "SELECT p FROM Plague p WHERE p.scienceName =:scienceName"
-    )
-    ,
+    ),
 })
 
 @XmlRootElement
@@ -89,7 +92,7 @@ public class Plague implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "plantPlague", schema = "drplant", joinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"),
             inverseJoinColumns = @JoinColumn(name = "plague_scienceName", referencedColumnName = "scienceName"))
-    
+
     private Set<Plant> plants;
 
     /**
@@ -107,9 +110,9 @@ public class Plague implements Serializable {
     public void setType(PlagueType type) {
         this.type = type;
     }
-    
+
     /**
-     * 
+     *
      * @return plants the plants of the Plant class that suffers this plague
      */
     public Set<Plant> getPlants() {
@@ -117,7 +120,7 @@ public class Plague implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param plants the plants that suffers the plague to be set
      */
     public void setPlants(Set<Plant> plants) {

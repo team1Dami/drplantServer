@@ -7,7 +7,7 @@ package DrPlant.enumerations;
 
 /**
  *
- * @author rubir
+ * @author Eneko
  */
 public enum Use {
         riego,

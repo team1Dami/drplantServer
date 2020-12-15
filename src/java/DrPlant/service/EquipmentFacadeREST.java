@@ -7,10 +7,15 @@ package DrPlant.service;
 
 import DrPlant.entity.Equipment;
 import DrPlant.enumerations.Use;
+import DrPlant.exceptions.CreateException;
+import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
+import DrPlant.exceptions.UpdateException;
+import DrPlant.exceptions.UserExistException;
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +32,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author rubir
+ * @author Eneko
  */
 @Stateless
 @Path("equipment")
@@ -44,26 +49,48 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Equipment entity) {
-        super.create(entity);
+        try {
+            super.create(entity);
+        } catch (CreateException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UserExistException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Equipment entity) {
-        super.edit(entity);
+        try {
+            super.edit(entity);
+        } catch (UpdateException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
+        try {
+            super.remove(super.find(id));
+        } catch (ReadException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DeleteException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Equipment find(@PathParam("id") Long id) {
-        return super.find(id);
+        Equipment equipment = null;
+        try {
+            equipment = super.find(id);
+        } catch (ReadException ex) {
+            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return equipment;
     }
 
     /*@GET 
@@ -84,7 +111,7 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
      * Select by the equipment name in the Database
      *
      * @param equipment_name the equipment name
-     * @return The equipment of the sended name
+     * @return The equipment object of the sended name
      */
     @GET
     @Path("equipment_name/{equipment_name}")
@@ -102,9 +129,9 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     }
 
     /**
-     *
-     * @param uses
-     * @return plague with
+     * Select of the equipments with a specific use
+     * @param uses The use of the equipment
+     * @return A List of the equipment of the specified use
      */
     @GET
     @Path("uses/{uses}")
@@ -121,6 +148,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         return equipment;
     }
 
+    /**
+     * List all the equipment stored
+     * @return A List with all the equipment
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
@@ -136,6 +167,12 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         return equipment;
     }
 
+    /**
+     * Find equipment by price
+     * @param minPrice 
+     * @param maxPrice
+     * @return A List with all the equipment in the price balance
+     */
     @GET
     @Path("price/{minPrice}/{maxPrice}")
     @Produces({MediaType.APPLICATION_XML})

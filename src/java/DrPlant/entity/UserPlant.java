@@ -17,9 +17,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * This entity class encapsulates the data of each Plague.
  * <ul>
- *  <li><strong>userId:</strong> The user id that is in the embeddable class </li>
- *  <li><strong>scienceName:</strong> The plant id that is in the embeddable class</li>
- *  <li><strong>dateWatering:</strong>  The last wateringo of the plant</li>
+ * <li><strong>userId:</strong> The user id that is in the embeddable class
+ * </li>
+ * <li><strong>scienceName:</strong> The plant id that is in the embeddable
+ * class</li>
+ * <li><strong>dateWatering:</strong> The last wateringo of the plant</li>
  * </ul>
  *
  * @author Ruben
@@ -27,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "user_plant", schema = "drplant")
 @XmlRootElement
-public class UserPlant implements Serializable{
+public class UserPlant implements Serializable {
+
     @EmbeddedId
     private UserPlantId id;
     @MapsId("userId")
@@ -36,7 +39,7 @@ public class UserPlant implements Serializable{
     @MapsId("scienceName")
     @ManyToOne
     private Plant plant;
-    
+
     private Timestamp dateWatering;
 
     public UserPlantId getId() {
@@ -70,6 +73,7 @@ public class UserPlant implements Serializable{
     public void setDateWatering(Timestamp dateWatering) {
         this.dateWatering = dateWatering;
     }
+
     @Override
     public int hashCode() {
         int hash = 7;

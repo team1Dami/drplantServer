@@ -6,6 +6,7 @@ import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
+import DrPlant.exceptions.UserExistException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,13 +57,15 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
     public void create(Plague entity) {
 
         LOGGER.log(Level.INFO, "PlagueRESTful service: create ", entity);
-        
+
         try {
             super.create(entity);
         } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-            
+
             throw new InternalServerErrorException(ex);
+        } catch (UserExistException ex) {
+            Logger.getLogger(PlagueFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -76,13 +79,13 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
     public void edit(Plague entity) {
 
         LOGGER.log(Level.INFO, "PlagueRESTful service: update ", entity);
-        
+
         try {
             super.edit(entity);
-            
+
         } catch (UpdateException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-            
+
             throw new InternalServerErrorException(ex);
         }
     }
@@ -99,10 +102,10 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
         LOGGER.log(Level.INFO, "PlagueRESTful service: delete ", id);
         try {
             super.remove(super.find(id));
-            
+
         } catch (DeleteException | ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-            
+
             throw new InternalServerErrorException(ex);
         }
     }
@@ -118,18 +121,18 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
     @Produces({MediaType.APPLICATION_XML})
     public Plague find(@PathParam("id") String id) {
         LOGGER.log(Level.INFO, "PlagueRESTful service: read ", id);
-        
+
         Plague plague = null;
-        
+
         try {
             plague = super.find(id);
-            
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-            
+
             throw new InternalServerErrorException(ex);
         }
-        
+
         return plague;
     }
 
@@ -141,7 +144,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
     @Override
     protected EntityManager getEntityManager() {
         LOGGER.log(Level.INFO, "PlagueRESTful service: get EntityManager ");
-        
+
         return em;
     }
 
@@ -159,13 +162,13 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
         LOGGER.log(Level.INFO, "PlagueRESTful service: find by ", commonName);
 
         Plague plague = null;
-        
+
         try {
             plague = super.findPlagueByCommonName(commonName);
-            
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-            
+
             throw new InternalServerErrorException(ex);
         }
 
@@ -189,10 +192,10 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
         try {
             plagues = super.findPlaguesByType(type);
-            
+
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-            
+
             throw new InternalServerErrorException(ex);
         }
 
