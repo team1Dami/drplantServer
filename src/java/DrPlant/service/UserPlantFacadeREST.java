@@ -27,7 +27,7 @@ import javax.ws.rs.core.PathSegment;
  * @author rubir
  */
 @Stateless
-@Path("drplant.entity.userplant")
+@Path("userplant")
 public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
 
     @PersistenceContext(unitName = "drplantPU")
