@@ -1,6 +1,10 @@
 package DrPlant.service;
 
 import DrPlant.entity.Plague;
+import DrPlant.exceptions.CreateException;
+import DrPlant.exceptions.DeleteException;
+import DrPlant.exceptions.ReadException;
+import DrPlant.exceptions.UpdateException;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -26,7 +30,7 @@ public abstract class AbstractFacade<T> {
      * Method to create persist of the entity sended
      * @param entity the entity
      */
-    public void create(T entity) {
+    public void create(T entity) throws CreateException{
         getEntityManager().persist(entity);
     }
 
@@ -34,7 +38,7 @@ public abstract class AbstractFacade<T> {
      * Method to edit the entity
      * @param entity the entity to be edit
      */
-    public void edit(T entity) {
+    public void edit(T entity) throws UpdateException{
         getEntityManager().merge(entity);
     }
 
@@ -42,8 +46,10 @@ public abstract class AbstractFacade<T> {
      * Method to remove the entity sended
      * @param entity the entity to be remove
      */
-    public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+    public void remove(T entity) throws DeleteException{
+        getEntityManager()
+                .remove(getEntityManager()
+                .merge(entity));
     }
 
     /**
@@ -51,7 +57,7 @@ public abstract class AbstractFacade<T> {
      * @param id the id of the entity to be search
      * @return if exist the entity with the id finded
      */
-    public T find(Object id) {
+    public T find(Object id) throws ReadException{
         return getEntityManager().find(entityClass, id);
     }
 
@@ -61,8 +67,11 @@ public abstract class AbstractFacade<T> {
      * @param commonName string commonName to find the plague if it has
      * @return the object type Plague with the common Name sended
      */
-    public Plague findPlagueByCommonName(Object commonName) {
-        return (Plague) getEntityManager().createNamedQuery("findPlagueByCommonName").setParameter("commonName", commonName).getSingleResult();
+    public Plague findPlagueByCommonName(Object commonName) throws ReadException{
+        return (Plague) getEntityManager()
+                .createNamedQuery("findPlagueByCommonName")
+                .setParameter("commonName", commonName)
+                .getSingleResult();
     }
 
     /**
@@ -71,15 +80,20 @@ public abstract class AbstractFacade<T> {
      * @param type enum PlagueType sended to search all the plagues of this type
      * @return a List with the plagues that matches with the type sended
      */
-    public List<Plague> findPlaguesByType(Object type) {
-        return getEntityManager().createNamedQuery("findPlaguesByType").setParameter("type", type).getResultList();
+    public List<Plague> findPlaguesByType(Object type) throws ReadException{
+        return getEntityManager()
+                .createNamedQuery("findPlaguesByType")
+                .setParameter("type", type)
+                .getResultList();
     }
     
     /**
      * Method to get all the plagues
      * @return List with all the plagues in the DB
      */
-    public List<Plague> findAllPlagues() {
-        return getEntityManager().createNamedQuery("findAllPlagues").getResultList();
+    public List<Plague> findAllPlagues() throws ReadException{  // throw new WebApplicationException(Response.Status.NOT_FOUND);  // NotFoundException  //InternalServerErrorException  // ServiceUnavailableException
+        return getEntityManager()
+                .createNamedQuery("findAllPlagues")
+                .getResultList();
     }
 }
