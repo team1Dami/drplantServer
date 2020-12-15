@@ -98,4 +98,11 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     public List<Equipment> findAllEquipment() {
         return super.findAllEquipment();
     }
+    
+    @GET
+    @Path("price/{minPrice}/{maxPrice}")
+    @Produces ({MediaType.APPLICATION_XML})
+    public List<Equipment> findEquipmentByPrice (@PathParam("minPrice") float minPrice, @PathParam("maxPrice") float maxPrice){     
+        return super.findEquipmentByPrice(minPrice, maxPrice);
+    }
 }

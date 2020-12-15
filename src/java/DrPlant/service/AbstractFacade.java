@@ -51,4 +51,9 @@ public abstract class AbstractFacade<T> {
     public List<Equipment> findAllEquipment() {
         return getEntityManager().createNamedQuery("findAllEquipment").getResultList();
     }
+
+    public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) {
+        return getEntityManager().createNamedQuery("findEquipmentByPrice").setParameter("min_price", minPrice).setParameter("max_price", maxPrice).getResultList();
+    
+    }
 }

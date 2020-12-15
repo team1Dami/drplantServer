@@ -55,6 +55,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(
             name = "findAllEquipment",
             query = "SELECT e FROM Equipment e ORDER BY e.id_equipment"
+    ),
+        
+    @NamedQuery(
+            name = "findEquipmentByPrice",
+            query = "SELECT e FROM Equipment e WHERE :min_price <= e.price AND :max_price >= e.price ORDER BY e.id_equipment"
     )
 
 })
