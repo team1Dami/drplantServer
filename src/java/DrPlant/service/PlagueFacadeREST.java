@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
  * @author Saray
  */
 @Stateless
-@Path("drplant.entity.plague")
+@Path("plague")
 public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
     private static final Logger LOGGER

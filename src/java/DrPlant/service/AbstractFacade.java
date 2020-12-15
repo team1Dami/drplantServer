@@ -1,68 +1,173 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package DrPlant.service;
 
-import DrPlant.entity.Plague;
-import DrPlant.exceptions.CreateException;
-import DrPlant.exceptions.DeleteException;
+
+import DrPlant.entity.Equipment;
 import DrPlant.exceptions.ReadException;
-import DrPlant.exceptions.UpdateException;
+import DrPlant.entity.*;
+import DrPlant.enumerations.*;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.ws.rs.PathParam;
 
 /**
- * This class encapsulates the methods of the abstract facade 
- * 
- * @author rubir, saray, eneko, gonzalo
+ *
+ * @author Ruben
  */
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;
 
-    /**
-     * Method to set the entity class to manage the FacadeREST service
-     * @param entityClass the entity to be set
-     */
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
     protected abstract EntityManager getEntityManager();
 
-    /**
-     * Method to create persist of the entity sended
-     * @param entity the entity
-     */
-    public void create(T entity) throws CreateException{
+    public void create(T entity) {
         getEntityManager().persist(entity);
     }
 
-    /**
-     * Method to edit the entity
-     * @param entity the entity to be edit
-     */
-    public void edit(T entity) throws UpdateException{
+    public void edit(T entity) {
         getEntityManager().merge(entity);
     }
 
-    /**
-     * Method to remove the entity sended
-     * @param entity the entity to be remove
-     */
-    public void remove(T entity) throws DeleteException{
-        getEntityManager()
-                .remove(getEntityManager()
-                .merge(entity));
+    public void remove(T entity) {
+        getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    /**
-     * Method to find the info of the entity by the id sended
-     * @param id the id of the entity to be search
-     * @return if exist the entity with the id finded
-     */
-    public T find(Object id) throws ReadException{
+    public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
 
+    
+    public List<Equipment> findEquipmentByName (Object equipment_name) throws ReadException{      
+        return getEntityManager().createNamedQuery("findEquipmentByName").setParameter("equipment_name", "%"+equipment_name+"%").getResultList();
+    }
+    
+    public List<Equipment> findEquipmentByUse (Object uses) throws ReadException{
+        return getEntityManager().createNamedQuery("findEquipmentByUse").setParameter("use_equipment", uses).getResultList();
+    }
+
+    public List<Equipment> findAllEquipment() throws ReadException {
+        return getEntityManager().createNamedQuery("findAllEquipment").getResultList();
+    }
+
+    public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException{
+        return getEntityManager().createNamedQuery("findEquipmentByPrice").setParameter("min_price", minPrice).setParameter("max_price", maxPrice).getResultList();
+    
+
     /**
+     *  Search all the plants in the database
+     * @return the list of all the plants
+     * @throws ReadException 
+     */
+    public List<Plant> getAllPlants() throws ReadException{
+        return getEntityManager().createNamedQuery("getAllPlants").getResultList();
+    }
+    /**
+     * Search all the plants search by the type in the database 
+     * @param plantType
+     * @return list of plant which are of this type
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByType(PlantType plantType) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByType").setParameter("plantType", plantType).getResultList();
+    }
+    /**
+     * Search all the plants search by the petfriendly in the database 
+     * @param petFriendly
+     * @return list of plants that have this petfriendly
+     * @throws ReadException 
+     */
+     public List<Plant> getPlantByPetFriendly(PetFriendly petFriendly) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByPetFriendly").setParameter("petfriendly", petFriendly).getResultList();
+    }
+     /**
+      * Search all the plants search by the climate in the database  
+      * @param climate
+      * @return list of plants that have this climate
+      * @throws ReadException 
+      */
+    public List<Plant> getPlantByClimate(Climate climate) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByClimate").setParameter("climate", climate).getResultList();
+    }
+    /**
+     * Search all the plants search by the petfriendly and type in the database 
+     * @param plantType
+     * @param petFriendly
+     * @return list of plants that have both params
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByTypeAndPetFriendly(PlantType plantType, PetFriendly petFriendly) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByTypeAndPetFriendly").
+                setParameter("plantType", plantType).setParameter("petfriendly", petFriendly).getResultList();
+    }
+    /**
+     * Search all the plants search by the type and climate in the database 
+     * @param plantType
+     * @param climate
+     * @return list of plants that have both params
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByTypeAndClimate(PlantType plantType, Climate climate) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByTypeAndClimate").
+                setParameter("plantType", plantType).setParameter("climate",climate).getResultList();
+    }
+    /**
+     * Search all the plants search by the petfriendly and the climate in the database 
+     * @param petFriendly
+     * @param climate
+     * @return list of plants that have both params
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByPetFriendlyAndClimate(PetFriendly petFriendly, Climate climate) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByPetFriendlyAndClimate")
+                .setParameter("petfriendly", petFriendly).setParameter("climate", climate)
+                .getResultList();
+    }
+    /**
+     * Search all the plants search by the type, petfriendly and the climate in the database 
+     * @param plantType
+     * @param petfriendly
+     * @param climate
+     * @return list of plants which have all the params
+     * @throws ReadException 
+     */
+    List<Plant> getPlantWithAll(PlantType plantType, PetFriendly petfriendly, Climate climate) throws ReadException {
+       return getEntityManager().createNamedQuery("getPlantWithAll").setParameter("plantType", plantType)
+                .setParameter("climate", climate).setParameter("petfriendly",petfriendly).getResultList();
+    }/**
+     * Search all the plants search by the common name in the database 
+     * @param commonName
+     * @return list of plant that include the param
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByCommonName(String commonName) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByCommonName").setParameter("commonName", "%"+commonName+"%").getResultList();
+
+    }
+       //Method to list every shop in the database
+    public List<Shop> findAllShops() throws ReadException {
+        return (List<Shop>) getEntityManager().createNamedQuery("getAllShops").getResultList();
+    }
+    //Method to find a single shop inside the database with the name of the shop
+    public Shop findShopName(Object shop_name) throws ReadException {
+        return (Shop) getEntityManager().createNamedQuery("getShopByName").setParameter("shop_name",shop_name).getSingleResult();
+    }
+    //Method to list every user in the database
+    public List<User> findAllUsers() throws ReadException {
+        return (List<User>) getEntityManager().createNamedQuery("getAllUsers").getResultList();
+    }
+    //Method tofind a especific user by the login and the password
+    public User findLogin(Object login,Object passwd)throws ReadException {
+        return  (User) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
+    }
+      /**
      * Method to get the plague by the common name sended
      *
      * @param commonName string commonName to find the plague if it has
@@ -98,3 +203,4 @@ public abstract class AbstractFacade<T> {
                 .getResultList();
     }
 }
+

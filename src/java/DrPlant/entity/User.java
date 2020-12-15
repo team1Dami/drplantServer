@@ -6,7 +6,6 @@ package DrPlant.entity;
 
 import DrPlant.enumerations.UserPrivilege;
 import DrPlant.enumerations.Userstatus;
-import static com.oracle.jrockit.jfr.ContentType.Timestamp;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -25,8 +24,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -36,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * <li><strong>logIn:</strong> The name of the user in the app</li>
  * <li><strong>email:</strong> The email of the user</li>
  * <li><strong>fullname:</strong> The name and last name of the user</li>
- * <li><strong>status:</strong> It's the plague's type, that can be:
+ * <li><strong>status:</strong> It's the users's status, that can be:
  * <ul>
  * <li>enable</li>
  * <li>disable</li>
@@ -50,17 +47,37 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Ruben
  */
+/*
+<user>
+    <logIn>gonza</logIn>
+    <email>gon@gmail.com</email>
+    <fullname>gonzalo</fullname>
+    <status>enable</status>
+    <privilage>admin</privilage>
+    <passwd></passwd>
+    <lastAccess></lastAccess>
+    <lastPasswdChange></lastPasswdChange>
+</user>
+
+*/
 @Entity
 @Table(name = "User", schema = "drplant")
 @NamedQueries({
-    @NamedQuery(name = "login",
-            query = "SELECT u FROM User u WHERE u.logIn=:logIn AND u.passwd=:passwd")
+
+    @NamedQuery(name = "findUserByLoginAndPasswd",
+            query = "SELECT u FROM User u WHERE u.logIn=:login AND u.passwd=:passwd")
     ,
+    /*@NamedQuery(name = "login",
+            query = "SELECT u FROM User u WHERE u.logIn=:logIn AND u.passwd=:passwd")
+    ,*/
     @NamedQuery(name = "changeEmail",
             query = "UPDATE User u SET u.email=:email WHERE u.logIn=:logIn")
     ,
     @NamedQuery(name = "changePasswd",
             query = "UPDATE User u SET u.passwd =:passwd WHERE u.logIn=:logIn")
+    ,
+    @NamedQuery(name="getAllUsers",
+            query="SELECT u FROM User u "),
 })
 @XmlRootElement
 public class User implements Serializable {
@@ -86,22 +103,41 @@ public class User implements Serializable {
     private Set<UserPlant> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_equipment", schema = "drplant", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "equipment", referencedColumnName = "id_equipment"))
+    @JoinTable(name = "user_equipment", schema = "drplant",
+            joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "equipment", 
+                    referencedColumnName = "id_equipment"))
+
     private Set<Equipment> equipments;
 
+    /**
+     * 
+     * @return the privilege of the user
+     */
     public String getPrivilage() {
         return privilege.name();
     }
 
+    /**
+     * This method set the privilege of the user
+     * @param privilage 
+     */
     public void setPrivilage(UserPrivilege privilage) {
         this.privilege = privilage;
     }
 
+    /**
+     * 
+     * @return the status of the user
+     */
     public String getStatus() {
         return status.name();
     }
 
+    /**
+     * Set the status of the user
+     * @param status 
+     */
     public void setStatus(int status) {
         if (status == 1) {
             this.status = Userstatus.ENABLE;
@@ -110,62 +146,122 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @return the Id of the user
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Set the id of the user
+     * @param id 
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * 
+     * @return the login name of the user
+     */
     public String getLogIn() {
         return logIn;
     }
 
+    /**
+     * Set the login name of the user
+     * @param logIn 
+     */
     public void setLogIn(String logIn) {
         this.logIn = logIn;
     }
 
+    /**
+     * 
+     * @return the email of the user 
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Set the email of the user
+     * @param email 
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * 
+     * @return get the fullname of the user 
+     */
     public String getFullname() {
         return fullname;
     }
 
+    /**
+     * Set the fullname of the user 
+     * @param fullname 
+     */
     public void setFullname(String fullname) {
         this.fullname = fullname;
     }
 
+    /**
+     * 
+     * @return the password 
+     */
     public String getPasswd() {
         return passwd;
     }
 
+    /**
+     * Set the password 
+     * @param passwd 
+     */
     public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
 
+    /**
+     * 
+     * @return last access date of the user 
+     */
     public Date getLastAccess() {
         return lastAccess;
     }
 
+    /**
+     * Set the last access date
+     * @param lastAccess 
+     */
     public void setLastAccess(Date lastAccess) {
         this.lastAccess = (java.sql.Date) lastAccess;
     }
 
+    /**
+     * 
+     * @return last password change date
+     */
     public Date getLastPasswdChange() {
         return lastPasswdChange;
     }
 
+    /**
+     * Set last password change date
+     * @param lastPasswdChange 
+     */
     public void setLastPasswdChange(Date lastPasswdChange) {
         this.lastPasswdChange = (java.sql.Date) lastPasswdChange;
     }
 
+     /**
+     * 
+     * @return hash if the id is not null or return 0 if the id is null
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -173,6 +269,11 @@ public class User implements Serializable {
         return hash;
     }
 
+     /**
+     * 
+     * @param object
+     * @return boolean true if the object is user or return false if the object is not a user or if the id is null
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -186,6 +287,10 @@ public class User implements Serializable {
         return true;
     }
 
+    /**
+     * 
+     * @return id as a String
+     */
     @Override
     public String toString() {
         return "DrPlant.Entity.User[ id=" + id + " ]";
