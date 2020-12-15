@@ -8,6 +8,8 @@ package DrPlant.service;
 import DrPlant.entity.Plant;
 import DrPlant.enumerations.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,6 +31,9 @@ import javax.ws.rs.core.MediaType;
 @Path("plant")
 public class PlantFacadeREST extends AbstractFacade<Plant> {
 
+    private static final Logger LOGGER
+            = Logger.getLogger("drplantserver");
+
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
 
@@ -39,94 +44,181 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
-    public void create(Plant entity) {
-        super.create(entity);
+    public void create(Plant plant) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: create: ", plant);
+            super.create(plant);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception creating plant: "
+                    ,ex.getMessage());
+        }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
-    public void edit(Plant entity) {
-        super.edit(entity);
+    public void edit(Plant plant) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: edit: ");
+            super.edit(plant);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception updating plant: "
+                    ,ex.getMessage());
+
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") String id) {
-        super.remove(super.find(id));
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service:delete");
+            super.remove(super.find(id));
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by id: "
+                    ,ex.getMessage());
+        }
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Plant find(@PathParam("id") String id) {
-        return super.find(id);
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by id", id);
+            return super.find(id);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception updating plant: "
+                    ,ex.getMessage());
+            return null;
+        }
     }
 
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<Plant> getAllPlants() {
-        return super.getAllPlants();
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search all the plant");
+            return super.getAllPlants();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching all plants: "
+                    ,ex.getMessage());
+            return null;
+        }
     }
 
     @GET
     @Path("plantType/{plantType}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByType(@PathParam("plantType") PlantType plantType){
-        return super.getPlantByType(plantType);
-        
+    public List<Plant> getPlantByType(@PathParam("plantType") PlantType plantType) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType", plantType);
+            return super.getPlantByType(plantType);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by PlantType: "
+                    ,ex.getMessage());
+            return null;
+        }
+
     }
 
     @GET
     @Path("petFriendly/{petFriendly}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByPetFriendly(@PathParam("petFriendly") PetFriendly petFriendly){
-        return super.getPlantByPetFriendly(petFriendly);
-}
+    public List<Plant> getPlantByPetFriendly(@PathParam("petFriendly") PetFriendly petFriendly) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by PetFriendly", petFriendly);
+            return super.getPlantByPetFriendly(petFriendly);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by PetFriendly: "
+                    ,ex.getMessage());
+            return null;
+        }
+    }
+
     @GET
     @Path("climate/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByClimate(@PathParam("climate") Climate climate){
-        return super.getPlantByClimate(climate);
-        
+    public List<Plant> getPlantByClimate(@PathParam("climate") Climate climate) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by Climate", climate);
+            return super.getPlantByClimate(climate);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by Climate: "
+                    ,ex.getMessage());
+            return null;
+        }
     }
+
     @GET
     @Path("TypeAndPetFriendly/{plantType}/{petFriendly}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByTypeAndPetFriendly(@PathParam("plantType") PlantType plantType,@PathParam("petFriendly")  PetFriendly petFriendly){
-        return super.getPlantByTypeAndPetFriendly(plantType, petFriendly);
-        
+    public List<Plant> getPlantByTypeAndPetFriendly(@PathParam("plantType") PlantType plantType, @PathParam("petFriendly") PetFriendly petFriendly) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType and PetFriendly", plantType + " " + petFriendly);
+            return super.getPlantByTypeAndPetFriendly(plantType, petFriendly);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by PlantType and PetFriendly: "
+                    ,ex.getMessage());
+            return null;
+        }
     }
+
     @GET
     @Path("TypeAndClimate/{plantType}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByTypeAndClimate(@PathParam("plantType") PlantType plantType,@PathParam("climate") Climate climate){
-        return super.getPlantByTypeAndClimate(plantType,climate);
-        
+    public List<Plant> getPlantByTypeAndClimate(@PathParam("plantType") PlantType plantType, @PathParam("climate") Climate climate) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType and Climate", plantType + " " + climate);
+            return super.getPlantByTypeAndClimate(plantType, climate);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by PlantType and Climate : "
+                    ,ex.getMessage());
+            return null;
+        }
     }
+
     @GET
     @Path("getPlantByPetFriendlyAndClimate/{petFriendly}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByPetFriendlyAndClimate(@PathParam("petFriendly") PetFriendly petFriendly,@PathParam("climate") Climate climate){
-        return super.getPlantByPetFriendlyAndClimate(petFriendly,climate);
-    
-        
+    public List<Plant> getPlantByPetFriendlyAndClimate(@PathParam("petFriendly") PetFriendly petFriendly, @PathParam("climate") Climate climate) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by PetFriendly and Climate", petFriendly + " " + climate);
+            return super.getPlantByPetFriendlyAndClimate(petFriendly, climate);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by PetFriendly and Climate: "
+                    ,ex.getMessage());
+            return null;
+        }
     }
+
     @GET
     @Path("getPlantWithAll/{plantType}/{petFriendly}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantWithAll(@PathParam("plantType") PlantType plantType, @PathParam("petFriendly") PetFriendly petFriendly, @PathParam("climate") Climate climate){
-        return super.getPlantWithAll(plantType,petFriendly,climate);
-        
+    public List<Plant> getPlantWithAll(@PathParam("plantType") PlantType plantType, @PathParam("petFriendly") PetFriendly petFriendly, @PathParam("climate") Climate climate) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType, PetFriendly and Climate", plantType + " " + petFriendly + " " + climate);
+            return super.getPlantWithAll(plantType, petFriendly, climate);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by PlantType, PetFriendly and Climate: "
+                    ,ex.getMessage());
+            return null;
+        }
     }
+
     @GET
     @Path("getPlantByCommonName/{commonName}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Plant> getPlantByCommonName(@PathParam("commonName") String commonName){
-        return super.getPlantByCommonName(commonName);
-        
+    public List<Plant> getPlantByCommonName(@PathParam("commonName") String commonName) {
+        try {
+            LOGGER.log(Level.INFO, "PlantRESTful service: search by common name", commonName);
+            return super.getPlantByCommonName(commonName);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE,"PlantRESTful service: Exception searching plant by common name: "
+                    ,ex.getMessage());
+            return null;
+        }
     }
-    
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

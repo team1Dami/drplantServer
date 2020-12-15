@@ -40,37 +40,37 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().find(entityClass, id);
     }
     
-    public List<Plant> getAllPlants(){
+    public List<Plant> getAllPlants() throws ReadException{
         return getEntityManager().createNamedQuery("getAllPlants").getResultList();
     }
-    public List<Plant> getPlantByType(PlantType plantType){
+    public List<Plant> getPlantByType(PlantType plantType) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByType").setParameter("plantType", plantType).getResultList();
     }
-     public List<Plant> getPlantByPetFriendly(PetFriendly petFriendly){
+     public List<Plant> getPlantByPetFriendly(PetFriendly petFriendly) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByPetFriendly").setParameter("petfriendly", petFriendly).getResultList();
     }
-    public List<Plant> getPlantByClimate(Climate climate){
+    public List<Plant> getPlantByClimate(Climate climate) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByClimate").setParameter("climate", climate).getResultList();
     }
-    public List<Plant> getPlantByTypeAndPetFriendly(PlantType plantType, PetFriendly petFriendly){
+    public List<Plant> getPlantByTypeAndPetFriendly(PlantType plantType, PetFriendly petFriendly) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByTypeAndPetFriendly").
                 setParameter("plantType", plantType).setParameter("petfriendly", petFriendly).getResultList();
     }
-    public List<Plant> getPlantByTypeAndClimate(PlantType plantType, Climate climate){
+    public List<Plant> getPlantByTypeAndClimate(PlantType plantType, Climate climate) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByTypeAndClimate").
                 setParameter("plantType", plantType).setParameter("climate",climate).getResultList();
     }
-    public List<Plant> getPlantByPetFriendlyAndClimate(PetFriendly petFriendly, Climate climate){
+    public List<Plant> getPlantByPetFriendlyAndClimate(PetFriendly petFriendly, Climate climate) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByPetFriendlyAndClimate")
                 .setParameter("petfriendly", petFriendly).setParameter("climate", climate)
                 .getResultList();
     }
     
-    List<Plant> getPlantWithAll(PlantType plantType, PetFriendly petfriendly, Climate climate) {
+    List<Plant> getPlantWithAll(PlantType plantType, PetFriendly petfriendly, Climate climate) throws ReadException {
        return getEntityManager().createNamedQuery("getPlantWithAll").setParameter("plantType", plantType)
                 .setParameter("climate", climate).setParameter("petfriendly",petfriendly).getResultList();
     }
-    public List<Plant> getPlantByCommonName(String commonName){
+    public List<Plant> getPlantByCommonName(String commonName) throws ReadException{
         return getEntityManager().createNamedQuery("getPlantByCommonName").setParameter("commonName", "%"+commonName+"%").getResultList();
     }
 }
