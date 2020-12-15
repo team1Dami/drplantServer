@@ -6,6 +6,7 @@
 package DrPlant.service;
 
 import DrPlant.entity.Equipment;
+import DrPlant.exceptions.ReadException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.ws.rs.PathParam;
@@ -40,19 +41,19 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().find(entityClass, id);
     }
     
-    public List<Equipment> findEquipmentByName (Object equipment_name){      
+    public List<Equipment> findEquipmentByName (Object equipment_name) throws ReadException{      
         return getEntityManager().createNamedQuery("findEquipmentByName").setParameter("equipment_name", "%"+equipment_name+"%").getResultList();
     }
     
-    public List<Equipment> findEquipmentByUse (Object uses){
+    public List<Equipment> findEquipmentByUse (Object uses) throws ReadException{
         return getEntityManager().createNamedQuery("findEquipmentByUse").setParameter("use_equipment", uses).getResultList();
     }
 
-    public List<Equipment> findAllEquipment() {
+    public List<Equipment> findAllEquipment() throws ReadException {
         return getEntityManager().createNamedQuery("findAllEquipment").getResultList();
     }
 
-    public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) {
+    public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException{
         return getEntityManager().createNamedQuery("findEquipmentByPrice").setParameter("min_price", minPrice).setParameter("max_price", maxPrice).getResultList();
     
     }
