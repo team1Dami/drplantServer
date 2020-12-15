@@ -5,19 +5,18 @@
  */
 package DrPlant.service;
 
-import DrPlant.entity.Shop;
-import DrPlant.entity.User;
-import DrPlant.exceptions.CreateException;
-import DrPlant.exceptions.DeleteException;
+
+import DrPlant.entity.Equipment;
 import DrPlant.exceptions.ReadException;
-import DrPlant.exceptions.UpdateException;
-import DrPlant.exceptions.UserExistException;
+import DrPlant.entity.Plant;
+import DrPlant.enumerations.*;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.ws.rs.PathParam;
 
 /**
  *
- * @author rubir
+ * @author Ruben
  */
 public abstract class AbstractFacade<T> {
 
@@ -29,22 +28,130 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) throws CreateException,UserExistException{
+    public void create(T entity) {
         getEntityManager().persist(entity);
     }
 
-    public void edit(T entity) throws UpdateException{
+    public void edit(T entity) {
         getEntityManager().merge(entity);
     }
 
-    public void remove(T entity) throws DeleteException {
+    public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
 
-    public T find(Object id) throws ReadException {
+    public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
-    //Method to list every shop in the database
+
+    
+    public List<Equipment> findEquipmentByName (Object equipment_name) throws ReadException{      
+        return getEntityManager().createNamedQuery("findEquipmentByName").setParameter("equipment_name", "%"+equipment_name+"%").getResultList();
+    }
+    
+    public List<Equipment> findEquipmentByUse (Object uses) throws ReadException{
+        return getEntityManager().createNamedQuery("findEquipmentByUse").setParameter("use_equipment", uses).getResultList();
+    }
+
+    public List<Equipment> findAllEquipment() throws ReadException {
+        return getEntityManager().createNamedQuery("findAllEquipment").getResultList();
+    }
+
+    public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException{
+        return getEntityManager().createNamedQuery("findEquipmentByPrice").setParameter("min_price", minPrice).setParameter("max_price", maxPrice).getResultList();
+    
+
+    /**
+     *  Search all the plants in the database
+     * @return the list of all the plants
+     * @throws ReadException 
+     */
+    public List<Plant> getAllPlants() throws ReadException{
+        return getEntityManager().createNamedQuery("getAllPlants").getResultList();
+    }
+    /**
+     * Search all the plants search by the type in the database 
+     * @param plantType
+     * @return list of plant which are of this type
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByType(PlantType plantType) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByType").setParameter("plantType", plantType).getResultList();
+    }
+    /**
+     * Search all the plants search by the petfriendly in the database 
+     * @param petFriendly
+     * @return list of plants that have this petfriendly
+     * @throws ReadException 
+     */
+     public List<Plant> getPlantByPetFriendly(PetFriendly petFriendly) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByPetFriendly").setParameter("petfriendly", petFriendly).getResultList();
+    }
+     /**
+      * Search all the plants search by the climate in the database  
+      * @param climate
+      * @return list of plants that have this climate
+      * @throws ReadException 
+      */
+    public List<Plant> getPlantByClimate(Climate climate) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByClimate").setParameter("climate", climate).getResultList();
+    }
+    /**
+     * Search all the plants search by the petfriendly and type in the database 
+     * @param plantType
+     * @param petFriendly
+     * @return list of plants that have both params
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByTypeAndPetFriendly(PlantType plantType, PetFriendly petFriendly) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByTypeAndPetFriendly").
+                setParameter("plantType", plantType).setParameter("petfriendly", petFriendly).getResultList();
+    }
+    /**
+     * Search all the plants search by the type and climate in the database 
+     * @param plantType
+     * @param climate
+     * @return list of plants that have both params
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByTypeAndClimate(PlantType plantType, Climate climate) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByTypeAndClimate").
+                setParameter("plantType", plantType).setParameter("climate",climate).getResultList();
+    }
+    /**
+     * Search all the plants search by the petfriendly and the climate in the database 
+     * @param petFriendly
+     * @param climate
+     * @return list of plants that have both params
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByPetFriendlyAndClimate(PetFriendly petFriendly, Climate climate) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByPetFriendlyAndClimate")
+                .setParameter("petfriendly", petFriendly).setParameter("climate", climate)
+                .getResultList();
+    }
+    /**
+     * Search all the plants search by the type, petfriendly and the climate in the database 
+     * @param plantType
+     * @param petfriendly
+     * @param climate
+     * @return list of plants which have all the params
+     * @throws ReadException 
+     */
+    List<Plant> getPlantWithAll(PlantType plantType, PetFriendly petfriendly, Climate climate) throws ReadException {
+       return getEntityManager().createNamedQuery("getPlantWithAll").setParameter("plantType", plantType)
+                .setParameter("climate", climate).setParameter("petfriendly",petfriendly).getResultList();
+    }/**
+     * Search all the plants search by the common name in the database 
+     * @param commonName
+     * @return list of plant that include the param
+     * @throws ReadException 
+     */
+    public List<Plant> getPlantByCommonName(String commonName) throws ReadException{
+        return getEntityManager().createNamedQuery("getPlantByCommonName").setParameter("commonName", "%"+commonName+"%").getResultList();
+
+    }
+       //Method to list every shop in the database
     public List<Shop> findAllShops() throws ReadException {
         return (List<Shop>) getEntityManager().createNamedQuery("getAllShops").getResultList();
     }
@@ -61,3 +168,4 @@ public abstract class AbstractFacade<T> {
         return  (User) getEntityManager().createNamedQuery("findUserByLoginAndPasswd").setParameter("login",login).setParameter("passwd", passwd).getSingleResult();
     }
 }
+
