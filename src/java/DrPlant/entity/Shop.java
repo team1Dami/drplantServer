@@ -2,6 +2,7 @@ package DrPlant.entity;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.logging.Logger;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -62,6 +63,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Shop implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger LOGGER =
+            Logger.getLogger("DrPlant.entity.Shop");
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_shop;

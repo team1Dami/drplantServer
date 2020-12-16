@@ -125,7 +125,7 @@ public class Plant implements Serializable {
 
     @OneToMany(cascade = ALL, mappedBy = "plant")
 
-    private Set<UserPlant> plants;
+    private Set<UserPlant> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "plant_shop", schema = "drplant", joinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"),
@@ -217,12 +217,12 @@ public class Plant implements Serializable {
     }
 
     @XmlTransient
-    public Set<UserPlant> getPlants() {
-        return plants;
+    public Set<UserPlant> getUsers() {
+        return users;
     }
 
-    public void setPlants(Set<UserPlant> plants) {
-        this.plants = plants;
+    public void setUsers(Set<UserPlant> users) {
+        this.users = users;
     }
 
     @XmlTransient

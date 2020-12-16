@@ -6,7 +6,9 @@ package DrPlant.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javax.persistence.Embeddable;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,6 +24,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class UserPlantId implements Serializable {
 
+    private static final Logger LOGGER
+            = Logger.getLogger("DrPlant.entity.UserPlantId");
+    
     private Integer userId;
     private String scienceName;
 
@@ -32,7 +37,8 @@ public class UserPlantId implements Serializable {
         this.userId = userId;
         this.scienceName = scienceName;
     }
-
+    
+    
     public Integer getUserId() {
         return userId;
     }
@@ -80,7 +86,7 @@ public class UserPlantId implements Serializable {
 
     @Override
     public String toString() {
-        return "CustomerAccounId{" + "accountId=" + userId + ", customerId=" + scienceName + '}';
+        return "UserPlantId{" + "userId=" + userId + ", scienceName=" + scienceName + '}';
     }
 
 }
