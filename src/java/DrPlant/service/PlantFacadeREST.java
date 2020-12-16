@@ -79,6 +79,8 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by id: ",
                     ex.getMessage());
             throw new InternalServerErrorException();
+        } catch (ReadException ex) {
+            Logger.getLogger(PlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

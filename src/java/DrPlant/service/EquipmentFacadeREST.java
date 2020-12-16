@@ -32,10 +32,7 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("equipment")
 public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
-    
-    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.EquipmentFacadeREST");
 
-    
     private static final Logger LOGGER
             = Logger.getLogger("drplantserver");
 
