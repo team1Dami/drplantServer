@@ -33,7 +33,6 @@ import javax.ws.rs.core.MediaType;
 @Path("equipment")
 public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
 
-    
     private static final Logger LOGGER
             = Logger.getLogger("drplantserver");
 
@@ -50,12 +49,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     public void create(Equipment entity) {
         try {
             super.create(entity);
-
         } catch (CreateException ex) {
-            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         } catch (UserExistException ex) {
-
-            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
 
@@ -65,7 +62,7 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         try {
             super.edit(entity);
         } catch (UpdateException ex) {
-            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
 
@@ -74,39 +71,26 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     public void remove(@PathParam("id") Long id) {
         try {
             super.remove(super.find(id));
-
         } catch (ReadException ex) {
-            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         } catch (DeleteException ex) {
-            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
-
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Equipment find(@PathParam("id") Long id) {
-
         Equipment equipment = null;
         try {
             equipment = super.find(id);
         } catch (ReadException ex) {
-            Logger.getLogger(EquipmentFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
         return equipment;
-
     }
 
-    /*@GET 
-    @Path("equipment_name/{equipment_name}")
-    @Produces ({MediaType.APPLICATION_XML})
-    public Equipment findEquipmentByName (@PathParam("equipment_name") String equipment_name){      
-        //List <Equipment> equipment;
-        //equipment = em.createNamedQuery("findEquipmentByName").setParameter("equipment_name", equipment_name).getResultList();  // throws exception query: IllegalArgumentException 
-        //return equipment;
-        return super.findEquipmentByName(equipment_name);
-    }*/
     @Override
     protected EntityManager getEntityManager() {
         return em;

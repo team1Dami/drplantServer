@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,6 +19,7 @@ import javax.persistence.EntityManager;
 /**
  *
  * @author Ruben
+ * @param <T>
  */
 public abstract class AbstractFacade<T> {
 
@@ -49,27 +49,48 @@ public abstract class AbstractFacade<T> {
         return getEntityManager()
                 .find(entityClass, id);
     }
-
+    /**
+     * Select by the equipment name in the Database
+     *
+     * @param equipment_name the equipment name
+     * @return The equipment object of the sended name
+     * @throws DrPlant.exceptions.ReadException
+     */
     public List<Equipment> findEquipmentByName(Object equipment_name) throws ReadException {
         return getEntityManager()
                 .createNamedQuery("findEquipmentByName")
                 .setParameter("equipment_name", "%" + equipment_name + "%")
                 .getResultList();
     }
-
+    /**
+     * Select of the equipments with a specific use
+     * @param uses The use of the equipment
+     * @return A List of the equipment of the specified use
+     * @throws DrPlant.exceptions.ReadException
+     */
     public List<Equipment> findEquipmentByUse(Object uses) throws ReadException {
         return getEntityManager()
                 .createNamedQuery("findEquipmentByUse")
                 .setParameter("use_equipment", uses)
                 .getResultList();
     }
-
+    /**
+     * List all the equipment stored
+     * @return A List with all the equipment
+     * @throws DrPlant.exceptions.ReadException
+     */
     public List<Equipment> findAllEquipment() throws ReadException {
         return getEntityManager()
                 .createNamedQuery("findAllEquipment")
                 .getResultList();
     }
-
+    /**
+     * Find equipment by price
+     * @param minPrice 
+     * @param maxPrice
+     * @return A List with all the equipment in the price balance
+     * @throws DrPlant.exceptions.ReadException
+     */
     public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException {
         return getEntityManager()
                 .createNamedQuery("findEquipmentByPrice")
@@ -141,8 +162,9 @@ public abstract class AbstractFacade<T> {
      * @throws ReadException
      */
     public List<Plant> getPlantByTypeAndPetFriendly(PlantType plantType, PetFriendly petFriendly) throws ReadException {
-        return getEntityManager().createNamedQuery("getPlantByTypeAndPetFriendly").
-                setParameter("plantType", plantType)
+        return getEntityManager()
+                .createNamedQuery("getPlantByTypeAndPetFriendly")
+                .setParameter("plantType", plantType)
                 .setParameter("petfriendly", petFriendly)
                 .getResultList();
     }
@@ -223,7 +245,6 @@ public abstract class AbstractFacade<T> {
 
     //Method to find a single shop inside the database with the name of the shop
     public Shop findShopName(Object shop_name) throws ReadException {
-        
         return (Shop) getEntityManager()
                 .createNamedQuery("getShopByName")
                 .setParameter("shop_name", shop_name)
@@ -232,7 +253,7 @@ public abstract class AbstractFacade<T> {
 
     //Method to list every user in the database
     public List<User> findAllUsers() throws ReadException {
-        return  getEntityManager()
+        return getEntityManager()
                 .createNamedQuery("getAllUsers")
                 .getResultList();
     }
@@ -244,7 +265,6 @@ public abstract class AbstractFacade<T> {
                 .setParameter("login", login)
                 .setParameter("passwd", passwd)
                 .getSingleResult();
-        
     }
 
     /**
@@ -252,6 +272,7 @@ public abstract class AbstractFacade<T> {
      *
      * @param commonName string commonName to find the plague if it has
      * @return the object type Plague with the common Name sended
+     * @throws DrPlant.exceptions.ReadException
      */
     public Plague findPlagueByCommonName(Object commonName) throws ReadException {
         return (Plague) getEntityManager()
@@ -265,6 +286,7 @@ public abstract class AbstractFacade<T> {
      *
      * @param type enum PlagueType sended to search all the plagues of this type
      * @return a List with the plagues that matches with the type sended
+     * @throws DrPlant.exceptions.ReadException
      */
     public List<Plague> findPlaguesByType(Object type) throws ReadException {
         return getEntityManager()
@@ -277,6 +299,7 @@ public abstract class AbstractFacade<T> {
      * Method to get all the plagues
      *
      * @return List with all the plagues in the DB
+     * @throws DrPlant.exceptions.ReadException
      */
     public List<Plague> findAllPlagues() throws ReadException {  // throw new WebApplicationException(Response.Status.NOT_FOUND);  // NotFoundException  //InternalServerErrorException  // ServiceUnavailableException
         return getEntityManager()
@@ -284,4 +307,3 @@ public abstract class AbstractFacade<T> {
                 .getResultList();
     }
 }
-

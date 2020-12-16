@@ -2,9 +2,11 @@ package DrPlant.service;
 
 import DrPlant.entity.Plant;
 import DrPlant.enumerations.*;
-
-import DrPlant.exceptions.*;
-
+import DrPlant.exceptions.CreateException;
+import DrPlant.exceptions.DeleteException;
+import DrPlant.exceptions.ReadException;
+import DrPlant.exceptions.UpdateException;
+import DrPlant.exceptions.UserExistException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,8 +32,7 @@ import javax.ws.rs.core.MediaType;
 @Path("plant")
 public class PlantFacadeREST extends AbstractFacade<Plant> {
 
-    private static final Logger LOGGER
-            = Logger.getLogger("drplantserver");
+    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.PlantFacadeREST");
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
@@ -47,7 +48,7 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: create: ", plant);
             super.create(plant);
-        } catch (CreateException|UserExistException ex) {
+        } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception creating plant: ",
                     ex.getMessage());
             throw new InternalServerErrorException();
@@ -74,10 +75,12 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service:delete");
             super.remove(super.find(id));
-        } catch (DeleteException|ReadException ex) {
+        } catch (DeleteException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by id: ",
                     ex.getMessage());
             throw new InternalServerErrorException();
+        } catch (ReadException ex) {
+            Logger.getLogger(PlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
