@@ -37,8 +37,7 @@ import javax.ws.rs.core.MediaType;
 @Path("plant")
 public class PlantFacadeREST extends AbstractFacade<Plant> {
 
-    private static final Logger LOGGER
-            = Logger.getLogger("drplantserver");
+    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.PlantFacadeREST");
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;

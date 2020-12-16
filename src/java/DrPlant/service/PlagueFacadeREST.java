@@ -33,8 +33,7 @@ import javax.ws.rs.core.MediaType;
 @Path("plague")
 public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
-    private static final Logger LOGGER
-            = Logger.getLogger("drplantServer");
+    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.PlagueFacadeREST");
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
@@ -65,7 +64,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
             throw new InternalServerErrorException(ex);
         } catch (UserExistException ex) {
-            Logger.getLogger(PlagueFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
         }
     }
 

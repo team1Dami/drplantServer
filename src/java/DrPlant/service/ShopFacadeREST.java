@@ -38,7 +38,7 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
-    private Logger LOGGER;
+    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.ShopFacadeREST");
 
     public ShopFacadeREST() {
         super(Shop.class);

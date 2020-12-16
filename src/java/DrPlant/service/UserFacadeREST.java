@@ -38,7 +38,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
-    private Logger LOGGER;
+    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.UserFacadeREST");
 
     public UserFacadeREST() {
         super(User.class);

@@ -37,6 +37,8 @@ import javax.ws.rs.core.PathSegment;
 @Path("userplant")
 public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
 
+    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.EquipmentFacadeREST");
+
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
 
@@ -72,9 +74,9 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         try {
             super.create(entity);
         } catch (CreateException ex) {
-            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
         } catch (UserExistException ex) {
-            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
         }
     }
 
@@ -84,7 +86,7 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         try {
             super.edit(entity);
         } catch (UpdateException ex) {
-            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
         }
     }
 
@@ -95,9 +97,9 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         try {
             super.remove(super.find(key));
         } catch (ReadException ex) {
-            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
         } catch (DeleteException ex) {
-            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
         }
     }
 
@@ -110,7 +112,7 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         try {
             userPlant = super.find(key);
         } catch (ReadException ex) {
-            Logger.getLogger(UserPlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
         }
         return userPlant;
     }
