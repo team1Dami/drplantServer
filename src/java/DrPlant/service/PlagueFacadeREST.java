@@ -34,7 +34,7 @@ import javax.ws.rs.core.MediaType;
 public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
     private static final Logger LOGGER
-            = Logger.getLogger("drplantServer");
+            = Logger.getLogger("DrPlant.service.PlagueFacadeREST");
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;

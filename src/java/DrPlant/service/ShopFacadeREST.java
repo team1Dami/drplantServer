@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DrPlant.service;
 
 import DrPlant.entity.Shop;
@@ -34,7 +29,8 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
-    private Logger LOGGER;
+    private static final Logger LOGGER =
+            Logger.getLogger("DrPlant.service.ShopFacadeREST");
 
     public ShopFacadeREST() {
         super(Shop.class);
@@ -114,10 +110,11 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
     @Produces({MediaType.APPLICATION_XML})
     public List<Shop> findAllShops() {
 
+        List <Shop> shops = null;
         try {
 
             LOGGER.log(Level.INFO, "ShopRESTful service: find shops");
-            return super.findAllShops();
+            shops = super.findAllShops();
 
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
@@ -125,6 +122,7 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
+        return shops;
     }
 
     //Method to find shop by name from the database
