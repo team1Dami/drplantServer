@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DrPlant.service;
 
 import DrPlant.entity.User;
@@ -36,9 +31,11 @@ import javax.ws.rs.core.MediaType;
 @Path("user")
 public class UserFacadeREST extends AbstractFacade<User> {
 
+    private static final Logger LOGGER
+            = Logger.getLogger("DrPlant.service.UserFacadeREST");
+    
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
-    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.UserFacadeREST");
 
     public UserFacadeREST() {
         super(User.class);
@@ -135,12 +132,13 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @GET
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
-    public User login(@PathParam("login") String login, @PathParam("passwd") String passwd) {
+    public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
         User user;
         try {
 
-            LOGGER.log(Level.INFO, "UserRESTful service: findByLogingAndPasswd User");
-            user = super.findLogin(login, passwd);
+            LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
+            user = super.findUserByLoginAndPasswd(login, passwd);
+            
             return user;
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
@@ -149,6 +147,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
             throw new InternalServerErrorException(ex);
         }
     }
+     
 
     @Override
     protected EntityManager getEntityManager() {

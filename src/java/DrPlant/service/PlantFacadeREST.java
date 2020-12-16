@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DrPlant.service;
 
 import DrPlant.entity.Plant;
@@ -84,8 +79,6 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by id: ",
                     ex.getMessage());
             throw new InternalServerErrorException();
-        } catch (ReadException ex) {
-            Logger.getLogger(PlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

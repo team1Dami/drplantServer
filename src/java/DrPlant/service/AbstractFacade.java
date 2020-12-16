@@ -40,11 +40,14 @@ public abstract class AbstractFacade<T> {
     }
 
     public void remove(T entity) throws DeleteException {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        getEntityManager()
+                .remove(getEntityManager()
+                .merge(entity));
     }
 
     public T find(Object id) throws ReadException {
-        return getEntityManager().find(entityClass, id);
+        return getEntityManager()
+                .find(entityClass, id);
     }
     /**
      * Select by the equipment name in the Database
@@ -256,8 +259,8 @@ public abstract class AbstractFacade<T> {
     }
 
     //Method tofind a especific user by the login and the password
-    public User findLogin(Object login, Object passwd) throws ReadException {
-        return (User) getEntityManager()
+    public User findUserByLoginAndPasswd(Object login, Object passwd) throws ReadException {
+       return (User) getEntityManager()
                 .createNamedQuery("findUserByLoginAndPasswd")
                 .setParameter("login", login)
                 .setParameter("passwd", passwd)

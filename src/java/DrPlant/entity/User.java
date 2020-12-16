@@ -9,6 +9,7 @@ import DrPlant.enumerations.Userstatus;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.logging.Logger;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,16 +26,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * This entity class encapsulates the data of each Plague.
  * <ul>
  * <li><strong>id:</strong> The id of the user</li>
- * <li><strong>logIn:</strong> The name of the user in the app</li>
+ * <li><strong>login:</strong> The name of the user in the app</li>
  * <li><strong>email:</strong> The email of the user</li>
  * <li><strong>fullname:</strong> The name and last name of the user</li>
- * <li><strong>status:</strong> It's the users's status, that can be:
- * <ul>
+ * <li><strong>status:</strong> It's the plants's status, that can be:
+ <ul>
  * <li>enable</li>
  * <li>disable</li>
  * </ul>
@@ -64,16 +66,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "User", schema = "drplant")
 @NamedQueries({
     @NamedQuery(name = "findUserByLoginAndPasswd",
-            query = "SELECT u FROM User u WHERE u.logIn=:login AND u.passwd=:passwd")
+            query = "SELECT u FROM User u WHERE u.login=:login AND u.passwd=:passwd")
     ,
-    /*@NamedQuery(name = "login",
-            query = "SELECT u FROM User u WHERE u.logIn=:logIn AND u.passwd=:passwd")
-    ,*/
     @NamedQuery(name = "changeEmail",
-            query = "UPDATE User u SET u.email=:email WHERE u.logIn=:logIn")
+            query = "UPDATE User u SET u.email=:email WHERE u.login=:login")
     ,
     @NamedQuery(name = "changePasswd",
-            query = "UPDATE User u SET u.passwd =:passwd WHERE u.logIn=:logIn")
+            query = "UPDATE User u SET u.passwd =:passwd WHERE u.login=:login")
     ,
     @NamedQuery(name = "getAllUsers",
             query = "SELECT u FROM User u "),})
@@ -81,10 +80,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger LOGGER =
+            Logger.getLogger("DrPlant.entity.User");
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String logIn;
+    private String login;
     private String email;
     private String fullname;
     @Enumerated(EnumType.STRING)
@@ -98,7 +100,7 @@ public class User implements Serializable {
     private java.sql.Date lastPasswdChange;
 
     @OneToMany(cascade = ALL, mappedBy = "user")
-    private Set<UserPlant> users;
+    private Set<UserPlant> plants;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_equipment", schema = "drplant",
@@ -150,6 +152,7 @@ public class User implements Serializable {
      *
      * @return the Id of the user
      */
+   // @XmlTransient  // para indicar que no queremos que se envie esta información de vuelta al cliente
     public Integer getId() {
         return id;
     }
@@ -167,17 +170,17 @@ public class User implements Serializable {
      *
      * @return the login name of the user
      */
-    public String getLogIn() {
-        return logIn;
+    public String getLogin() {
+        return login;
     }
 
     /**
      * Set the login name of the user
      *
-     * @param logIn
+     * @param login
      */
-    public void setLogIn(String logIn) {
-        this.logIn = logIn;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     /**
@@ -218,6 +221,7 @@ public class User implements Serializable {
      *
      * @return the password
      */
+    //@XmlTransient  // para indicar que no queremos que se envie esta información de vuelta al cliente
     public String getPasswd() {
         return passwd;
     }

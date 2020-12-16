@@ -7,12 +7,7 @@ package DrPlant.service;
 
 import DrPlant.entity.Equipment;
 import DrPlant.enumerations.Use;
-import DrPlant.exceptions.CreateException;
-import DrPlant.exceptions.DeleteException;
-import DrPlant.exceptions.ReadException;
-import DrPlant.exceptions.UpdateException;
-import DrPlant.exceptions.UserExistException;
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import DrPlant.exceptions.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +34,10 @@ import javax.ws.rs.core.MediaType;
 public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     
     private static final Logger LOGGER = Logger.getLogger("DrPlant.service.EquipmentFacadeREST");
+
+    
+    private static final Logger LOGGER
+            = Logger.getLogger("drplantserver");
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
