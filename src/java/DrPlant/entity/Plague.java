@@ -91,8 +91,8 @@ public class Plague implements Serializable {
 
     // relation ManyToMany with Plant entity
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "plantPlague", schema = "drplant", joinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"),
-            inverseJoinColumns = @JoinColumn(name = "plague_scienceName", referencedColumnName = "scienceName"))
+    @JoinTable(name = "plantPlague", schema = "drplant", joinColumns = @JoinColumn(name = "plague_scienceName", referencedColumnName = "scienceName"),
+            inverseJoinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"))
     
     private Set<Plant> plants;
 
