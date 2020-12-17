@@ -219,7 +219,7 @@ public abstract class AbstractFacade<T> {
                 .setParameter("climate", climate)
                 .setParameter("petfriendly", petfriendly)
                 .getResultList();
-    }
+    } 
 
     /**
      * Search all the plants search by the common name in the database
