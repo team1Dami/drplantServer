@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -35,10 +36,10 @@ public class UserPlant implements Serializable {
     @EmbeddedId
     private UserPlantId id;
     @MapsId("userId")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
     @MapsId("scienceName")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Plant plant;
 
     private Timestamp dateWatering;

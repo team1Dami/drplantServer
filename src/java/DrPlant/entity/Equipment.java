@@ -87,7 +87,7 @@ public class Equipment implements Serializable {
     @Enumerated(EnumType.STRING)
     private Use uses;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "equipment_shop")
     private Shop shop;
 

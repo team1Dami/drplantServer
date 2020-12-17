@@ -99,7 +99,7 @@ public class User implements Serializable {
 
     private java.sql.Date lastPasswdChange;
 
-    @OneToMany(cascade = ALL, mappedBy = "user")
+    @OneToMany(cascade = ALL, mappedBy = "user",fetch = FetchType.EAGER)
     private Set<UserPlant> plants;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -269,6 +269,54 @@ public class User implements Serializable {
         this.lastPasswdChange = (java.sql.Date) lastPasswdChange;
     }
 
+    /**
+     * Get list of plants asociated with the user
+     * @return list of plants
+     */
+    public Set<UserPlant> getPlants() {
+        return plants;
+    }
+
+    /**
+     * Set all user´s plants 
+     * @param plants 
+     */
+    public void setPlants(Set<UserPlant> plants) {
+        this.plants = plants;
+    }
+    /**
+    * Get list of equipments
+    * @return list of user´s equipment
+    */
+    public Set<Equipment> getEquipments() {
+        return equipments;
+    }
+
+    /**
+     * Set user´s equipments
+     * @param equipments 
+     */
+    public void setEquipments(Set<Equipment> equipments) {
+        this.equipments = equipments;
+    }
+
+    /**
+     * Get privilege
+     * @return privilege
+     */
+    public UserPrivilege getPrivilege() {
+        return privilege;
+    }
+
+    /**
+     * Set user´s privilege
+     * @param privilege 
+     */
+    public void setPrivilege(UserPrivilege privilege) {
+        this.privilege = privilege;
+    }
+
+    
     /**
      *
      * @return hash if the id is not null or return 0 if the id is null

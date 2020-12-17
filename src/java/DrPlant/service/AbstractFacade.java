@@ -219,7 +219,7 @@ public abstract class AbstractFacade<T> {
                 .setParameter("climate", climate)
                 .setParameter("petfriendly", petfriendly)
                 .getResultList();
-    }
+    } 
 
     /**
      * Search all the plants search by the common name in the database
@@ -235,15 +235,23 @@ public abstract class AbstractFacade<T> {
                 .getResultList();
 
     }
-    //Method to list every shop in the database
-
+    /**
+     * Method to list every shop in the database
+     * @return
+     * @throws ReadException 
+     */
     public List<Shop> findAllShops() throws ReadException {
         return getEntityManager()
                 .createNamedQuery("getAllShops")
                 .getResultList();
     }
 
-    //Method to find a single shop inside the database with the name of the shop
+    /**
+     * Method to find a single shop inside the database with the name of the shop
+     * @param shop_name
+     * @return
+     * @throws ReadException 
+     */
     public Shop findShopName(Object shop_name) throws ReadException {
         return (Shop) getEntityManager()
                 .createNamedQuery("getShopByName")
@@ -258,7 +266,13 @@ public abstract class AbstractFacade<T> {
                 .getResultList();
     }
 
-    //Method tofind a especific user by the login and the password
+    /**
+     * Method tofind a especific user by the login and the password
+     * @param login
+     * @param passwd
+     * @return
+     * @throws ReadException 
+     */
     public User findUserByLoginAndPasswd(Object login, Object passwd) throws ReadException {
        return (User) getEntityManager()
                 .createNamedQuery("findUserByLoginAndPasswd")
