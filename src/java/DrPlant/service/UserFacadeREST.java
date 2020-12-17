@@ -41,7 +41,10 @@ public class UserFacadeREST extends AbstractFacade<User> {
         super(User.class);
     }
 
-    //Method to create a new user
+    /**
+     * Method to create a new user
+     * @param entity 
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -60,7 +63,10 @@ public class UserFacadeREST extends AbstractFacade<User> {
         }
     }
 
-    //Method to delete a especific user by the id
+    /**
+     * Method to delete a especific user by the id
+     * @param entity 
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(User entity) {
@@ -75,7 +81,11 @@ public class UserFacadeREST extends AbstractFacade<User> {
         }
     }
 
-    //Method to delete a especific user by the id
+    /**
+     * Method to delete a especific user by the id
+     * @param id
+     * @throws ReadException 
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) throws ReadException {
@@ -90,7 +100,11 @@ public class UserFacadeREST extends AbstractFacade<User> {
         }
     }
 
-    //Method to find a especific user by the id
+    /**
+     * Method to find a especific user by the id
+     * @param id
+     * @return 
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
@@ -110,7 +124,10 @@ public class UserFacadeREST extends AbstractFacade<User> {
         return user;
     }
 
-    //Method to list every user in the database
+    /**
+     * Method to list every user in the database
+     * @return 
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<User> findAll() {
@@ -128,7 +145,12 @@ public class UserFacadeREST extends AbstractFacade<User> {
         }
     }
 
-    //Method to find a especific user by the login and the password 
+    /**
+     * Method to find a especific user by the login and the password 
+     * @param login
+     * @param passwd
+     * @return 
+     */
     @GET
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
