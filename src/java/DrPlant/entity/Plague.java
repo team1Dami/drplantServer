@@ -1,9 +1,10 @@
 package DrPlant.entity;
 
 import DrPlant.enumerations.PlagueType;
-import DrPlant.enumerations.PlagueType;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,7 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
- 
+
 /**
  * This entity class encapsulates the data of each Plague.
  * <ul>
@@ -40,40 +41,41 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Saray
  */
-
 @Entity
-@Table (name = "Plague", schema = "drplant")
-/*@NamedQueries ({
+@Table(name = "Plague", schema = "drplant")
+@NamedQueries({
     @NamedQuery(
             name = "findAllPlagues",
             query = "SELECT p FROM Plague p order by scienceName"
-    ),
+    )
+    ,
     @NamedQuery(
             name = "findPlagueByCommonName",
-            query = "SELECT p FROM Plague p WHERE p.commonName like '%':commonName'%'"
-    ),
+            query = "SELECT p FROM Plague p WHERE p.commonName =:commonName"
+    )
+    ,
     @NamedQuery(
             name = "findPlaguesByType",
-            query = "SELECT p FROM Plague p WHERE p.type like '%':type'%' order by scienceName"
-    ),
-    @NamedQuery (
+            query = "SELECT p FROM Plague p WHERE p.type =:type order by scienceName"
+    )
+    ,
+    @NamedQuery(
             name = "findPlagueById",
-            query = "SELECT p FROM Plague p WHERE p.scienceName like '%':scienceName'%'"
-    ),
-    //@NamedQuery(name="updatePlague",query="UPDATE Plague p SET "),
-    @NamedQuery(name="deletePlague",
-            query="DELETE FROM Plague p where p.scienceName=:scienceName"),
+            query = "SELECT p FROM Plague p WHERE p.scienceName =:scienceName"
+    )
+    ,
+})
 
-})*/
 @XmlRootElement
 public class Plague implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+    private static final Logger LOGGER =
+            Logger.getLogger("DrPlant.entity.Plague");
+
     @Id
-   // @GeneratedValue(strategy = GenerationType.AUTO)
     private String scienceName;
-    
+
     private String commonName;
     @NotNull
     private String description;
@@ -81,139 +83,185 @@ public class Plague implements Serializable {
     private String control;
     @NotNull
     private String remedy;
-    
     @NotNull
     @Enumerated(EnumType.STRING)
     private PlagueType type;
     @Lob
-    //@NotNull
     private byte[] photo;
-      
-    // relation ManyToMany with Plant entity
-    @ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable (name = "plantPlague", schema = "drplant", joinColumns = @JoinColumn (name = "plant_scienceName", referencedColumnName = "scienceName" ),
-            inverseJoinColumns = @JoinColumn (name = "plague_scienceName", referencedColumnName = "scienceName"))
-   private Set<Plant> plants;
 
+    // relation ManyToMany with Plant entity
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "plantPlague", schema = "drplant", joinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"),
+            inverseJoinColumns = @JoinColumn(name = "plague_scienceName", referencedColumnName = "scienceName"))
+    
+    private Set<Plant> plants;
+
+    /**
+     *
+     * @return type the PlagueType enum
+     */
     public PlagueType getType() {
+        LOGGER.log(Level.INFO, "Plague entity: get type");
         return type;
     }
 
+    /**
+     *
+     * @param type the PlagueType enum to be set
+     */
     public void setType(PlagueType type) {
+        LOGGER.log(Level.INFO, "Plague entity: set type");
         this.type = type;
     }
-
+    
+    /**
+     * 
+     * @return plants the plants of the Plant class that suffers this plague
+     */
     public Set<Plant> getPlants() {
+        LOGGER.log(Level.INFO, "Plague entity: get plants");
         return plants;
     }
 
+    /**
+     * 
+     * @param plants the plants that suffers the plague to be set
+     */
     public void setPlants(Set<Plant> plants) {
+        LOGGER.log(Level.INFO, "Plague entity: set plants");
         this.plants = plants;
     }
-    
-    
+
     /**
-     * 
-     * @return photo
+     *
+     * @return photo the photo of the plague
      */
     public byte[] getPhoto() {
+        LOGGER.log(Level.INFO, "Plague entity: get photo");
         return photo;
     }
+
     /**
-     * 
-     * @param photo the photo to be set 
+     *
+     * @param photo the photo to be set
      */
     public void setPhoto(byte[] photo) {
+        LOGGER.log(Level.INFO, "Plague entity: set photo");
         this.photo = photo;
     }
+
     /**
-     * 
-     * @return the common name
+     *
+     * @return commonName the common name of the plague (if it has)
      */
     public String getCommonName() {
+        LOGGER.log(Level.INFO, "Plague entity: get common name");
         return commonName;
     }
+
     /**
-     * 
+     *
      * @param commonName the common name to be set
      */
     public void setCommonName(String commonName) {
+        LOGGER.log(Level.INFO, "Plague entity: set common name");
         this.commonName = commonName;
     }
+
     /**
-     * 
-     * @return description
+     *
+     * @return description the description of the plague
      */
     public String getDescription() {
+        LOGGER.log(Level.INFO, "Plague entity: get description");
         return description;
     }
+
     /**
-     * 
+     *
      * @param description the description to be set
      */
     public void setDescription(String description) {
+        LOGGER.log(Level.INFO, "Plague entity: set description");
         this.description = description;
     }
+
     /**
-     * 
-     * @return control
+     *
+     * @return control the control of the plague
      */
     public String getControl() {
+         LOGGER.log(Level.INFO, "Plague entity: get control");
         return control;
     }
+
     /**
-     * 
+     *
      * @param control the information of the control to be set
      */
     public void setControl(String control) {
+         LOGGER.log(Level.INFO, "Plague entity: set control");
         this.control = control;
     }
+
     /**
-     * 
-     * @return remedy
+     *
+     * @return remedy the remedy of the plague
      */
     public String getRemedy() {
+         LOGGER.log(Level.INFO, "Plague entity: get remedy");
         return remedy;
     }
+
     /**
-     * 
+     *
      * @param remedy the information of the remedy to be set
      */
     public void setRemedy(String remedy) {
+         LOGGER.log(Level.INFO, "Plague entity: set remedy");
         this.remedy = remedy;
     }
+
     /**
-     * 
-     * @return scient name
+     *
+     * @return scient name the scient name of the plague
      */
     public String getScienceName() {
+         LOGGER.log(Level.INFO, "Plague entity: get science name");
         return scienceName;
     }
+
     /**
-     * 
+     *
      * @param scienceName the scient name to be set
      */
     public void setScienceName(String scienceName) {
+         LOGGER.log(Level.INFO, "Plague entity: set science name");
         this.scienceName = scienceName;
     }
+
     /**
-     * 
-     * @return hash if the scienceName is not null or return 0 if the scienceName is null
+     *
+     * @return hash if the scienceName is not null or return 0 if the
+     * scienceName is null
      */
     @Override
     public int hashCode() {
+         LOGGER.log(Level.INFO, "Plague entity: get hash");
         int hash = 0;
         hash += (scienceName != null ? scienceName.hashCode() : 0);
         return hash;
     }
+
     /**
-     * 
+     *
      * @param object
-     * @return boolean true if the object is plague or return false if the object is not a plague or if the scient name is null
+     * @return boolean true if the object is plague or return false if the
+     * object is not a plague or if the scient name is null
      */
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the scienceName fields are not set
+        LOGGER.log(Level.INFO, "Plague entity: search object plague");
         if (!(object instanceof Plague)) {
             return false;
         }
@@ -223,12 +271,14 @@ public class Plague implements Serializable {
         }
         return true;
     }
+
     /**
-     * 
+     *
      * @return scienceName as String
      */
     @Override
     public String toString() {
+         LOGGER.log(Level.INFO, "Plague entity: get id");
         return "DrPlant.Entity.Plague[ id=" + scienceName + " ]";
-    } 
+    }
 }

@@ -6,13 +6,18 @@
 package DrPlant.service;
 
 import DrPlant.entity.Equipment;
+import DrPlant.enumerations.Use;
+import DrPlant.exceptions.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -22,11 +27,14 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author rubir
+ * @author Eneko
  */
 @Stateless
-@Path("drplant.entity.equipment")
+@Path("equipment")
 public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
+
+    private static final Logger LOGGER
+            = Logger.getLogger("drplantserver");
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
@@ -39,31 +47,132 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Equipment entity) {
-        super.create(entity);
+        try {
+            super.create(entity);
+        } catch (CreateException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+        } catch (UserExistException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+        }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Equipment entity) {
-        super.edit(entity);
+        try {
+            super.edit(entity);
+        } catch (UpdateException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
+        try {
+            super.remove(super.find(id));
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+        } catch (DeleteException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+        }
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Equipment find(@PathParam("id") Long id) {
-        return super.find(id);
+        Equipment equipment = null;
+        try {
+            equipment = super.find(id);
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+        }
+        return equipment;
     }
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    /**
+     * Select by the equipment name in the Database
+     *
+     * @param equipment_name the equipment name
+     * @return The equipment object of the sended name
+     */
+    @GET
+    @Path("equipment_name/{equipment_name}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Equipment> findEquipmentByName(@PathParam("equipment_name") String equipment_name) {
+
+        List<Equipment> equipment;
+        try {
+            equipment = super.findEquipmentByName(equipment_name);
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        }
+        return equipment;
+    }
+
+    /**
+     * Select of the equipments with a specific use
+     * @param uses The use of the equipment
+     * @return A List of the equipment of the specified use
+     */
+    @GET
+    @Path("uses/{uses}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Equipment> findEquipmentByUse(@PathParam("uses") Use uses) {
+
+        List<Equipment> equipment;
+        try {
+            equipment = super.findEquipmentByUse(uses);
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        }
+        return equipment;
+    }
+
+    /**
+     * List all the equipment stored
+     * @return A List with all the equipment
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public List<Equipment> findAllEquipment() {
+
+        List<Equipment> equipment;
+        try {
+            equipment = super.findAllEquipment();
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        }
+        return equipment;
+    }
+
+    /**
+     * Find equipment by price
+     * @param minPrice 
+     * @param maxPrice
+     * @return A List with all the equipment in the price balance
+     */
+    @GET
+    @Path("price/{minPrice}/{maxPrice}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Equipment> findEquipmentByPrice(@PathParam("minPrice") float minPrice, @PathParam("maxPrice") float maxPrice) {
+        List<Equipment> equipment;
+        try {
+            equipment = super.findEquipmentByPrice(minPrice, maxPrice);
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        }
+        return equipment;
+    }
 }

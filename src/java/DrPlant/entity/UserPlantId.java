@@ -6,14 +6,16 @@ package DrPlant.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javax.persistence.Embeddable;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * This entity class encapsulates the ids of the plant and user.
  * <ul>
- *  <li><strong>userId: </strong>The id of the user</li>
- *  <li><strong>scienceName: </strong>The id of the plant</li>
+ * <li><strong>userId: </strong>The id of the user</li>
+ * <li><strong>scienceName: </strong>The id of the plant</li>
  * </ul>
  *
  *
@@ -21,17 +23,22 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class UserPlantId implements Serializable {
+
+    private static final Logger LOGGER
+            = Logger.getLogger("DrPlant.entity.UserPlantId");
+    
     private Integer userId;
     private String scienceName;
 
     public UserPlantId() {
     }
-    
-    public UserPlantId(Integer userId,String scienceName){
-        this.userId=userId;
-        this.scienceName=scienceName;
-    }
 
+    public UserPlantId(Integer userId, String scienceName) {
+        this.userId = userId;
+        this.scienceName = scienceName;
+    }
+    
+    
     public Integer getUserId() {
         return userId;
     }
@@ -47,7 +54,7 @@ public class UserPlantId implements Serializable {
     public void setScienceName(String scienceName) {
         this.scienceName = scienceName;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -79,7 +86,7 @@ public class UserPlantId implements Serializable {
 
     @Override
     public String toString() {
-        return "CustomerAccounId{" + "accountId=" + userId + ", customerId=" + scienceName + '}';
+        return "UserPlantId{" + "userId=" + userId + ", scienceName=" + scienceName + '}';
     }
 
 }

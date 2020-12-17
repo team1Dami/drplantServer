@@ -1,13 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DrPlant.service;
 
 import DrPlant.entity.UserPlant;
 import DrPlant.entity.UserPlantId;
-import java.util.List;
+import DrPlant.exceptions.CreateException;
+import DrPlant.exceptions.DeleteException;
+import DrPlant.exceptions.ReadException;
+import DrPlant.exceptions.UpdateException;
+import DrPlant.exceptions.UserExistException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,8 +28,10 @@ import javax.ws.rs.core.PathSegment;
  * @author rubir
  */
 @Stateless
-@Path("drplant.entity.userplant")
+@Path("userplant")
 public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
+
+    private static final Logger LOGGER = Logger.getLogger("DrPlant.service.EquipmentFacadeREST");
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
@@ -62,20 +65,36 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(UserPlant entity) {
-        super.create(entity);
+        try {
+            super.create(entity);
+        } catch (CreateException ex) {
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
+        } catch (UserExistException ex) {
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
+        }
     }
 
     @PUT
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit( UserPlant entity) {
-        super.edit(entity);
+    public void edit(UserPlant entity) {
+        try {
+            super.edit(entity);
+        } catch (UpdateException ex) {
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
+        }
     }
 
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") PathSegment id) {
         DrPlant.entity.UserPlantId key = getPrimaryKey(id);
-        super.remove(super.find(key));
+        try {
+            super.remove(super.find(key));
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
+        } catch (DeleteException ex) {
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
+        }
     }
 
     @GET
@@ -83,12 +102,17 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public UserPlant find(@PathParam("id") PathSegment id) {
         DrPlant.entity.UserPlantId key = getPrimaryKey(id);
-        return super.find(key);
+        UserPlant userPlant = null;
+        try {
+            userPlant = super.find(key);
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
+        }
+        return userPlant;
     }
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
 }

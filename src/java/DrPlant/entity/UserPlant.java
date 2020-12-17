@@ -1,25 +1,25 @@
-/*
- * 
- *
- */
 package DrPlant.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * This entity class encapsulates the data of each Plague.
  * <ul>
- *  <li><strong>userId:</strong> The user id that is in the embeddable class </li>
- *  <li><strong>scienceName:</strong> The plant id that is in the embeddable class</li>
- *  <li><strong>dateWatering:</strong>  The last wateringo of the plant</li>
+ * <li><strong>userId:</strong> The user id that is in the embeddable class
+ * </li>
+ * <li><strong>scienceName:</strong> The plant id that is in the embeddable
+ * class</li>
+ * <li><strong>dateWatering:</strong> The last wateringo of the plant</li>
  * </ul>
  *
  * @author Ruben
@@ -27,7 +27,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "user_plant", schema = "drplant")
 @XmlRootElement
-public class UserPlant implements Serializable{
+public class UserPlant implements Serializable {
+    
+    private static final Logger LOGGER
+            = Logger.getLogger("DrPlant.entity.UserPlant");
+    
     @EmbeddedId
     private UserPlantId id;
     @MapsId("userId")
@@ -36,9 +40,10 @@ public class UserPlant implements Serializable{
     @MapsId("scienceName")
     @ManyToOne
     private Plant plant;
-    
-    private Timestamp dateWatering;
 
+    private Timestamp dateWatering;
+    
+    @XmlTransient
     public UserPlantId getId() {
         return id;
     }
@@ -46,7 +51,8 @@ public class UserPlant implements Serializable{
     public void setId(UserPlantId id) {
         this.id = id;
     }
-
+    
+    @XmlTransient
     public User getUser() {
         return user;
     }
@@ -54,7 +60,7 @@ public class UserPlant implements Serializable{
     public void setUser(User user) {
         this.user = user;
     }
-
+    //@XmlTransient
     public Plant getPlant() {
         return plant;
     }
@@ -70,6 +76,7 @@ public class UserPlant implements Serializable{
     public void setDateWatering(Timestamp dateWatering) {
         this.dateWatering = dateWatering;
     }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -101,6 +108,6 @@ public class UserPlant implements Serializable{
 
     @Override
     public String toString() {
-        return "CustomerAccount{" + "account=" + user + ", customer=" + plant + '}';
+        return "UserPlant{" + "user=" + user + ", plant=" + plant + '}';
     }
 }
