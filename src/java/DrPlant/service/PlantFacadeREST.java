@@ -40,7 +40,11 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public PlantFacadeREST() {
         super(Plant.class);
     }
-
+    /**
+     * Method to create a new plant
+     * @param plant
+     * @throws UserExistException 
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
@@ -54,7 +58,10 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method to update a plant
+     * @param plant 
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Plant plant) {
@@ -68,7 +75,10 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
 
         }
     }
-
+    /**
+     * Method to delete a plant
+     * @param id 
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") String id) {
@@ -83,7 +93,11 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             Logger.getLogger(PlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /**
+     * Method to get a plant by id
+     * @param id
+     * @return 
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
@@ -97,7 +111,10 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method to get all the plants
+     * @return 
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<Plant> getAllPlants() {
@@ -110,7 +127,11 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method that gets all the plants by plantType
+     * @param plantType
+     * @return 
+     */
     @GET
     @Path("plantType/{plantType}")
     @Produces({MediaType.APPLICATION_XML})
@@ -125,7 +146,11 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         }
 
     }
-
+    /**
+     * Method that gets all the plants by petFriendly
+     * @param petFriendly
+     * @return 
+     */
     @GET
     @Path("petFriendly/{petFriendly}")
     @Produces({MediaType.APPLICATION_XML})
@@ -140,7 +165,11 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
 
         }
     }
-
+    /**
+     * Method that gets all the plants by climate
+     * @param climate
+     * @return 
+     */
     @GET
     @Path("climate/{climate}")
     @Produces({MediaType.APPLICATION_XML})
@@ -154,7 +183,12 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method that gets all the plants by plantType and petFriendly
+     * @param plantType
+     * @param petFriendly
+     * @return 
+     */
     @GET
     @Path("TypeAndPetFriendly/{plantType}/{petFriendly}")
     @Produces({MediaType.APPLICATION_XML})
@@ -168,7 +202,12 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method that gets all the plants by plantType and climate
+     * @param plantType
+     * @param climate
+     * @return 
+     */
     @GET
     @Path("TypeAndClimate/{plantType}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
@@ -182,7 +221,12 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method that gets all the plants by climate and petFriendly
+     * @param petFriendly
+     * @param climate
+     * @return 
+     */
     @GET
     @Path("getPlantByPetFriendlyAndClimate/{petFriendly}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
@@ -196,7 +240,13 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method that gets all the plants by plantType,climate and petFriendly
+     * @param plantType
+     * @param petFriendly
+     * @param climate
+     * @return 
+     */
     @GET
     @Path("getPlantWithAll/{plantType}/{petFriendly}/{climate}")
     @Produces({MediaType.APPLICATION_XML})
@@ -210,7 +260,11 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
             throw new InternalServerErrorException();
         }
     }
-
+    /**
+     * Method that gets all the plants by commonName
+     * @param commonName
+     * @return 
+     */
     @GET
     @Path("getPlantByCommonName/{commonName}")
     @Produces({MediaType.APPLICATION_XML})
