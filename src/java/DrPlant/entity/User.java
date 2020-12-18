@@ -28,40 +28,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- * This entity class encapsulates the data of each Plague.
- * <ul>
- * <li><strong>id:</strong> The id of the user</li>
- * <li><strong>login:</strong> The name of the user in the app</li>
- * <li><strong>email:</strong> The email of the user</li>
- * <li><strong>fullname:</strong> The name and last name of the user</li>
- * <li><strong>status:</strong> It's the plants's status, that can be:
- <ul>
- * <li>enable</li>
- * <li>disable</li>
- * </ul>
- * </li>
- * <li><strong>passwd:</strong> Password of the user</li>
- * <li><strong>lastAccess:</strong> Last time the user login in the app</li>
- * <li><strong>lastPasswdChange:</strong> Last time the user change the password
- * </li>
- * </ul>
- *
- * @author Ruben
- */
-/*
-<user>
-    <logIn>gonza</logIn>
-    <email>gon@gmail.com</email>
-    <fullname>gonzalo</fullname>
-    <status>enable</status>
-    <privilage>admin</privilage>
-    <passwd></passwd>
-    <lastAccess></lastAccess>
-    <lastPasswdChange></lastPasswdChange>
-</user>
 
- */
 @Entity
 @Table(name = "User", schema = "drplant")
 @NamedQueries({
