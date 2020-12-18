@@ -11,11 +11,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -162,7 +164,13 @@ public class UserFacadeREST extends AbstractFacade<User> {
             user = super.findUserByLoginAndPasswd(login, passwd);
             
             return user;
-        } catch (ReadException ex) {
+        }catch (NoResultException ex){
+            LOGGER.log(Level.SEVERE,
+                    "UserRESTful service: Exception login or password not correct",
+                    ex.getMessage());
+            throw new NotAuthorizedException(ex);
+            
+        }catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception reading user",
                     ex.getMessage());
