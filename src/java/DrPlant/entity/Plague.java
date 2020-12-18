@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * This entity class encapsulates the data of each Plague.
@@ -90,6 +91,7 @@ public class Plague implements Serializable {
     private byte[] photo;
 
     // relation ManyToMany with Plant entity
+    //@XmlTransient
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "plantPlague", schema = "drplant", joinColumns = @JoinColumn(name = "plague_scienceName", referencedColumnName = "scienceName"),
             inverseJoinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"))
@@ -118,6 +120,7 @@ public class Plague implements Serializable {
      * 
      * @return plants the plants of the Plant class that suffers this plague
      */
+    @XmlTransient
     public Set<Plant> getPlants() {
         LOGGER.log(Level.INFO, "Plague entity: get plants");
         return plants;
