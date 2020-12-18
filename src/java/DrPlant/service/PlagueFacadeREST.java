@@ -25,7 +25,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * This class encapsulates the methods to do the RESTfull
+ * This class encapsulates the methods to do the RESTfull services of the plague
  *
  * @author Saray
  */
@@ -50,6 +50,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * Method to create a plague
      *
      * @param entity the entity with the information to be set
+     * @throws CreateException and UserExistException
      */
     @POST
     @Override
@@ -71,6 +72,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * Method to update a plague
      *
      * @param entity the entity to be update
+     * @throws UpdateException
      */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
@@ -92,6 +94,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * Method to remove a plague by the id
      *
      * @param id the id of the entity to be remove
+     * @throws ReadException and DeleteException
      */
     @DELETE
     @Path("{id}")
@@ -113,6 +116,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      *
      * @param id the id of the entity to be find
      * @return the entity Plague with the id sended
+     * @throws ReadException
      */
     @GET
     @Path("{id}")
@@ -138,6 +142,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * Method to obtain the entity manager
      *
      * @return em The EntityManager to manage the plague entity
+     * @throws ReadException
      */
     @Override
     protected EntityManager getEntityManager() {
@@ -151,6 +156,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      *
      * @param commonName the common name of the plague
      * @return the plague with the common name sended
+     * @throws ReadException
      */
     @GET
     @Path("findPlagueByCommonName/{commonName}")
@@ -178,6 +184,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      *
      * @param type the type of the plague
      * @return List plagues the list of plagues that have the searched type
+     * @throws ReadException
      */
     @GET
     @Path("findPlaguesByType/{type}")
@@ -204,6 +211,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * Method to obtain all the plagues
      *
      * @return List plagues the list with all the plagues
+     * @throws ReadException
      */
     @GET
     public List<Plague> findAllPlagues() {
