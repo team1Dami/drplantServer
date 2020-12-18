@@ -49,7 +49,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
      */
     @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
 
         try {

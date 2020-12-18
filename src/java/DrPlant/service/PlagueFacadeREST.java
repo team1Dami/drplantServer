@@ -214,6 +214,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
      * @throws ReadException
      */
     @GET
+    @Produces({MediaType.APPLICATION_XML})
     public List<Plague> findAllPlagues() {
 
         LOGGER.log(Level.INFO, "PlagueRESTful service: find all plagues");
