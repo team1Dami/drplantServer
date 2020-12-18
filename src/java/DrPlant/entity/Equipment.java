@@ -25,6 +25,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * * This entity class encapsulates the data of each equipment.
@@ -114,6 +115,7 @@ public class Equipment implements Serializable {
      *
      * @return A list of Users
      */
+    @XmlTransient
     public Set<User> getUsuarios() {
         return usuarios;
     }

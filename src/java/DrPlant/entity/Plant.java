@@ -127,11 +127,13 @@ public class Plant implements Serializable {
 
     private Set<UserPlant> users;
 
+    //@XmlTransient
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "plant_shop", schema = "drplant", joinColumns = @JoinColumn(name = "plant_scienceName", referencedColumnName = "scienceName"),
             inverseJoinColumns = @JoinColumn(name = "shop", referencedColumnName = "id_shop"))
     private Set<Shop> shops;
 
+    @XmlTransient
     @ManyToMany(mappedBy = "plants", fetch = FetchType.EAGER)
     private Set<Plague> plagues;
 
