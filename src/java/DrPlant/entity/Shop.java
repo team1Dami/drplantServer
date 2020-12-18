@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -82,6 +83,7 @@ public class Shop implements Serializable {
      /**
      * relation with the entity Plant N:M
      */
+    @XmlTransient
     @ManyToMany(mappedBy = "shops", fetch = FetchType.EAGER)
     private Set<Plant> plants;
    
