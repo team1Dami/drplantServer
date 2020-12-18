@@ -110,11 +110,10 @@ public class Plant implements Serializable {
     private String description;
     private String cares;
     private float wateringFrequence;
-    //@NotNull
+    
     @Enumerated(EnumType.STRING)
     private PetFriendly petfriendly;
-    //@NotNull
-
+    
     @Enumerated(EnumType.STRING)
     private PlantType plantType;
 
@@ -132,108 +131,212 @@ public class Plant implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "shop", referencedColumnName = "id_shop"))
     private Set<Shop> shops;
 
+    @XmlTransient
     @ManyToMany(mappedBy = "plants", fetch = FetchType.EAGER)
     private Set<Plague> plagues;
 
+    /**
+     *
+     * @return list of plagues
+     */
     public Set<Plague> getPlagues() {
         return plagues;
     }
 
+    /**
+     * Set list of plagues
+     * @param plagues 
+     */
     public void setPlagues(Set<Plague> plagues) {
         this.plagues = plagues;
     }
 
+    /**
+     *
+     * @return science name the science name (id) of the plant
+     */
     public String getScienceName() {
         return scienceName;
     }
 
+    /**
+     * Set the scient name 
+     * @param scienceName
+     */
     public void setScienceName(String scienceName) {
         this.scienceName = scienceName;
     }
 
+    /**
+     *
+     * @return commonName of the plant
+     */
     public String getCommonName() {
         return commonName;
     }
 
+    /**
+     *
+     * @param commonName set common name 
+     */
     public void setCommonName(String commonName) {
         this.commonName = commonName;
     }
 
+    /**
+     *
+     * @return description of the plant
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Set description 
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     *
+     * @return cares of the plant
+     */
     public String getCares() {
         return cares;
     }
 
+    /**
+     * Set cares
+     * @param cares
+     */
     public void setCares(String cares) {
         this.cares = cares;
     }
 
+    /**
+     *
+     * @return wateringFrequence time to water the plant
+     */
     public float getWateringFrequence() {
         return wateringFrequence;
     }
 
+    /**
+     * Set the watering frequence
+     * @param wateringFrequence
+     */
     public void setWateringFrequence(float wateringFrequence) {
         this.wateringFrequence = wateringFrequence;
     }
 
+    /**
+     *
+     * @return petFriendly the PetFrindly enum
+     */
     public PetFriendly getPetfriendly() {
         return petfriendly;
     }
+
+    /**
+     * Set the petfriendly enum
+     * @param petfriendly
+     */
 
     public void setPetfriendly(PetFriendly petfriendly) {
         this.petfriendly = petfriendly;
     }
 
+    /**
+     *
+     * @return plantType enum
+     */
     public PlantType getPlantType() {
         return plantType;
     }
 
+    /**
+     * Set plantType enum
+     * @param plantType
+     */
     public void setPlantType(PlantType plantType) {
         this.plantType = plantType;
     }
 
+    /**
+     *
+     * @return climate Climate enum
+     */
     public Climate getClimate() {
         return climate;
     }
 
+    /**
+     * Set the climate enum
+     * @param climate
+     */
     public void setClimate(Climate climate) {
         this.climate = climate;
     }
 
+    /**
+     *
+     * @return image the byte array 
+     */
     public byte[] getImage() {
         return image;
     }
 
+    /**
+     * Set the array of bytes which is the image
+     * @param image
+     */
     public void setImage(byte[] image) {
         this.image = image;
 
     }
 
+    /**
+     *
+     * @return list of users
+     */
     @XmlTransient
     public Set<UserPlant> getUsers() {
         return users;
     }
 
+    /**
+     * Set list of users
+     * @param users
+     */
     public void setUsers(Set<UserPlant> users) {
         this.users = users;
     }
 
+    /**
+     *
+     * @return list of shops
+     */
     @XmlTransient
     public Set<Shop> getShops() {
         return shops;
     }
 
+    /**
+     * Set list of shops
+     * @param shops
+     */
     public void setShops(Set<Shop> shops) {
         this.shops = shops;
     }
 
+    /**
+     *
+     * @param object
+     * @return boolean true if the object is plague or return false if the
+     * object is not a plant or if the scient name is null
+     */
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Plant)) {
@@ -247,6 +350,11 @@ public class Plant implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return hash if the scienceName is not null or return 0 if the
+     * scienceName is null
+     */
     @Override
     public int hashCode() {
         int hash = 0;
@@ -254,6 +362,10 @@ public class Plant implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @return scienceName as String
+     */
     @Override
     public String toString() {
         return "DrPlant.Entity.Plant[ id=" + scienceName + " ]";

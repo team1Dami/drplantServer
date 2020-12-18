@@ -25,6 +25,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * * This entity class encapsulates the data of each equipment.
@@ -96,15 +97,15 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @return ID
+     * @return ID the ID of the equipment
      */
     public Long getId_equipment() {
         return id_equipment;
     }
 
     /**
-     *
-     * @param id_equipment
+     * Setter of the equipment ID
+     * @param id_equipment 
      */
     public void setId_equipment(Long id_equipment) {
         this.id_equipment = id_equipment;
@@ -114,13 +115,14 @@ public class Equipment implements Serializable {
      *
      * @return A list of Users
      */
+    @XmlTransient
     public Set<User> getUsuarios() {
         return usuarios;
     }
 
     /**
      *
-     * @param usuarios
+     * @param usuarios to set the User list
      */
     public void setUsuarios(Set<User> usuarios) {
         this.usuarios = usuarios;
@@ -128,7 +130,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @return Shop
+     * @return Shop the shop where it is on sale
      */
     public Shop getShop() {
         return shop;
@@ -144,7 +146,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @param equipment_name
+     * @param equipment_name to set the equipment name
      */
     public void setEquipment_name(String equipment_name) {
         this.equipment_name = equipment_name;
@@ -160,7 +162,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @param equipment_description
+     * @param equipment_description to set the equipment description
      */
     public void setEquipment_description(String equipment_description) {
         this.equipment_description = equipment_description;
@@ -176,7 +178,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @param price
+     * @param price to set the equipment price
      */
     public void setPrice(float price) {
         this.price = price;
@@ -193,7 +195,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @param imagen
+     * @param imagen to set the equipment image
      */
     public void setImagen(byte[] imagen) {
 
@@ -203,7 +205,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @return Use the use of the equioment
+     * @return Use the use of the equipment
      */
     public Use getUse() {
         return uses;
@@ -211,7 +213,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @param use
+     * @param uses to set the equipment use
      */
     public void setUse(Use uses) {
         this.uses = uses;
@@ -220,7 +222,8 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @return
+     * @return hash if the ID is not null or return 0 if the
+     * ID is null
      */
     @Override
     public int hashCode() {
@@ -232,7 +235,8 @@ public class Equipment implements Serializable {
     /**
      *
      * @param object
-     * @return
+     * @return boolean true if the object is equipment or return false if the
+     * object is not a equipmen or if the ID is null
      */
     @Override
     public boolean equals(Object object) {
@@ -248,7 +252,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @return
+     * @return ID to String
      */
     @Override
     public String toString() {

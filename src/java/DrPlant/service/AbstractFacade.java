@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DrPlant.service;
 
 import DrPlant.entity.Equipment;
@@ -17,34 +12,65 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- *
- * @author Ruben
+ * This class encapsulate the methods to do the RESTful services
+ * CREATE, READ, UPDATE, DELETE
+ * 
+ * @author Ruben, Saray, Eneko, Gonzalo
  * @param <T>
  */
 public abstract class AbstractFacade<T> {
 
     private Class<T> entityClass;
-
+    
+    /**
+     * Method to set the entity 
+     * @param entityClass the entity to be set
+     */
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
-
+    
+    /**
+     * Method to get the entityManager
+     * @return EntityManager the entityManager
+     */
     protected abstract EntityManager getEntityManager();
-
+    
+    /**
+     * Method to create the entity
+     * @param entity the entity to be created
+     * @throws CreateException if a server error ocurrs in creating action
+     * @throws UserExistException in case of the entity is an user that already exist in the database
+     */
     public void create(T entity) throws CreateException, UserExistException {
         getEntityManager().persist(entity);
     }
-
+    
+    /**
+     * Method to update an entity
+     * @param entity the entity to be updated
+     * @throws UpdateException if a server error ocurrs in the updating action
+     */
     public void edit(T entity) throws UpdateException {
         getEntityManager().merge(entity);
     }
-
+    
+    /**
+     * Method to remove an entity
+     * @param entity the entity to be removed
+     * @throws DeleteException if a server error ocurrs in the deleting action
+     */
     public void remove(T entity) throws DeleteException {
         getEntityManager()
                 .remove(getEntityManager()
                 .merge(entity));
     }
-
+    /**
+     * Method to get the entity that has the id sended
+     * @param id the id to find the entity
+     * @return entity the entity that has the id sended
+     * @throws ReadException if a server error ocurrs during reading action
+     */
     public T find(Object id) throws ReadException {
         return getEntityManager()
                 .find(entityClass, id);
