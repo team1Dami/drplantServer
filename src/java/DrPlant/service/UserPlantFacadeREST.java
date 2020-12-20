@@ -76,7 +76,7 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
      */
     @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML})
     public void create(UserPlant entity) {
         try {
             super.create(entity);
@@ -92,7 +92,7 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
      * @param entity the entity to be edited
      */
     @PUT
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML})
     public void edit(UserPlant entity) {
         try {
             super.edit(entity);
@@ -125,7 +125,7 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
      */
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML})
     public UserPlant find(@PathParam("id") PathSegment id) {
         DrPlant.entity.UserPlantId key = getPrimaryKey(id);
         UserPlant userPlant = null;

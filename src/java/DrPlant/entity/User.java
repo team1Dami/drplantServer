@@ -26,7 +26,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 
 @Entity
@@ -34,12 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "findUserByLoginAndPasswd",
             query = "SELECT u FROM User u WHERE u.login=:login AND u.passwd=:passwd")
-    ,
-    @NamedQuery(name = "changeEmail",
-            query = "UPDATE User u SET u.email=:email WHERE u.login=:login")
-    ,
-    @NamedQuery(name = "changePasswd",
-            query = "UPDATE User u SET u.passwd =:passwd WHERE u.login=:login")
     ,
     @NamedQuery(name = "getAllUsers",
             query = "SELECT u FROM User u "),})
