@@ -9,6 +9,7 @@ import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 
 /**
@@ -40,10 +41,14 @@ public abstract class AbstractFacade<T> {
      * Method to create the entity
      * @param entity the entity to be created
      * @throws CreateException if a server error ocurrs in creating action
-     * @throws UserExistException in case of the entity is an user that already exist in the database
      */
-    public void create(T entity) throws CreateException, UserExistException {
-        getEntityManager().persist(entity);
+    public void create(T entity) throws CreateException {
+        
+        try {
+            getEntityManager().persist(entity);
+        } catch (Exception ex) {
+            throw new CreateException(ex.getMessage());
+        }          
     }
     
     /**
@@ -304,6 +309,20 @@ public abstract class AbstractFacade<T> {
                 .createNamedQuery("findUserByLoginAndPasswd")
                 .setParameter("login", login)
                 .setParameter("passwd", passwd)
+                .getSingleResult();
+    }
+    /**
+     * Method tofind a especific user by the login and the password
+     * @param login
+     * @param passwd
+     * @return
+     * @throws ReadException 
+     */
+    public User findUserByLogin(Object login) {
+        
+        return(User) getEntityManager()
+                .createNamedQuery("findUserByLogin")
+                .setParameter("login", login)
                 .getSingleResult();
     }
 

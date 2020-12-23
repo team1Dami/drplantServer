@@ -10,29 +10,22 @@ package DrPlant.exceptions;
  * @author 2dam
  */
 public class UserExistException extends Exception {
-    
-    
-     private String Login;
-
+       
     /**
      * Method to set the message
      *
      * @param log
      */
     public UserExistException(String log) {
-        this.Login = log;
+        super(log);
     }
 
     /**
      * Method to get the message
      *
-     * @return a string with the information to the user or null
+     * @return a string string with the information
      */
-    public String getMessage() {
-        if (Login == null) {
-            return "El login ya está registrado";
-        } else {
-            return null;
-        }
+    public UserExistException() {      
+        super("El login ya está registrado");  
     }
 }

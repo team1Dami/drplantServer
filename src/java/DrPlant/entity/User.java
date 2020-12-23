@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Set;
 import java.util.logging.Logger;
 import static javax.persistence.CascadeType.ALL;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -35,7 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
             query = "SELECT u FROM User u WHERE u.login=:login AND u.passwd=:passwd")
     ,
     @NamedQuery(name = "getAllUsers",
-            query = "SELECT u FROM User u "),})
+            query = "SELECT u FROM User u "),
+    @NamedQuery(name = "findUserByLogin",
+            query = "SELECT u FROM User u WHERE u.login=:login"),
+        })
 @XmlRootElement
 public class User implements Serializable {
 
@@ -46,6 +50,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(name="login",unique=true)
     private String login;
     private String email;
     private String fullname;

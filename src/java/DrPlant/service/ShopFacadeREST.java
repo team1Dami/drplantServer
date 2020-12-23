@@ -20,7 +20,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- *
+ * This class encapsultaes the data of each shop:
+ * <ul>
+ *  <li><strong>id_shop:</strong> It's the id of the shop. It's the identifier</li>
+ *  <li><strong>shop_name:</strong> It's the shop's name</li>
+ *  <li><strong>url:</strong> It's the shop's url</li>
+ *  <li><strong>location:</strong> It's the shop's location</li>
+ *  <li><strong>commission:</strong> It's the commission that we receive of the shop</li>
+ *  <li><strong>email:</strong> It's the shop's email</li>
+ *  <li><strong>plants:</strong> Collection of objects of the Plant class that have to sold</li>
+ *  <li><strong>equipments:</strong> Collection of objects of the Equipment class that have to sold</li>
+ * </ul>
+ * 
  * @author Gonza
  */ 
 @Stateless
@@ -50,7 +61,7 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
             super.create(entity);
             LOGGER.log(Level.INFO, "ShopRESTful service: create Shop");
 
-        } catch (CreateException | UserExistException ex) {
+        } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE,
                     "ShopRESTful service: Exception creating Shop",
                     ex.getMessage());
