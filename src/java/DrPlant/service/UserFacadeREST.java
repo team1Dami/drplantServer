@@ -1,11 +1,14 @@
 package DrPlant.service;
 
+import DrPlant.encryption.Hash;
+import DrPlant.encryption.Privada;
 import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
+import DrPlant.passwdGenerator.PasswdGenerator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author rubir
+ * @author Ruben
  */
 @Stateless
 @Path("user")
@@ -53,7 +56,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public void create(User entity) {
 
         try {
-
+            //entity.setPasswd(Privada.descifrarTexto(entity.getPasswd()));
             super.create(entity);
             LOGGER.log(Level.INFO, "UserRESTful service: create ");
 
@@ -178,7 +181,23 @@ public class UserFacadeREST extends AbstractFacade<User> {
         }
     }
      
-
+    
+    @PUT
+    @Path("newPasswd/{user}")
+    public void newPasswd(@PathParam("login") String login){
+        LOGGER.log(Level.INFO,"UserRESTfull service:newPasswd");
+        User user =null;
+        try {
+            user = super.find(login);
+        } catch (ReadException ex) {
+            Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(user!=null){
+            Hash hash=new Hash();
+            user.setPasswd(hash.cifrarTexto(PasswdGenerator.getPassword(user.getEmail())));
+        }
+    }
+   
     @Override
     protected EntityManager getEntityManager() {
         return em;

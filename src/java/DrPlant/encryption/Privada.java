@@ -9,7 +9,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
 import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Arrays;
 
 import javax.crypto.Cipher;
@@ -46,134 +49,29 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class Privada {
 
-    // Fíjate que el String es de exactamente 16 bytes
-    private static byte[] salt = "esta es la salt!".getBytes();
-
-    /**
-     * Cifra un texto con AES, modo CBC y padding PKCS5Padding (simétrica) y lo
-     * retorna
-     *
-     * @param clave La clave del usuario
-     * @param mensaje El mensaje a cifrar
-     * @return Mensaje cifrado
-     */
-    public String cifrarTexto(String clave, String mensaje) {
-        String ret = null;
-        KeySpec keySpec = null;
-        SecretKeyFactory secretKeyFactory = null;
+    private byte[] descifrarTexto(byte[] mensaje) {
+        byte[] decodedMessage = null;
         try {
+            // Cargamos la clave privada
+            byte fileKey[] = fileReader("Public");
+            System.out.println("Tamaño -> " + fileKey.length + " bytes");
 
-            // Obtenemos el keySpec
-            keySpec = new PBEKeySpec(clave.toCharArray(), salt, 65536, 128); // AES-128
-
-            // Obtenemos una instancide de SecretKeyFactory con el algoritmo "PBKDF2WithHmacSHA1"
-            secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            // Generamos la clave
-            byte[] key = secretKeyFactory.generateSecret(keySpec).getEncoded();
-
-            // Creamos un SecretKey usando la clave + salt
-            SecretKey privateKey = new SecretKeySpec(key, 0, key.length, "AES");
-
-            // Obtenemos una instancide de Cipher con el algoritmos que vamos a usar "AES/CBC/PKCS5Padding"
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-
-            // Iniciamos el Cipher en ENCRYPT_MODE y le pasamos la clave privada
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            // Le decimos que cifre (método doFinal())
-            byte[] encodedMessage = cipher.doFinal(mensaje.getBytes());
-
-            // Obtenemos el vector CBC del Cipher (método getIV())
-            byte[] iv = cipher.getIV();
-
-            // Guardamos el mensaje codificado: IV (16 bytes) + Mensaje
-            byte[] combined = concatArrays(iv, encodedMessage);
-
-            // Escribimos el fichero cifrado 
-            fileWriter(/*"C:\\Users\\text.txt"*/, combined);
-
-            // Retornamos el texto cifrado
-            ret = new String(encodedMessage);
-
+            // Obtenemos una instancia de KeyFactory, algoritmo RSA
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            // Creamos un nuevo PKCS8EncodedKeySpec del fileKey
+            PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(fileKey);
+            // Generamos la public key con el keyFactory
+            PrivateKey privateKey = keyFactory.generatePrivate(pKCS8EncodedKeySpec);
+            // Obtenemos una instancia del Cipher "RSA/ECB/PKCS1Padding"
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            // Iniciamos el cipher (DECRYPT_MODE)
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            // El método doFinal nos descifra el mensaje
+            decodedMessage = cipher.doFinal(mensaje);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ret;
-    }
-
-    /**
-     * Descifra un texto con AES, modo CBC y padding PKCS5Padding (simétrica) y
-     * lo retorna
-     *
-     * @param clave La clave del usuario
-     */
-    private String descifrarTexto(String clave) {
-        String ret = null;
-
-        // Fichero leído
-        byte[] fileContent = fileReader(/*"C:\\Users\\text.txt"*/); // Path del fichero EjemploAES.dat
-        KeySpec keySpec = null;
-        SecretKeyFactory secretKeyFactory = null;
-        try {
-            // Obtenemos el keySpec
-            keySpec = new PBEKeySpec(clave.toCharArray(), salt, 65536, 128); // AES-128
-
-            // Obtenemos una instancide de SecretKeyFactory con el algoritmo "PBKDF2WithHmacSHA1"
-            secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-            // Generamos la clave
-            byte[] key = secretKeyFactory.generateSecret(keySpec).getEncoded();
-
-            // Creamos un SecretKey usando la clave + salt
-            SecretKey privateKey = new SecretKeySpec(key, 0, key.length, "AES");
-
-            // Obtenemos una instancide de Cipher con el algoritmos que vamos a usar "AES/CBC/PKCS5Padding"
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-
-            // Iniciamos el Cipher en ENCRYPT_MODE y le pasamos la clave privada
-          //  cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            // Leemos el fichero codificado 
-            IvParameterSpec ivParam = new IvParameterSpec(Arrays.copyOfRange(fileContent, 0, 16));
-
-            // Iniciamos el Cipher en ENCRYPT_MODE y le pasamos la clave privada y el ivParam
-            cipher.init(Cipher.DECRYPT_MODE, privateKey, ivParam);
-
-            // Le decimos que descifre
-            byte[] decodedMessage = cipher.doFinal(Arrays.copyOfRange(fileContent, 16, fileContent.length));
-
-            // Texto descifrado
-            ret = new String(decodedMessage);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
-
-    /**
-     * Retorna una concatenaci�n de ambos arrays
-     *
-     * @param array1
-     * @param array2
-     * @return Concatenaci�n de ambos arrays
-     */
-    private byte[] concatArrays(byte[] array1, byte[] array2) {
-        byte[] ret = new byte[array1.length + array2.length];
-        System.arraycopy(array1, 0, ret, 0, array1.length);
-        System.arraycopy(array2, 0, ret, array1.length, array2.length);
-        return ret;
-    }
-
-    /**
-     * Escribe un fichero
-     *
-     * @param path Path del fichero
-     * @param text Texto a escibir
-     */
-    private void fileWriter(String path, byte[] text) {
-        try (FileOutputStream fos = new FileOutputStream(path)) {
-            fos.write(text);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return decodedMessage;
     }
 
     /**
@@ -191,14 +89,5 @@ public class Privada {
             e.printStackTrace();
         }
         return ret;
-    }
-
-    public static void main(String[] args) {
-        Privada ejemploAES = new Privada();
-        String mensajeCifrado = ejemploAES.cifrarTexto("Clave", "Mensaje super secreto");
-        System.out.println("Cifrado! -> " + mensajeCifrado);
-        System.out.println("-----------");
-        System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("Clave"));
-        System.out.println("-----------");
     }
 }

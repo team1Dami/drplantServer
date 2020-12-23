@@ -53,6 +53,7 @@ public abstract class AbstractFacade<T> {
      */
     public void edit(T entity) throws UpdateException {
         getEntityManager().merge(entity);
+        
     }
     
     /**

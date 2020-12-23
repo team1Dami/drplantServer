@@ -27,8 +27,8 @@ public class Hash {
      * 
      * @param texto
      */
-    public void cifrarTexto(String texto) {
-        MessageDigest messageDigest;
+    public String cifrarTexto(String texto) {
+        MessageDigest messageDigest = null;
         try {
             // Obtén una instancia de MessageDigest que usa SHA
             messageDigest = MessageDigest.getInstance("SHA");
@@ -49,6 +49,7 @@ public class Hash {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+        return Hexadecimal(messageDigest.digest());
     }
 
     // Convierte Array de Bytes en hexadecimal
