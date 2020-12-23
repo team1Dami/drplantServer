@@ -52,9 +52,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
 
-        try {
+        try {   
 
-            super.create(entity);
+            super.create(entity); 
             LOGGER.log(Level.INFO, "UserRESTful service: create ");
 
         } catch (CreateException | UserExistException ex) {
