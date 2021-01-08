@@ -79,25 +79,25 @@ public class User implements Serializable {
      *
      * @return the privilege of the user
      */
-    public String getPrivilage() {
-        return privilege.name();
+    public UserPrivilege getPrivilege() {
+        return privilege;
     }
 
     /**
      * This method set the privilege of the user
      *
-     * @param privilage
+     * @param privilege
      */
-    public void setPrivilage(UserPrivilege privilage) {
-        this.privilege = privilage;
+    public void setPrivilege(UserPrivilege privilege) {
+        this.privilege = privilege;
     }
 
     /**
      *
      * @return the status of the user
      */
-    public String getStatus() {
-        return status.name();
+    public Userstatus getStatus() {
+        return status;
     }
 
     /**
@@ -105,12 +105,8 @@ public class User implements Serializable {
      *
      * @param status
      */
-    public void setStatus(int status) {
-        if (status == 1) {
-            this.status = Userstatus.ENABLE;
-        } else {
-            this.status = Userstatus.DISABLE;
-        }
+    public void setStatus(Userstatus status) {        
+        this.status = status;       
     }
 
     /**
@@ -263,22 +259,6 @@ public class User implements Serializable {
      */
     public void setEquipments(Set<Equipment> equipments) {
         this.equipments = equipments;
-    }
-
-    /**
-     * Get privilege
-     * @return privilege
-     */
-    public UserPrivilege getPrivilege() {
-        return privilege;
-    }
-
-    /**
-     * Set user´s privilege
-     * @param privilege 
-     */
-    public void setPrivilege(UserPrivilege privilege) {
-        this.privilege = privilege;
     }
 
     
