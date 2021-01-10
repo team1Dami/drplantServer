@@ -54,8 +54,6 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             super.create(entity);
         } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
-        } catch (UserExistException ex) {
-            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
 /**

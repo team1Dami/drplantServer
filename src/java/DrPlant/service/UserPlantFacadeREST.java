@@ -82,9 +82,7 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
             super.create(entity);
         } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
-        } catch (UserExistException ex) {
-            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
-        }
+        } 
     }
 
     /**

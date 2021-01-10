@@ -49,7 +49,7 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class Privada {
 
-    private byte[] descifrarTexto(byte[] mensaje) {
+    public byte[] descifrarTexto(byte[] mensaje) {
         byte[] decodedMessage = null;
         try {
             // Cargamos la clave privada
@@ -80,7 +80,7 @@ public class Privada {
      * @param path Path del fichero
      * @return El texto del fichero
      */
-    private byte[] fileReader(String path) {
+    public byte[] fileReader(String path) {
         byte ret[] = null;
         File file = new File(path);
         try {

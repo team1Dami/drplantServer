@@ -1,7 +1,6 @@
 package DrPlant.service;
 
-import DrPlant.encryption.Hash;
-import DrPlant.encryption.Privada;
+import DrPlant.encryption.*;
 import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -38,7 +38,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     private static final Logger LOGGER
             = Logger.getLogger("DrPlant.service.UserFacadeREST");
-    
+
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
 
@@ -48,7 +48,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to create a new user
-     * @param entity 
+     *
+     * @param entity
      */
     @POST
     @Override
@@ -56,21 +57,43 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public void create(User entity) {
 
         try {
-            //entity.setPasswd(Privada.descifrarTexto(entity.getPasswd()));
-            super.create(entity);
+
+            User user = null;
+            user = super.findUserByLogin(entity.getLogin());
+
+            if (user != null) {
+                throw new UserExistException();
+            } else {
+                entity.setPasswd(hash(descifrar(entity.getPasswd())));
+                create(entity);
+                LOGGER.log(Level.INFO, "UserRESTful service: create ");
+            }
+        } catch (UserExistException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "UserRESTful service: Exception user already exists", ex.getMessage());
+            throw new InternalServerErrorException(ex.getMessage());
+
+        } catch (Exception ex) {
+            // throw new CreateException(ex2.getMessage());
+            ex.getMessage();
+        }
+        /*try {
+            
+            create(entity);
             LOGGER.log(Level.INFO, "UserRESTful service: create ");
 
-        } catch (CreateException | UserExistException ex) {
+        } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception creating user",
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
-        }
+        }*/
     }
 
     /**
      * Method to delete a especific user by the id
-     * @param entity 
+     *
+     * @param entity
      */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
@@ -88,8 +111,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to delete a especific user by the id
+     *
      * @param id
-     * @throws ReadException 
+     * @throws ReadException
      */
     @DELETE
     @Path("{id}")
@@ -107,8 +131,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to find a especific user by the id
+     *
      * @param id
-     * @return 
+     * @return
      */
     @GET
     @Path("{id}")
@@ -131,7 +156,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to list every user in the database
-     * @return 
+     *
+     * @return
      */
     @GET
     @Produces({MediaType.APPLICATION_XML})
@@ -151,10 +177,11 @@ public class UserFacadeREST extends AbstractFacade<User> {
     }
 
     /**
-     * Method to find a especific user by the login and the password 
+     * Method to find a especific user by the login and the password
+     *
      * @param login
      * @param passwd
-     * @return 
+     * @return
      */
     @GET
     @Path("login/{login}/{passwd}")
@@ -163,44 +190,36 @@ public class UserFacadeREST extends AbstractFacade<User> {
         User user;
         try {
 
+            passwd=hash(descifrar(passwd));
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
-            
+
             return user;
-        }catch (NoResultException ex){
+        } catch (NoResultException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception login or password not correct",
                     ex.getMessage());
             throw new NotAuthorizedException(ex);
-            
-        }catch (ReadException ex) {
+
+        } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception reading user",
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
     }
-     
-    
-    @PUT
-    @Path("newPasswd/{user}")
-    public void newPasswd(@PathParam("login") String login){
-        LOGGER.log(Level.INFO,"UserRESTfull service:newPasswd");
-        User user =null;
-        try {
-            user = super.find(login);
-        } catch (ReadException ex) {
-            Logger.getLogger(UserFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if(user!=null){
-            Hash hash=new Hash();
-            user.setPasswd(hash.cifrarTexto(PasswdGenerator.getPassword(user.getEmail())));
-        }
-    }
-   
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
+    private String descifrar(String cypher){
+        Privada privada= new Privada(); 
+        return privada.descifrarTexto(cypher.getBytes()).toString();
+    }
+    
+    private String hash(String passw){
+        return Hash.cifrarTexto(passw);
+    }
 }

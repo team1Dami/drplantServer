@@ -61,7 +61,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
         try {
             super.create(entity);
-        } catch (CreateException | UserExistException ex) {
+        } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
 
             throw new InternalServerErrorException(ex);

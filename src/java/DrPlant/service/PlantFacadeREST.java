@@ -48,7 +48,7 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
-    public void create(Plant plant) throws UserExistException {
+    public void create(Plant plant) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: create: ", plant);
             super.create(plant);

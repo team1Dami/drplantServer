@@ -27,7 +27,7 @@ public class Hash {
      * 
      * @param texto
      */
-    public String cifrarTexto(String texto) {
+    public static String cifrarTexto(String texto) {
         MessageDigest messageDigest = null;
         try {
             // Obtén una instancia de MessageDigest que usa SHA
@@ -62,10 +62,5 @@ public class Hash {
             HEX += h;
         }
         return HEX.toUpperCase();
-    }
-
-    public static void main(String[] args) {
-        Hash ejemploSHA = new Hash();
-        ejemploSHA.cifrarTexto("Mensaje que se va a encriptar");
     }
 }
