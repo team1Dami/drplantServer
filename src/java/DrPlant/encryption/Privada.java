@@ -48,13 +48,12 @@ import javax.crypto.spec.SecretKeySpec;
  * <u>necesitas guardar</u> la clave y su salt para poder cifrar y descifrar.
  */
 public class Privada {
-
-    public byte[] descifrarTexto(byte[] mensaje) {
+private byte[] descifrarTexto(byte[] mensaje) {
         byte[] decodedMessage = null;
         try {
             // Cargamos la clave privada
-            byte fileKey[] = fileReader("Public");
-            System.out.println("Tamaño -> " + fileKey.length + " bytes");
+           byte fileKey[] = fileReader("./src/publica/Private");
+           System.out.println("Tamaño -> " + fileKey.length + " bytes");
 
             // Obtenemos una instancia de KeyFactory, algoritmo RSA
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
