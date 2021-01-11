@@ -48,7 +48,7 @@ import javax.crypto.spec.SecretKeySpec;
  * <u>necesitas guardar</u> la clave y su salt para poder cifrar y descifrar.
  */
 public class Privada {
-private byte[] descifrarTexto(byte[] mensaje) {
+public byte[] descifrarTexto(byte[] mensaje) {
         byte[] decodedMessage = null;
         try {
             // Cargamos la clave privada
