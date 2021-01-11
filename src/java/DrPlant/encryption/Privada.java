@@ -52,7 +52,7 @@ public byte[] descifrarTexto(byte[] mensaje) {
         byte[] decodedMessage = null;
         try {
             // Cargamos la clave privada
-           byte fileKey[] = fileReader("./src/publica/Private");
+           byte fileKey[] = fileReader("./src/java/DrPlant/encryption/Private");
            System.out.println("Tamaño -> " + fileKey.length + " bytes");
 
             // Obtenemos una instancia de KeyFactory, algoritmo RSA
