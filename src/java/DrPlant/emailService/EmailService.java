@@ -111,12 +111,18 @@ public class EmailService {
         Transport.send(message);
     }
 
-    public static void main(String[] args) {
-        String nuevaContraseña = "abcd*1234";
+    /**
+     * Method that send to thge user e-mail his/her new password.
+     *
+     * @param nuevaContraseña The new password of the user.
+     * @param mail The user e-mail where the password would be elivered.
+     */
+    public static void mandarEmail(String nuevaContraseña, String mail) {
+        //String nuevaContraseña = contraseña;
         EmailService emailService = new EmailService("2damigi1@gmail.com",
                 "serv1doR", "smtp.gmail.com", 465);
         try {
-            emailService.sendMail("enekomgbo@gmail.com", "DrPlant S.L.",
+            emailService.sendMail(mail, "DrPlant S.L.",
                     "<!DOCTYPE html>\n"
                     + "<html>\n"
                     + "    <head>\n"
@@ -128,7 +134,7 @@ public class EmailService {
                     + "                background-color: lightgray;               \n"
                     + "                padding: 5% 5% 5% 5%;\n"
                     + "                text-align: center;\n"
-                    + "                display: block;"                                       
+                    + "                display: block;"
                     + "            }\n"
                     + "            body{\n"
                     + "                padding-left: 5%;\n"

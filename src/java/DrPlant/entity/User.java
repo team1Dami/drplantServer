@@ -26,7 +26,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * This entity class encapsulates the data of each Plague.
@@ -73,6 +72,9 @@ import javax.xml.bind.annotation.XmlTransient;
     ,
     @NamedQuery(name = "changePasswd",
             query = "UPDATE User u SET u.passwd =:passwd WHERE u.login=:login")
+    ,
+    @NamedQuery(name = "validateEmail",
+            query = "SELECT u.email FROM User u WHERE u.email = :email")
     ,
     @NamedQuery(name = "getAllUsers",
             query = "SELECT u FROM User u "),})

@@ -18,6 +18,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -178,7 +179,31 @@ public class UserFacadeREST extends AbstractFacade<User> {
         }
     }
      
+    /**
+     * Method to view if the introduced e-mail is in the database
+     * @param email
+     * @return 
+     */
+    @GET
+    @Path("email/{email}")
+    @Produces({MediaType.APPLICATION_XML})
+    public String validateEmail(@PathParam("email") String email) {
 
+        String userEmail = null;
+        try {
+            userEmail = super.validateEmail(email);
+            LOGGER.log(Level.INFO, "UserRESTful service: validate email");
+
+        } catch (ReadException | NoResultException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "UserRESTful service: Exception reading user by email",
+                    ex.getMessage());
+            throw new NotFoundException(ex);
+        }
+        DrPlant.emailService.EmailService.mandarEmail(DrPlant.emailService.passwordGenerator.getPassword(), userEmail);
+        return userEmail;
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;

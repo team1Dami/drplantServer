@@ -15,6 +15,7 @@ import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -321,5 +322,18 @@ public abstract class AbstractFacade<T> {
         return getEntityManager()
                 .createNamedQuery("findAllPlagues")
                 .getResultList();
+    }
+
+    /**
+     * Method to view if the introduced e-mail is in the database
+     * @param email
+     * @return
+     * @throws ReadException 
+     */
+    public String validateEmail(String email) throws ReadException, NoResultException{
+        return (String) getEntityManager()
+                .createNamedQuery("validateEmail")
+                .setParameter("email", email)
+                .getSingleResult();
     }
 }
