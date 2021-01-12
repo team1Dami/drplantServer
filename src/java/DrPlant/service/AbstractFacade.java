@@ -84,6 +84,7 @@ public abstract class AbstractFacade<T> {
                 .createNamedQuery("findAllEquipment")
                 .getResultList();
     }
+    
     /**
      * Find equipment by price
      * @param minPrice 
@@ -91,13 +92,14 @@ public abstract class AbstractFacade<T> {
      * @return A List with all the equipment in the price balance
      * @throws DrPlant.exceptions.ReadException
      */
+    /*
     public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException {
         return getEntityManager()
                 .createNamedQuery("findEquipmentByPrice")
                 .setParameter("min_price", minPrice)
                 .setParameter("max_price", maxPrice)
                 .getResultList();
-    }
+    }*/
 
     /**
      * Search all the plants in the database

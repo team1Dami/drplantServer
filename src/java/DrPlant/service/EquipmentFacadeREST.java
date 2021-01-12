@@ -162,7 +162,7 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
      * @param maxPrice
      * @return A List with all the equipment in the price balance
      */
-    @GET
+    /*@GET
     @Path("price/{minPrice}/{maxPrice}")
     @Produces({MediaType.APPLICATION_XML})
     public List<Equipment> findEquipmentByPrice(@PathParam("minPrice") float minPrice, @PathParam("maxPrice") float maxPrice) {
@@ -174,5 +174,5 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             throw new InternalServerErrorException(ex);
         }
         return equipment;
-    }
+    }*/
 }
