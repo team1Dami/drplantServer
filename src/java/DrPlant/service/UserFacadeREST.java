@@ -1,11 +1,13 @@
 package DrPlant.service;
 
+import DrPlant.encryption.PrivadaEmail;
 import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
+import java.io.FileReader;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +38,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     private static final Logger LOGGER
             = Logger.getLogger("DrPlant.service.UserFacadeREST");
-    
+
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
 
@@ -46,7 +48,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to create a new user
-     * @param entity 
+     *
+     * @param entity
      */
     @POST
     @Override
@@ -68,7 +71,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to delete a especific user by the id
-     * @param entity 
+     *
+     * @param entity
      */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
@@ -86,8 +90,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to delete a especific user by the id
+     *
      * @param id
-     * @throws ReadException 
+     * @throws ReadException
      */
     @DELETE
     @Path("{id}")
@@ -105,8 +110,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to find a especific user by the id
+     *
      * @param id
-     * @return 
+     * @return
      */
     @GET
     @Path("{id}")
@@ -129,7 +135,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
     /**
      * Method to list every user in the database
-     * @return 
+     *
+     * @return
      */
     @GET
     @Produces({MediaType.APPLICATION_XML})
@@ -149,10 +156,11 @@ public class UserFacadeREST extends AbstractFacade<User> {
     }
 
     /**
-     * Method to find a especific user by the login and the password 
+     * Method to find a especific user by the login and the password
+     *
      * @param login
      * @param passwd
-     * @return 
+     * @return
      */
     @GET
     @Path("login/{login}/{passwd}")
@@ -163,32 +171,34 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
-            
+
             return user;
-        }catch (NoResultException ex){
+        } catch (NoResultException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception login or password not correct",
                     ex.getMessage());
             throw new NotAuthorizedException(ex);
-            
-        }catch (ReadException ex) {
+
+        } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception reading user",
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
     }
-     
+
     /**
      * Method to view if the introduced e-mail is in the database
+     *
      * @param email
-     * @return 
+     * @return
      */
     @GET
     @Path("email/{email}")
     @Produces({MediaType.APPLICATION_XML})
     public String validateEmail(@PathParam("email") String email) {
 
+        //User u;
         String userEmail = null;
         try {
             userEmail = super.validateEmail(email);
@@ -200,10 +210,21 @@ public class UserFacadeREST extends AbstractFacade<User> {
                     ex.getMessage());
             throw new NotFoundException(ex);
         }
-        DrPlant.emailService.EmailService.mandarEmail(DrPlant.emailService.passwordGenerator.getPassword(), userEmail);
+
+        //PrivadaEmail priv = null;
+        String nuevaContraseña;
+        nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
+        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, userEmail);
+        /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
+        String str = new String(bytes);
+        nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
+        super.changePassword(nuevaContraseña, userEmail);
+        
+        
         return userEmail;
     }
     
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

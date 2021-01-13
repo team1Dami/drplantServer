@@ -76,6 +76,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "validateEmail",
             query = "SELECT u.email FROM User u WHERE u.email = :email")
     ,
+    @NamedQuery(name = "changePassword",
+            query = "UPDATE User u SET u.passwd =:contraseña WHERE u.email=:email")
+    ,
     @NamedQuery(name = "getAllUsers",
             query = "SELECT u FROM User u "),})
 @XmlRootElement

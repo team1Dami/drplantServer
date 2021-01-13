@@ -336,4 +336,12 @@ public abstract class AbstractFacade<T> {
                 .setParameter("email", email)
                 .getSingleResult();
     }
+    
+    public void changePassword (String nuevaContraseña, String email){
+        getEntityManager()
+                .createNamedQuery("changePassword")
+                .setParameter("contraseña", nuevaContraseña)
+                .setParameter("email", email)
+                .executeUpdate();
+    }
 }
