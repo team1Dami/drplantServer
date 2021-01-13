@@ -188,10 +188,11 @@ public class UserFacadeREST extends AbstractFacade<User> {
     }
 
     /**
-     * Method to view if the introduced e-mail is in the database
+     * Method to view if the introduced e-mail is in the database and
+     * in case it is in it will change it and send it to the user via e-mail
      *
      * @param email
-     * @return
+     * @return It returns a User with all his information
      */
     @GET
     @Path("email/{email}")
@@ -218,8 +219,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
         /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
         String str = new String(bytes);
         nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
-        super.changePassword(nuevaContraseña, u.getEmail().toString());
-        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail().toString());
+        super.changePassword(nuevaContraseña, u.getEmail());
+        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
         
         return u;
     }
