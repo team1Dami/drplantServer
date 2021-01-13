@@ -1,6 +1,7 @@
 package DrPlant.service;
 
 import DrPlant.encryption.*;
+import static DrPlant.encryption.hexToByte.hexToByte;
 import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
@@ -64,7 +65,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
             if (user != null) {
                 throw new UserExistException();
             } else {
-                entity.setPasswd(hash(descifrar(entity.getPasswd())));
+                entity.setPasswd(hash(descifrar(entity.getPasswd().getBytes())));
                 create(entity);
                 LOGGER.log(Level.INFO, "UserRESTful service: create ");
             }
@@ -189,8 +190,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
         User user;
         try {
-
-            passwd=hash(descifrar(passwd));
+            
+            //passwd=hash(descifrar(hexToByte(passwd)));
+           // passwd=descifrar(hexToByte(passwd));
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
 
@@ -214,9 +216,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
         return em;
     }
 
-    private String descifrar(String cypher){
+    private String descifrar(byte[] cypher){
         Privada privada= new Privada(); 
-        return privada.descifrarTexto(cypher.getBytes()).toString();
+        return privada.descifrarTexto(cypher).toString();
     }
     
     private String hash(String passw){
