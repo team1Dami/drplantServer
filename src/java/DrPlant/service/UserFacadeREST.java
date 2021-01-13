@@ -30,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author rubir
+ * @author rubir, Eneko
  */
 @Stateless
 @Path("user")
@@ -196,12 +196,12 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @GET
     @Path("email/{email}")
     @Produces({MediaType.APPLICATION_XML})
-    public String validateEmail(@PathParam("email") String email) {
+    public User validateEmail(@PathParam("email") String email) {
 
-        //User u;
-        String userEmail = null;
+        User u;
+        //String userEmail = null;
         try {
-            userEmail = super.validateEmail(email);
+            u = super.validateEmail(email);
             LOGGER.log(Level.INFO, "UserRESTful service: validate email");
 
         } catch (ReadException | NoResultException ex) {
@@ -214,14 +214,14 @@ public class UserFacadeREST extends AbstractFacade<User> {
         //PrivadaEmail priv = null;
         String nuevaContraseña;
         nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
-        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, userEmail);
+        
         /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
         String str = new String(bytes);
         nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
-        super.changePassword(nuevaContraseña, userEmail);
+        super.changePassword(nuevaContraseña, u.getEmail().toString());
+        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail().toString());
         
-        
-        return userEmail;
+        return u;
     }
     
 

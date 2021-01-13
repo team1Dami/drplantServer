@@ -152,9 +152,7 @@ public class EmailService {
                     + "    </body>\n"
                     + "</html>\n"
                     + "");
-            System.out.println("Ok, mail sent!");
         } catch (MessagingException e) {
-            System.out.println("Doh! " + e.getMessage());
         }
     }
 }

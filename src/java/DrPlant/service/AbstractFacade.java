@@ -327,16 +327,21 @@ public abstract class AbstractFacade<T> {
     /**
      * Method to view if the introduced e-mail is in the database
      * @param email
-     * @return
-     * @throws ReadException 
+     * @return The e-mail that is on the DB
+     * @throws DrPlant.exceptions.ReadException
+     * @throws NoResultException 
      */
-    public String validateEmail(String email) throws ReadException, NoResultException{
-        return (String) getEntityManager()
+    public User validateEmail(String email) throws ReadException, NoResultException{
+        return (User) getEntityManager()
                 .createNamedQuery("validateEmail")
                 .setParameter("email", email)
                 .getSingleResult();
     }
-    
+    /**
+     * Method to change the new password in the DB
+     * @param nuevaContraseña The new password set and sent
+     * @param email  The user e-mail to search the user
+     */
     public void changePassword (String nuevaContraseña, String email){
         getEntityManager()
                 .createNamedQuery("changePassword")

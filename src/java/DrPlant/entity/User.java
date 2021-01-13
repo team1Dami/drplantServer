@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * </li>
  * </ul>
  *
- * @author Ruben
+ * @author Ruben, Eneko
  */
 /*
 <user>
@@ -74,7 +74,7 @@ import javax.xml.bind.annotation.XmlRootElement;
             query = "UPDATE User u SET u.passwd =:passwd WHERE u.login=:login")
     ,
     @NamedQuery(name = "validateEmail",
-            query = "SELECT u.email FROM User u WHERE u.email = :email")
+            query = "SELECT u FROM User u WHERE u.email = :email")
     ,
     @NamedQuery(name = "changePassword",
             query = "UPDATE User u SET u.passwd =:contraseña WHERE u.email=:email")
