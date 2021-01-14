@@ -58,33 +58,14 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
             User user = null;
             user = super.findUserByLogin(entity.getLogin());
-
-            if (user != null) {
-                throw new UserExistException();
-            } else {
-                create(entity);
-                LOGGER.log(Level.INFO, "UserRESTful service: create ");
-            }
-        } catch (UserExistException ex) {
+           
+            create(entity);
+            LOGGER.log(Level.INFO, "UserRESTful service: create ");
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE,
                     "UserRESTful service: Exception user already exists", ex.getMessage());
             throw new InternalServerErrorException(ex.getMessage());
-
-        } catch (Exception ex) {
-            // throw new CreateException(ex2.getMessage());
-            ex.getMessage();
         }
-        /*try {
-            
-            create(entity);
-            LOGGER.log(Level.INFO, "UserRESTful service: create ");
-
-        } catch (CreateException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception creating user",
-                    ex.getMessage());
-            throw new InternalServerErrorException(ex);
-        }*/
     }
 
     /**
@@ -186,7 +167,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
         User user;
         try {
-
+              System.out.println("UserRESTful service: findUserByLoginAndPasswd User");
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
 
