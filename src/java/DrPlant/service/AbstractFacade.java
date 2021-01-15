@@ -8,6 +8,7 @@ import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
+import DrPlant.exceptions.UserNoExistException;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -431,7 +432,30 @@ public abstract class AbstractFacade<T> {
                 .getSingleResult();
               
         } catch (NoResultException ex) {
-            return null;         
+            return null;
+        }
+        return u;
+    }
+    
+    public User findUserByLoginAndEmail(Object login,Object email){
+
+         User u = null;
+        try {
+            u = (User) getEntityManager()
+                .createNamedQuery("findUserByLogin")
+                .setParameter("login", login)
+                .getSingleResult();
+              
+        } catch (NoResultException ex) {
+            try{
+                 u = (User) getEntityManager()
+                .createNamedQuery("findUserByEmail")
+                .setParameter("email", email)
+                .getSingleResult();
+              
+            }catch(NoResultException e){
+                return null;
+            }
         }
         return u;
     }

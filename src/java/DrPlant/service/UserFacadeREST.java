@@ -1,5 +1,6 @@
 package DrPlant.service;
 
+import DrPlant.encryption.*;
 import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
@@ -56,12 +57,14 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
         try {
-            User user = super.findUserByLogin(entity.getLogin());
+            //User user = super.findUserByLogin(entity.getLogin());
+            User user = super.findUserByLoginAndEmail(entity.getLogin(),entity.getEmail());
             if (user == null) {
                 Date dateToday = new Date(System.currentTimeMillis());
                 java.sql.Date date = new java.sql.Date(dateToday.getTime());
                 entity.setLastAccess(date);
                 entity.setLastPasswdChange(date);
+                entity.setPasswd(hash(entity.getPasswd()));
 
                 LOGGER.log(Level.INFO, "UserRESTservice: create: ");
                 super.create(entity);
@@ -140,6 +143,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
+        LOGGER.log(Level.INFO, user.getLogin()+" "+user.getPasswd());
         return user;
     }
 
@@ -176,12 +180,10 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
     public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
-        
         byte [] passData = parseHexBinary(passwd);
-        
+
         User user;
         try {
-            System.out.println("UserRESTful service: findUserByLoginAndPasswd User");
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
 
@@ -246,4 +248,12 @@ public class UserFacadeREST extends AbstractFacade<User> {
         return em;
     }
 
+    private String descifrar(byte[] cypher){
+        Privada privada= new Privada(); 
+        return privada.descifrarTexto(cypher).toString();
+    }
+    
+    private String hash(String passw){
+        return Hash.cifrarTexto(passw);
+    }
 }
