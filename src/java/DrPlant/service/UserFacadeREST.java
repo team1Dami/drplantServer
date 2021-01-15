@@ -20,6 +20,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -29,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author rubir
+ * @author rubir, Eneko
  */
 @Stateless
 @Path("user")
@@ -195,6 +196,47 @@ public class UserFacadeREST extends AbstractFacade<User> {
             throw new InternalServerErrorException(ex);
         }
     }
+
+    /**
+     * Method to view if the introduced e-mail is in the database and
+     * in case it is in it will change it and send it to the user via e-mail
+     *
+     * @param email
+     */
+    @GET
+    @Path("email/{email}")
+    //@Consumes({MediaType.APPLICATION_XML})
+    public void changePassword(@PathParam("email") String email) {
+
+        User u=null;
+        try {
+            u = super.validateEmail(email);
+            LOGGER.log(Level.INFO, "UserRESTful service: validate email");
+
+        } catch (ReadException | NoResultException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "UserRESTful service: Exception reading user by email",
+                    ex.getMessage());
+            throw new NotFoundException(ex);
+        }
+
+        //PrivadaEmail priv = null;
+        String nuevaContraseña;
+        //Genera una contraseña nueva
+        nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
+        //Manda la nueva contraseña
+        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
+        
+        /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
+        String str = new String(bytes);
+        nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
+        
+        //Cambia la contraseña en la base de datos
+        super.changePassword(nuevaContraseña, u.getEmail());
+        
+        //return u;
+    }
+    
 
     @Override
     protected EntityManager getEntityManager() {
