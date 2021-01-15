@@ -163,6 +163,7 @@ public abstract class AbstractFacade<T> {
      * @return A List with all the equipment in the price balance
      * @throws DrPlant.exceptions.ReadException
      */
+    /*
     public List<Equipment> findEquipmentByPrice(Object minPrice, Object maxPrice) throws ReadException {
         try {
             return getEntityManager()
@@ -170,10 +171,7 @@ public abstract class AbstractFacade<T> {
                 .setParameter("min_price", minPrice)
                 .setParameter("max_price", maxPrice)
                 .getResultList();
-        } catch (Exception ex) {
-            throw new ReadException(ex.getMessage());
-        }
-    }
+    }*/
 
     /**
      * Search all the plants in the database
@@ -488,5 +486,31 @@ public abstract class AbstractFacade<T> {
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
+    }
+
+    /**
+     * Method to view if the introduced e-mail is in the database
+     * @param email
+     * @return The e-mail that is on the DB
+     * @throws DrPlant.exceptions.ReadException
+     * @throws NoResultException 
+     */
+    public User validateEmail(String email) throws ReadException, NoResultException{
+        return (User) getEntityManager()
+                .createNamedQuery("validateEmail")
+                .setParameter("email", email)
+                .getSingleResult();
+    }
+    /**
+     * Method to change the new password in the DB
+     * @param nuevaContraseña The new password set and sent
+     * @param email  The user e-mail to search the user
+     */
+    public void changePassword (String nuevaContraseña, String email){
+        getEntityManager()
+                .createNamedQuery("changePassword")
+                .setParameter("contraseña", nuevaContraseña)
+                .setParameter("email", email)
+                .executeUpdate();
     }
 }

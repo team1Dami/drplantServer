@@ -49,18 +49,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Ruben, Eneko
  */
-/*
-<user>
-    <logIn>gonza</logIn>
-    <email>gon@gmail.com</email>
-    <fullname>gonzalo</fullname>
-    <status>enable</status>
-    <privilage>admin</privilage>
-    <passwd></passwd>
-    <lastAccess></lastAccess>
-    <lastPasswdChange></lastPasswdChange>
-</user>
-*/
 
 
 @Entity
@@ -69,6 +57,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "findUserByLoginAndPasswd",
             query = "SELECT u FROM User u WHERE u.login=:login AND u.passwd=:passwd")
     ,
+    @NamedQuery(name = "changeEmail",
+            query = "UPDATE User u SET u.email=:email WHERE u.login=:login")
+    ,
+    @NamedQuery(name = "changePasswd",
+            query = "UPDATE User u SET u.passwd =:passwd WHERE u.login=:login")
+    ,
+    @NamedQuery(name = "validateEmail",
+            query = "SELECT u FROM User u WHERE u.email = :email")
+    ,
+    @NamedQuery(name = "changePassword",
+            query = "UPDATE User u SET u.passwd =:contraseña WHERE u.email=:email")
+    ,
+
     @NamedQuery(name = "getAllUsers",
             query = "SELECT u FROM User u "),
     @NamedQuery(name = "findUserByLogin",
