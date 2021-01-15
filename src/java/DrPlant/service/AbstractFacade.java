@@ -422,18 +422,17 @@ public abstract class AbstractFacade<T> {
      * @return
      * @throws ReadException
      */
-    public User findUserByLogin(Object login) throws UserExistException{
-        User u = null;
+    public User findUserByLogin(Object login){
+
+         User u = null;
         try {
             u = (User) getEntityManager()
                 .createNamedQuery("findUserByLogin")
                 .setParameter("login", login)
                 .getSingleResult();
-            if(u !=null)
-                throw new UserExistException();
               
         } catch (NoResultException ex) {
-            
+            return null;         
         }
         return u;
     }
