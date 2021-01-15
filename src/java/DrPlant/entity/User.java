@@ -49,18 +49,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Ruben, Eneko
  */
-/*
-<user>
-    <logIn>gonza</logIn>
-    <email>gon@gmail.com</email>
-    <fullname>gonzalo</fullname>
-    <status>enable</status>
-    <privilage>admin</privilage>
-    <passwd></passwd>
-    <lastAccess></lastAccess>
-    <lastPasswdChange></lastPasswdChange>
-</user>
-
 
 
 @Entity
@@ -105,7 +93,7 @@ public class User implements Serializable {
     private Userstatus status;
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
-    private byte [] passwd;
+    private String passwd;
 
     private java.sql.Date lastAccess;
 
@@ -230,7 +218,7 @@ public class User implements Serializable {
      * @return the password
      */
     //@XmlTransient  // para indicar que no queremos que se envie esta información de vuelta al cliente
-    public byte[] getPasswd() {
+    public String getPasswd() {
         return passwd;
     }
 
@@ -239,7 +227,7 @@ public class User implements Serializable {
      *
      * @param passwd
      */
-    public void setPasswd(byte [] passwd) {
+    public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
 

@@ -401,6 +401,7 @@ public abstract class AbstractFacade<T> {
      * @throws ReadException
      */
     public User findUserByLoginAndPasswd(Object login, Object passwd) throws ReadException {
+        
         try {
             return (User) getEntityManager()
                 .createNamedQuery("findUserByLoginAndPasswd")
@@ -422,7 +423,7 @@ public abstract class AbstractFacade<T> {
      */
     public User findUserByLogin(Object login){
 
-         User u = null;
+         User u = null; 
         try {
             u = (User) getEntityManager()
                 .createNamedQuery("findUserByLogin")
