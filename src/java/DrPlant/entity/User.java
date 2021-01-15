@@ -51,7 +51,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Ruben, Eneko
  */
 
-*/
 @Entity
 @Table(name = "User", schema = "drplant")
 @NamedQueries({
