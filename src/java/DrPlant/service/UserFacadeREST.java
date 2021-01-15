@@ -9,6 +9,7 @@ import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
 import DrPlant.passwdGenerator.PasswdGenerator;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,38 +58,29 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
 
-        try {
-
-            User user = null;
-            user = super.findUserByLogin(entity.getLogin());
-
-            if (user != null) {
-                throw new UserExistException();
+      try {
+            User user = super.findUserByLogin(entity.getLogin());
+            if (user == null) {
+                Date date = new Date(System.currentTimeMillis());
+                java.sql.Date datee = new java.sql.Date(date.getTime());
+                entity.setLastAccess(datee);
+                entity.setLastPasswdChange(datee);
+                try {
+                    LOGGER.log(Level.INFO, "UserRESTservice: create: ");
+                    super.create(entity);
+                } catch (CreateException ex) {
+                    LOGGER.log(Level.SEVERE, "UserRESTful service: Exception creating user: ",
+                            ex.getMessage());
+                    throw new InternalServerErrorException();
+                }
             } else {
-                entity.setPasswd(hash(descifrar(entity.getPasswd().getBytes())));
-                create(entity);
-                LOGGER.log(Level.INFO, "UserRESTful service: create ");
+                throw new UserExistException();
             }
-        } catch (UserExistException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception user already exists", ex.getMessage());
-            throw new InternalServerErrorException(ex.getMessage());
+        } catch (UserExistException e) {
+            LOGGER.log(Level.SEVERE, "Usuario ya existe");
+            throw new InternalServerErrorException();
 
-        } catch (Exception ex) {
-            // throw new CreateException(ex2.getMessage());
-            ex.getMessage();
         }
-        /*try {
-            
-            create(entity);
-            LOGGER.log(Level.INFO, "UserRESTful service: create ");
-
-        } catch (CreateException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception creating user",
-                    ex.getMessage());
-            throw new InternalServerErrorException(ex);
-        }*/
     }
 
     /**
@@ -152,6 +144,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
+        LOGGER.log(Level.INFO, user.getLogin()+" "+user.getPasswd());
         return user;
     }
 

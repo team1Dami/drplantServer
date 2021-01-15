@@ -11,6 +11,7 @@ import DrPlant.exceptions.UserExistException;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  * This class encapsulate the methods to do the RESTful services CREATE, READ,
@@ -423,14 +424,18 @@ public abstract class AbstractFacade<T> {
      */
     public User findUserByLogin(Object login) throws UserExistException{
 
+         User u = null;
         try {
-            return (User) getEntityManager()
+            u = (User) getEntityManager()
                 .createNamedQuery("findUserByLogin")
                 .setParameter("login", login)
                 .getSingleResult();
-        } catch (Exception ex) {
-            throw new UserExistException(ex.getMessage());
+              
+        } catch (NoResultException ex) {
+            return null;
+            
         }
+        return u;
     }
 
     /**

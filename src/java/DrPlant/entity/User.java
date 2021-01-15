@@ -27,6 +27,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 @Entity
@@ -234,6 +235,7 @@ public class User implements Serializable {
      * Get list of plants asociated with the user
      * @return list of plants
      */
+    @XmlTransient
     public Set<UserPlant> getPlants() {
         return plants;
     }
@@ -249,6 +251,7 @@ public class User implements Serializable {
     * Get list of equipments
     * @return list of user´s equipment
     */
+    @XmlTransient
     public Set<Equipment> getEquipments() {
         return equipments;
     }
