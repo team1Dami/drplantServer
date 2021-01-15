@@ -29,17 +29,66 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ * This entity class encapsulates the data of each Plague.
+ * <ul>
+ * <li><strong>id:</strong> The id of the user</li>
+ * <li><strong>login:</strong> The name of the user in the app</li>
+ * <li><strong>email:</strong> The email of the user</li>
+ * <li><strong>fullname:</strong> The name and last name of the user</li>
+ * <li><strong>status:</strong> It's the plants's status, that can be:
+ <ul>
+ * <li>enable</li>
+ * <li>disable</li>
+ * </ul>
+ * </li>
+ * <li><strong>passwd:</strong> Password of the user</li>
+ * <li><strong>lastAccess:</strong> Last time the user login in the app</li>
+ * <li><strong>lastPasswdChange:</strong> Last time the user change the password
+ * </li>
+ * </ul>
+ *
+ * @author Ruben, Eneko
+ */
+/*
+<user>
+    <logIn>gonza</logIn>
+    <email>gon@gmail.com</email>
+    <fullname>gonzalo</fullname>
+    <status>enable</status>
+    <privilage>admin</privilage>
+    <passwd></passwd>
+    <lastAccess></lastAccess>
+    <lastPasswdChange></lastPasswdChange>
+</user>
 
+
+*/
 @Entity
 @Table(name = "User", schema = "drplant")
 @NamedQueries({
     @NamedQuery(name = "findUserByLoginAndPasswd",
             query = "SELECT u FROM User u WHERE u.login=:login AND u.passwd=:passwd")
     ,
+    @NamedQuery(name = "changeEmail",
+            query = "UPDATE User u SET u.email=:email WHERE u.login=:login")
+    ,
+    @NamedQuery(name = "changePasswd",
+            query = "UPDATE User u SET u.passwd =:passwd WHERE u.login=:login")
+    ,
+    @NamedQuery(name = "validateEmail",
+            query = "SELECT u FROM User u WHERE u.email = :email")
+    ,
+    @NamedQuery(name = "changePassword",
+            query = "UPDATE User u SET u.passwd =:contraseña WHERE u.email=:email")
+    ,
+
     @NamedQuery(name = "getAllUsers",
             query = "SELECT u FROM User u "),
     @NamedQuery(name = "findUserByLogin",
             query = "SELECT u FROM User u WHERE u.login=:login"),
+    @NamedQuery(name = "findUserByEmail",
+            query = "SELECT u FROM User u WHERE u.email=:email"),
         })
 @XmlRootElement
 public class User implements Serializable {
@@ -59,7 +108,7 @@ public class User implements Serializable {
     private Userstatus status;
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
-    private String passwd;
+    private byte [] passwd;
 
     private java.sql.Date lastAccess;
 
@@ -184,7 +233,7 @@ public class User implements Serializable {
      * @return the password
      */
     //@XmlTransient  // para indicar que no queremos que se envie esta información de vuelta al cliente
-    public String getPasswd() {
+    public byte[] getPasswd() {
         return passwd;
     }
 
@@ -193,7 +242,7 @@ public class User implements Serializable {
      *
      * @param passwd
      */
-    public void setPasswd(String passwd) {
+    public void setPasswd(byte [] passwd) {
         this.passwd = passwd;
     }
 

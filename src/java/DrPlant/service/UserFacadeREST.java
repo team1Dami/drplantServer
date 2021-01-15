@@ -1,20 +1,17 @@
 package DrPlant.service;
 
 import DrPlant.encryption.*;
-import static DrPlant.encryption.hexToByte.hexToByte;
 import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
-import DrPlant.passwdGenerator.PasswdGenerator;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -23,6 +20,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -32,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author Ruben
+ * @author rubir, Eneko
  */
 @Stateless
 @Path("user")
@@ -57,29 +55,28 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
-
-      try {
-            User user = super.findUserByLogin(entity.getLogin());
+        try {
+            //User user = super.findUserByLogin(entity.getLogin());
+            User user = super.findUserByLoginAndEmail(entity.getLogin(),entity.getEmail());
             if (user == null) {
-                Date date = new Date(System.currentTimeMillis());
-                java.sql.Date datee = new java.sql.Date(date.getTime());
-                entity.setLastAccess(datee);
-                entity.setLastPasswdChange(datee);
-                try {
-                    LOGGER.log(Level.INFO, "UserRESTservice: create: ");
-                    super.create(entity);
-                } catch (CreateException ex) {
-                    LOGGER.log(Level.SEVERE, "UserRESTful service: Exception creating user: ",
-                            ex.getMessage());
-                    throw new InternalServerErrorException();
-                }
+                Date dateToday = new Date(System.currentTimeMillis());
+                java.sql.Date date = new java.sql.Date(dateToday.getTime());
+                entity.setLastAccess(date);
+                entity.setLastPasswdChange(date);
+
+                LOGGER.log(Level.INFO, "UserRESTservice: create: ");
+                super.create(entity);
+
             } else {
                 throw new UserExistException();
             }
-        } catch (UserExistException e) {
-            LOGGER.log(Level.SEVERE, "Usuario ya existe");
+        } catch (CreateException ex) {
+            LOGGER.log(Level.SEVERE, "UserRESTful service: Exception creating user: ",
+                    ex.getMessage());
             throw new InternalServerErrorException();
-
+        } catch (UserExistException e) {
+            LOGGER.log(Level.SEVERE, "User already exist");
+            throw new InternalServerErrorException();
         }
     }
 
@@ -183,9 +180,6 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
         User user;
         try {
-            
-            //passwd=hash(descifrar(hexToByte(passwd)));
-           // passwd=descifrar(hexToByte(passwd));
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
 
@@ -203,6 +197,47 @@ public class UserFacadeREST extends AbstractFacade<User> {
             throw new InternalServerErrorException(ex);
         }
     }
+
+    /**
+     * Method to view if the introduced e-mail is in the database and
+     * in case it is in it will change it and send it to the user via e-mail
+     *
+     * @param email
+     */
+    @GET
+    @Path("email/{email}")
+    //@Consumes({MediaType.APPLICATION_XML})
+    public void changePassword(@PathParam("email") String email) {
+
+        User u=null;
+        try {
+            u = super.validateEmail(email);
+            LOGGER.log(Level.INFO, "UserRESTful service: validate email");
+
+        } catch (ReadException | NoResultException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "UserRESTful service: Exception reading user by email",
+                    ex.getMessage());
+            throw new NotFoundException(ex);
+        }
+
+        //PrivadaEmail priv = null;
+        String nuevaContraseña;
+        //Genera una contraseña nueva
+        nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
+        //Manda la nueva contraseña
+        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
+        
+        /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
+        String str = new String(bytes);
+        nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
+        
+        //Cambia la contraseña en la base de datos
+        super.changePassword(nuevaContraseña, u.getEmail());
+        
+        //return u;
+    }
+    
 
     @Override
     protected EntityManager getEntityManager() {
