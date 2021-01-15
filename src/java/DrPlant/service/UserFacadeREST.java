@@ -63,6 +63,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
                 java.sql.Date date = new java.sql.Date(dateToday.getTime());
                 entity.setLastAccess(date);
                 entity.setLastPasswdChange(date);
+                entity.setPasswd(hash(entity.getPasswd()));
 
                 LOGGER.log(Level.INFO, "UserRESTservice: create: ");
                 super.create(entity);
