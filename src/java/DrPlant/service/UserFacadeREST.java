@@ -6,10 +6,12 @@ import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -53,17 +55,27 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
-
         try {
+            User user = super.findUserByLogin(entity.getLogin());
+            if (user == null) {
+                Date dateToday = new Date(System.currentTimeMillis());
+                java.sql.Date date = new java.sql.Date(dateToday.getTime());
+                entity.setLastAccess(date);
+                entity.setLastPasswdChange(date);
 
-            super.create(entity);
-            LOGGER.log(Level.INFO, "UserRESTful service: create ");
+                LOGGER.log(Level.INFO, "UserRESTservice: create: ");
+                super.create(entity);
 
-        } catch (CreateException | UserExistException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception creating user",
+            } else {
+                throw new UserExistException();
+            }
+        } catch (CreateException ex) {
+            LOGGER.log(Level.SEVERE, "UserRESTful service: Exception creating user: ",
                     ex.getMessage());
-            throw new InternalServerErrorException(ex);
+            throw new InternalServerErrorException();
+        } catch (UserExistException e) {
+            LOGGER.log(Level.SEVERE, "User already exist");
+            throw new InternalServerErrorException();
         }
     }
 
@@ -163,10 +175,10 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @GET
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
-    public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
+    public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") byte [] passwd) {
         User user;
         try {
-
+            System.out.println("UserRESTful service: findUserByLoginAndPasswd User");
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
 

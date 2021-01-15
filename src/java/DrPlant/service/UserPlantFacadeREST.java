@@ -24,7 +24,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
 
 /**
- *
+ * This class encapsultes the method to do the RESTful services of the userPlant
+ * 
  * @author rubir
  */
 @Stateless
@@ -35,7 +36,12 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
 
     @PersistenceContext(unitName = "drplantPU")
     private EntityManager em;
-
+    
+    /**
+     * Method to set the pahtSegment
+     * @param pathSegment the pathSegment
+     * @return key the key of the userPlantId
+     */
     private UserPlantId getPrimaryKey(PathSegment pathSegment) {
         /*
          * pathSemgent represents a URI path segment and any associated matrix parameters.
@@ -56,26 +62,35 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         }
         return key;
     }
-
+    
+    /**
+     * 
+     */
     public UserPlantFacadeREST() {
         super(UserPlant.class);
     }
 
+    /**
+     * Method to create the entity
+     * @param entity the entity to be created
+     */
     @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML})
     public void create(UserPlant entity) {
         try {
             super.create(entity);
         } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
-        } catch (UserExistException ex) {
-            LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
-        }
+        } 
     }
 
+    /**
+     * Method to edit the entity
+     * @param entity the entity to be edited
+     */
     @PUT
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML})
     public void edit(UserPlant entity) {
         try {
             super.edit(entity);
@@ -84,6 +99,10 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         }
     }
 
+    /**
+     * Method to remove the entity
+     * @param id the id of the entity to be removed
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") PathSegment id) {
@@ -96,10 +115,15 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
             LOGGER.log(Level.SEVERE, "UserPlanttRESTful service: server Error ", ex.getMessage());
         }
     }
-
+    
+    /**
+     * Method to find the UserPlant
+     * @param id the id to be searched
+     * @return userPlant the userPlant that has the id sended
+     */
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_XML})
     public UserPlant find(@PathParam("id") PathSegment id) {
         DrPlant.entity.UserPlantId key = getPrimaryKey(id);
         UserPlant userPlant = null;
@@ -110,7 +134,11 @@ public class UserPlantFacadeREST extends AbstractFacade<UserPlant> {
         }
         return userPlant;
     }
-
+    
+    /**
+     * Method to get the entityManager
+     * @return em the EntityManager
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;

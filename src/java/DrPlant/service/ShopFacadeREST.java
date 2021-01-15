@@ -20,7 +20,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- *
+ * This class encapsultaes the data of each shop:
+ * <ul>
+ *  <li><strong>id_shop:</strong> It's the id of the shop. It's the identifier</li>
+ *  <li><strong>shop_name:</strong> It's the shop's name</li>
+ *  <li><strong>url:</strong> It's the shop's url</li>
+ *  <li><strong>location:</strong> It's the shop's location</li>
+ *  <li><strong>commission:</strong> It's the commission that we receive of the shop</li>
+ *  <li><strong>email:</strong> It's the shop's email</li>
+ *  <li><strong>plants:</strong> Collection of objects of the Plant class that have to sold</li>
+ *  <li><strong>equipments:</strong> Collection of objects of the Equipment class that have to sold</li>
+ * </ul>
+ * 
  * @author Gonza
  */ 
 @Stateless
@@ -36,7 +47,10 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
         super(Shop.class);
     }
 
-    //Method to create a new shop
+    /**
+     * Method to create a new shop
+     * @param entity 
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
@@ -47,7 +61,7 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
             super.create(entity);
             LOGGER.log(Level.INFO, "ShopRESTful service: create Shop");
 
-        } catch (CreateException | UserExistException ex) {
+        } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE,
                     "ShopRESTful service: Exception creating Shop",
                     ex.getMessage());
@@ -55,7 +69,10 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
         }
     }
 
-    //Method to update shop by id from the database
+    /**
+     * Method to update shop by id from the database
+     * @param entity 
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Shop entity) {
@@ -70,7 +87,11 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
 
     }
 
-    //Method to delete shop by id from the database
+    /**
+     * Method to delete shop by id from the database
+     * @param id
+     * @throws ReadException 
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) throws ReadException {
@@ -85,7 +106,11 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
         }
     }
 
-    //Method to find shop by id from the database
+    /**
+     * Method to find shop by id from the database
+     * @param id
+     * @return 
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
@@ -105,7 +130,10 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
         return shop;
     }
 
-    //Method to find all shops from the database
+    /**
+     * Method to find all shops from the database
+     * @return 
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<Shop> findAllShops() {
@@ -125,7 +153,11 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
         return shops;
     }
 
-    //Method to find shop by name from the database
+    /**
+     * Method to find shop by name from the database
+     * @param shop_name
+     * @return 
+     */
     @GET
     @Path("shop_name/{shop_name}")
     @Produces({MediaType.APPLICATION_XML})
@@ -143,7 +175,10 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
             throw new InternalServerErrorException(ex);
         }
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;

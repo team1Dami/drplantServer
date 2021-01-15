@@ -44,40 +44,75 @@ public class UserPlant implements Serializable {
 
     private Timestamp dateWatering;
     
+    /**
+     * 
+     * @return id the id of the user_plant
+     */
     @XmlTransient
     public UserPlantId getId() {
         return id;
     }
 
+    /**
+     * 
+     * @param id the id to be set
+     */
     public void setId(UserPlantId id) {
         this.id = id;
     }
     
+    /**
+     * 
+     * @return user the user that have this plants
+     */
     @XmlTransient
     public User getUser() {
         return user;
     }
-
+    
+    /**
+     * 
+     * @param user the user to be set
+     */
     public void setUser(User user) {
         this.user = user;
     }
-    //@XmlTransient
+    /**
+     * 
+     * @return plant the plant of the user
+     */
     public Plant getPlant() {
         return plant;
     }
-
+    
+    /**
+     * 
+     * @param plant the plant to be set
+     */
     public void setPlant(Plant plant) {
         this.plant = plant;
     }
-
+    
+    /**
+     * 
+     * @return dateWatering the dateWatering of the plant
+     */
     public Timestamp getDateWatering() {
         return dateWatering;
     }
 
+    /**
+     * 
+     * @param dateWatering the dateWatering to be set
+     */
     public void setDateWatering(Timestamp dateWatering) {
         this.dateWatering = dateWatering;
     }
-
+    
+    /**
+     * 
+     * @return hash the hash of plants and hash of user
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -85,7 +120,12 @@ public class UserPlant implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.user);
         return hash;
     }
-
+    
+    /**
+     * 
+     * @param obj the object to be analize
+     * @return boolean true if the object is correct or false if the object is other
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -106,7 +146,11 @@ public class UserPlant implements Serializable {
         }
         return true;
     }
-
+    
+    /**
+     * 
+     * @return string String userPlant that match with user and plant
+     */
     @Override
     public String toString() {
         return "UserPlant{" + "user=" + user + ", plant=" + plant + '}';

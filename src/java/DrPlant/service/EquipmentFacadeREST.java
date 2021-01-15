@@ -26,7 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- *
+ * This class encapsule the methods of the Equipment 
  * @author Eneko
  */
 @Stateless
@@ -42,7 +42,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     public EquipmentFacadeREST() {
         super(Equipment.class);
     }
-
+/**
+ * Method that insert a equipment
+ * @param entity 
+ */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
@@ -51,11 +54,12 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             super.create(entity);
         } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
-        } catch (UserExistException ex) {
-            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
-
+/**
+ * Method that update a equipment
+ * @param entity get the equipment
+ */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Equipment entity) {
@@ -65,7 +69,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
-
+/**
+ * Method that delete a equipment
+ * @param id id of the equipment
+ */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
@@ -77,7 +84,11 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
-
+/**
+ * Method that get a equipment by id
+ * @param id id of the equipment
+ * @return equipment  
+ */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
@@ -90,7 +101,10 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         }
         return equipment;
     }
-
+/**
+ * 
+ * @return entityManager 
+ */
     @Override
     protected EntityManager getEntityManager() {
         return em;
