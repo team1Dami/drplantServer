@@ -80,12 +80,13 @@ public class User implements Serializable {
      * @return the privilege of the user
      */
     public UserPrivilege getPrivilege() {
-        return privilege; }
+        return privilege;
+    }
 
     /**
      * This method set the privilege of the user
      *
-     * @param privilage
+     * @param privilege
      */
     public void setPrivilege(UserPrivilege privilege) {
         this.privilege = privilege;
@@ -104,8 +105,8 @@ public class User implements Serializable {
      *
      * @param status
      */
-    public void setStatus(Userstatus status) {
-      this.status = status;
+    public void setStatus(Userstatus status) {        
+        this.status = status;       
     }
 
     /**
