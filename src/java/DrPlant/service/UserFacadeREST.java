@@ -27,6 +27,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import static javax.xml.bind.DatatypeConverter.parseHexBinary;
 
 /**
  *
@@ -179,6 +180,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
     public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
+        byte [] passData = parseHexBinary(passwd);
+
         User user;
         try {
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");

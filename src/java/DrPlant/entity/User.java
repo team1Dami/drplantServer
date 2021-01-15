@@ -50,18 +50,6 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Ruben, Eneko
  */
-/*
-<user>
-    <logIn>gonza</logIn>
-    <email>gon@gmail.com</email>
-    <fullname>gonzalo</fullname>
-    <status>enable</status>
-    <privilage>admin</privilage>
-    <passwd></passwd>
-    <lastAccess></lastAccess>
-    <lastPasswdChange></lastPasswdChange>
-</user>
-
 
 */
 @Entity
