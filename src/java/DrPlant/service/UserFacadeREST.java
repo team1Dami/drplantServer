@@ -1,13 +1,11 @@
 package DrPlant.service;
 
-import DrPlant.encryption.PrivadaEmail;
 import DrPlant.entity.User;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
-import java.io.FileReader;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +51,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
      */
     @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
 
         try {
@@ -192,15 +190,13 @@ public class UserFacadeREST extends AbstractFacade<User> {
      * in case it is in it will change it and send it to the user via e-mail
      *
      * @param email
-     * @return It returns a User with all his information
      */
     @GET
     @Path("email/{email}")
-    @Produces({MediaType.APPLICATION_XML})
-    public User validateEmail(@PathParam("email") String email) {
+    //@Consumes({MediaType.APPLICATION_XML})
+    public void changePassword(@PathParam("email") String email) {
 
-        User u;
-        //String userEmail = null;
+        User u=null;
         try {
             u = super.validateEmail(email);
             LOGGER.log(Level.INFO, "UserRESTful service: validate email");
@@ -214,15 +210,19 @@ public class UserFacadeREST extends AbstractFacade<User> {
 
         //PrivadaEmail priv = null;
         String nuevaContraseña;
+        //Genera una contraseña nueva
         nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
+        //Manda la nueva contraseña
+        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
         
         /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
         String str = new String(bytes);
         nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
-        super.changePassword(nuevaContraseña, u.getEmail());
-        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
         
-        return u;
+        //Cambia la contraseña en la base de datos
+        super.changePassword(nuevaContraseña, u.getEmail());
+        
+        //return u;
     }
     
 
