@@ -6,6 +6,7 @@ import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,38 +54,28 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(User entity) {
-
         try {
+            User user = super.findUserByLogin(entity.getLogin());
+            if (user == null) {
+                Date dateToday = new Date(System.currentTimeMillis());
+                java.sql.Date date = new java.sql.Date(dateToday.getTime());
+                entity.setLastAccess(date);
+                entity.setLastPasswdChange(date);
 
-            User user = null;
-            user = super.findUserByLogin(entity.getLogin());
+                LOGGER.log(Level.INFO, "UserRESTservice: create: ");
+                super.create(entity);
 
-            if (user != null) {
-                throw new UserExistException();
             } else {
-                create(entity);
-                LOGGER.log(Level.INFO, "UserRESTful service: create ");
+                throw new UserExistException();
             }
-        } catch (UserExistException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception user already exists", ex.getMessage());
-            throw new InternalServerErrorException(ex.getMessage());
-
-        } catch (Exception ex) {
-            // throw new CreateException(ex2.getMessage());
-            ex.getMessage();
-        }
-        /*try {
-            
-            create(entity);
-            LOGGER.log(Level.INFO, "UserRESTful service: create ");
-
         } catch (CreateException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "UserRESTful service: Exception creating user",
+            LOGGER.log(Level.SEVERE, "UserRESTful service: Exception creating user: ",
                     ex.getMessage());
-            throw new InternalServerErrorException(ex);
-        }*/
+            throw new InternalServerErrorException();
+        } catch (UserExistException e) {
+            LOGGER.log(Level.SEVERE, "User already exist");
+            throw new InternalServerErrorException();
+        }
     }
 
     /**
@@ -183,10 +174,10 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @GET
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
-    public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
+    public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") byte [] passwd) {
         User user;
         try {
-
+            System.out.println("UserRESTful service: findUserByLoginAndPasswd User");
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
             user = super.findUserByLoginAndPasswd(login, passwd);
 

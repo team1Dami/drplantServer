@@ -58,7 +58,7 @@ public class User implements Serializable {
     private Userstatus status;
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
-    private String passwd;
+    private byte [] passwd;
 
     private java.sql.Date lastAccess;
 
@@ -183,7 +183,7 @@ public class User implements Serializable {
      * @return the password
      */
     //@XmlTransient  // para indicar que no queremos que se envie esta información de vuelta al cliente
-    public String getPasswd() {
+    public byte[] getPasswd() {
         return passwd;
     }
 
@@ -192,7 +192,7 @@ public class User implements Serializable {
      *
      * @param passwd
      */
-    public void setPasswd(String passwd) {
+    public void setPasswd(byte [] passwd) {
         this.passwd = passwd;
     }
 
