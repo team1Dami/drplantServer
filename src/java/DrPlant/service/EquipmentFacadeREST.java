@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DrPlant.service;
 
 import DrPlant.entity.Equipment;
@@ -189,4 +184,19 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         }
         return equipment;
     }*/
+    
+    @GET
+    @Path("equipment_name/{use}/{name}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Equipment> findEquipmentByNameAndUse(@PathParam("use") Use uses, @PathParam("name") String name) {
+
+        List<Equipment> equipment;
+        try {
+            equipment = super.findEquipmentByNameAndUse(uses, name);
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        }
+        return equipment;
+    }
 }

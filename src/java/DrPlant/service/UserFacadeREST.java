@@ -175,7 +175,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @GET
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
-    public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") byte [] passwd) {
+    public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
         User user;
         try {
             System.out.println("UserRESTful service: findUserByLoginAndPasswd User");
@@ -198,20 +198,31 @@ public class UserFacadeREST extends AbstractFacade<User> {
     }
 
     /**
-     * Method to view if the introduced e-mail is in the database and
-     * in case it is in it will change it and send it to the user via e-mail
+     * Method to view if the introduced e-mail is in the database and in case it
+     * is in it will change it and send it to the user via e-mail
      *
      * @param email
      */
     @GET
     @Path("email/{email}")
-    //@Consumes({MediaType.APPLICATION_XML})
-    public void changePassword(@PathParam("email") String email) {
+    public void resetPassword(@PathParam("email") String email) {
 
-        User u=null;
+        User u = null;
         try {
             u = super.validateEmail(email);
             LOGGER.log(Level.INFO, "UserRESTful service: validate email");
+            //PrivadaEmail priv = null;
+            String nuevaContraseña;
+            //Genera una contraseña nueva
+            nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
+            //Manda la nueva contraseña
+            DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
+
+            /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
+            String str = new String(bytes);
+            nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
+            //Cambia la contraseña en la base de datos
+            super.resetPassword(nuevaContraseña, u.getEmail());
 
         } catch (ReadException | NoResultException ex) {
             LOGGER.log(Level.SEVERE,
@@ -219,24 +230,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
                     ex.getMessage());
             throw new NotFoundException(ex);
         }
-
-        //PrivadaEmail priv = null;
-        String nuevaContraseña;
-        //Genera una contraseña nueva
-        nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
-        //Manda la nueva contraseña
-        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
-        
-        /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
-        String str = new String(bytes);
-        nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
-        
-        //Cambia la contraseña en la base de datos
-        super.changePassword(nuevaContraseña, u.getEmail());
-        
-        //return u;
     }
-    
 
     @Override
     protected EntityManager getEntityManager() {

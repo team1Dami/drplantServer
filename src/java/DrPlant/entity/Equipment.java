@@ -59,6 +59,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(
             name = "findAllEquipment",
             query = "SELECT e FROM Equipment e ORDER BY e.id_equipment"
+    ),
+    
+    @NamedQuery(
+            name = "findEquipmentByNameAndUse",
+            query = "SELECT e FROM Equipment e  WHERE e.uses = :use_equipment AND e.equipment_name like :equipment_name  ORDER BY e.id_equipment"
     )
     /*,
         

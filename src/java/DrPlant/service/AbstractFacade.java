@@ -8,6 +8,10 @@ import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.UpdateException;
 import DrPlant.exceptions.UserExistException;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -505,11 +509,19 @@ public abstract class AbstractFacade<T> {
      * @param nuevaContraseña The new password set and sent
      * @param email  The user e-mail to search the user
      */
-    public void changePassword (String nuevaContraseña, String email){
+    public void resetPassword (String nuevaContraseña, String email){
         getEntityManager()
-                .createNamedQuery("changePassword")
+                .createNamedQuery("resetPassword")
                 .setParameter("contraseña", nuevaContraseña)
                 .setParameter("email", email)
                 .executeUpdate();
+    }
+
+    public List<Equipment> findEquipmentByNameAndUse(Use uses, String name) throws ReadException{
+        return getEntityManager()
+                .createNamedQuery("findEquipmentByNameAndUse")
+                .setParameter("use_equipment", uses)
+                .setParameter("equipment_name", "%"+name+"%")
+                .getResultList();
     }
 }
