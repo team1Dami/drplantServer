@@ -6,7 +6,6 @@ import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
 import DrPlant.exceptions.UpdateException;
-import DrPlant.exceptions.UserExistException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

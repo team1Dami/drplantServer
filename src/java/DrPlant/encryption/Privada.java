@@ -7,10 +7,11 @@ package DrPlant.encryption;
 
 import java.io.*;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
 
@@ -24,12 +25,11 @@ import javax.crypto.Cipher;
  */
 public class Privada {
 
-    public byte[] descifrarTexto(byte[] mensaje) {
+    public byte[] descifrarPass(byte[] mensaje) {
         byte[] decodedMessage = null;
         try {
             // Cargamos la clave privada
-            byte fileKey[] = fileReader("./src/java/DrPlant/encryption/Private");
-            System.out.println("Tamaño -> " + fileKey.length + " bytes");
+            byte fileKey[] = fileReader("/DrPlant/encryption/RSA_Private.key");
 
             // Obtenemos una instancia de KeyFactory, algoritmo RSA
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -66,7 +66,23 @@ public class Privada {
         return ret;
     }*/
     public byte[] fileReader(String path) { 
-        return null;
+        try {
+            InputStream keyfis = Privada.class.getClassLoader()
+                    .getResourceAsStream(path);          
+            
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len;
+            // read bytes from the input stream and store them in buffer
+            while ((len = keyfis.read(buffer)) != -1) {
+                // write bytes from the buffer into output stream
+                os.write(buffer, 0, len);
+            }
+            keyfis.close();
+            return os.toByteArray();
+        } catch (IOException ex) {
+            Logger.getLogger(Privada.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
-
 }

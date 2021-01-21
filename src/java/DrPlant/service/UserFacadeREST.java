@@ -2,6 +2,8 @@ package DrPlant.service;
 
 import DrPlant.encryption.*;
 import DrPlant.entity.User;
+import DrPlant.enumerations.UserPrivilege;
+import DrPlant.enumerations.Userstatus;
 import DrPlant.exceptions.CreateException;
 import DrPlant.exceptions.DeleteException;
 import DrPlant.exceptions.ReadException;
@@ -27,7 +29,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.DatatypeConverter;
 import static javax.xml.bind.DatatypeConverter.parseHexBinary;
+import static javax.xml.bind.DatatypeConverter.printHexBinary;
 
 /**
  *
@@ -58,13 +62,21 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public void create(User entity) {
         try {
             //User user = super.findUserByLogin(entity.getLogin());
-            User user = super.findUserByLoginAndEmail(entity.getLogin(),entity.getEmail());
+            User user = super.findUserByLoginAndEmail(entity.getLogin(), entity.getEmail());
             if (user == null) {
                 Date dateToday = new Date(System.currentTimeMillis());
                 java.sql.Date date = new java.sql.Date(dateToday.getTime());
                 entity.setLastAccess(date);
                 entity.setLastPasswdChange(date);
-                entity.setPasswd(hash(entity.getPasswd()));
+                entity.setStatus(Userstatus.ENABLE);
+                entity.setPrivilege(UserPrivilege.USER);
+
+                byte[] encryptedPass = parseHexBinary(entity.getPasswd());
+
+                String passCifradaPrivada = descifrar(encryptedPass);
+                String passHasheada = hash(passCifradaPrivada);
+
+                entity.setPasswd(passHasheada);
 
                 LOGGER.log(Level.INFO, "UserRESTservice: create: ");
                 super.create(entity);
@@ -143,7 +155,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
                     ex.getMessage());
             throw new InternalServerErrorException(ex);
         }
-        LOGGER.log(Level.INFO, user.getLogin()+" "+user.getPasswd());
+        LOGGER.log(Level.INFO, user.getLogin() + " " + user.getPasswd());
         return user;
     }
 
@@ -180,12 +192,15 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @Path("login/{login}/{passwd}")
     @Produces({MediaType.APPLICATION_XML})
     public User findUserByLoginAndPasswd(@PathParam("login") String login, @PathParam("passwd") String passwd) {
-        byte [] passData = parseHexBinary(passwd);
+        byte[] encryptedPass = parseHexBinary(passwd);
+
+        String passCifradaPrivada = descifrar(encryptedPass);
+        String passHasheada = hash(passCifradaPrivada);
 
         User user;
         try {
             LOGGER.log(Level.INFO, "UserRESTful service: findUserByLoginAndPasswd User");
-            user = super.findUserByLoginAndPasswd(login, passwd);
+            user = super.findUserByLoginAndPasswd(login, passHasheada);
 
             return user;
         } catch (NoResultException ex) {
@@ -203,8 +218,8 @@ public class UserFacadeREST extends AbstractFacade<User> {
     }
 
     /**
-     * Method to view if the introduced e-mail is in the database and
-     * in case it is in it will change it and send it to the user via e-mail
+     * Method to view if the introduced e-mail is in the database and in case it
+     * is in it will change it and send it to the user via e-mail
      *
      * @param email
      */
@@ -213,7 +228,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
     //@Consumes({MediaType.APPLICATION_XML})
     public void changePassword(@PathParam("email") String email) {
 
-        User u=null;
+        User u = null;
         try {
             u = super.validateEmail(email);
             LOGGER.log(Level.INFO, "UserRESTful service: validate email");
@@ -231,29 +246,30 @@ public class UserFacadeREST extends AbstractFacade<User> {
         nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
         //Manda la nueva contraseña
         DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
-        
+
         /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
         String str = new String(bytes);
         nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
-        
         //Cambia la contraseña en la base de datos
         super.changePassword(nuevaContraseña, u.getEmail());
-        
+
         //return u;
     }
-    
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    private String descifrar(byte[] cypher){
-        Privada privada= new Privada(); 
-        return privada.descifrarTexto(cypher).toString();
+    public String descifrar(byte[] cypher) {
+        Privada privada = new Privada();
+        byte[] passCif = privada.descifrarPass(cypher);
+
+        String pass = new String(passCif);
+        return pass;
     }
-    
-    private String hash(String passw){
+
+    public String hash(String passw) {
         return Hash.cifrarTexto(passw);
     }
 }
