@@ -217,10 +217,9 @@ public class UserFacadeREST extends AbstractFacade<User> {
             nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
             //Manda la nueva contraseña
             DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
-
-            /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
-            String str = new String(bytes);
-            nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
+            //Hashea la contraseña nueva de el usuario
+            nuevaContraseña = DrPlant.encryption.Hash.cifrarTexto(nuevaContraseña);
+            
             //Cambia la contraseña en la base de datos
             super.resetPassword(nuevaContraseña, u.getEmail());
 
