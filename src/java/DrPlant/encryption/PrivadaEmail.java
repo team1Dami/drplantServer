@@ -89,7 +89,7 @@ public class PrivadaEmail {
             byte[] combined = concatArrays(iv, encodedMessage);
 
             // Escribimos el fichero cifrado 
-            fileWriter("C:\\Users\\rubir\\Desktop\\Nueva Carpeta\\text.txt", combined);
+            fileWriter("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\encryption\\text.txt", combined);
 
             // Retornamos el texto cifrado
             ret = new String(encodedMessage);
@@ -105,17 +105,18 @@ public class PrivadaEmail {
      * lo retorna
      *
      * @param clave La clave del usuario
+     * @return 
      */
-    private String descifrarTexto(String clave) {
+    public String descifrarTexto(byte[] clave) {
         String ret = null;
 
         // Fichero leído
-        byte[] fileContent = fileReader("C:\\Users\\rubir\\Desktop\\Nueva Carpeta\\text.txt"); // Path del fichero EjemploAES.dat
+        byte[] fileContent = fileReader("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\encryption\\text.txt"); // Path del fichero EjemploAES.dat
         KeySpec keySpec = null;
         SecretKeyFactory secretKeyFactory = null;
         try {
-            // Obtenemos el keySpec
-            keySpec = new PBEKeySpec(clave.toCharArray(), salt, 65536, 128); // AES-128
+            // Obtenemos el keySpec Cambiar 
+            keySpec = new PBEKeySpec(new String("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\encryption\\RSA_Private.key").toCharArray(), salt, 65536, 128); // AES-128
 
             // Obtenemos una instancide de SecretKeyFactory con el algoritmo "PBKDF2WithHmacSHA1"
             secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -131,13 +132,13 @@ public class PrivadaEmail {
             // Iniciamos el Cipher en ENCRYPT_MODE y le pasamos la clave privada
           //  cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             // Leemos el fichero codificado 
-            IvParameterSpec ivParam = new IvParameterSpec(Arrays.copyOfRange(fileContent, 0, 16));
+            IvParameterSpec ivParam = new IvParameterSpec(Arrays.copyOfRange(clave, 0, 16));
 
             // Iniciamos el Cipher en ENCRYPT_MODE y le pasamos la clave privada y el ivParam
             cipher.init(Cipher.DECRYPT_MODE, privateKey, ivParam);
 
             // Le decimos que descifre
-            byte[] decodedMessage = cipher.doFinal(Arrays.copyOfRange(fileContent, 16, fileContent.length));
+            byte[] decodedMessage = cipher.doFinal(Arrays.copyOfRange(clave, 16, clave.length));
 
             // Texto descifrado
             ret = new String(decodedMessage);
@@ -182,7 +183,7 @@ public class PrivadaEmail {
      * @param path Path del fichero
      * @return El texto del fichero
      */
-    private byte[] fileReader(String path) {
+    private static byte[] fileReader(String path) {
         byte ret[] = null;
         File file = new File(path);
         try {
@@ -193,28 +194,16 @@ public class PrivadaEmail {
         return ret;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
+        PrivadaEmail priv = new PrivadaEmail();
         PrivadaEmail ejemploAES = new PrivadaEmail();
-        String mensajeCifrado = ejemploAES.cifrarTexto("Clave", "Mensaje super secreto");
+        String mensajeCifrado = ejemploAES.cifrarTexto(new String(priv.fileReader("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\encryption\\RSA_Private.key")), "2damigi1@gmail.com");
         System.out.println("Cifrado! -> " + mensajeCifrado);
         System.out.println("-----------");
-        System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("Clave"));
+        System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto(new String(priv.fileReader("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\encryption\\RSA_Private.key"))));
         System.out.println("-----------");
-    }
+        
+        //System.out.println(priv.descifrarTexto());
+    }*/
 }
 
-
-
-
-/*
-Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            byte[] encodedMessage = cipher.doFinal(username.getBytes());
-            byte[] iv = cipher.getIV();
-
-            // Write the initialization vector (IV) and encoded message in a file
-            oos = new ObjectOutputStream(new FileOutputStream("emailJAMP.dat"));
-
-            oos.writeObject(iv);
-            oos.writeObject(encodedMessage);
-*/

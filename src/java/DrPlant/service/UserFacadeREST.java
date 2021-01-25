@@ -250,6 +250,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
         /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
         String str = new String(bytes);
         nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
+        nuevaContraseña = Hash.cifrarTexto(nuevaContraseña);
         //Cambia la contraseña en la base de datos
         super.changePassword(nuevaContraseña, u.getEmail());
 
