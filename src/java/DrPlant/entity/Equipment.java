@@ -60,7 +60,13 @@ import javax.xml.bind.annotation.XmlTransient;
             name = "findAllEquipment",
             query = "SELECT e FROM Equipment e ORDER BY e.id_equipment"
     )
-    /*,
+    ,
+    
+    @NamedQuery(
+            name = "findEquipmentByNameAndUse",
+            query = "SELECT e FROM Equipment e  WHERE e.uses = :use_equipment AND e.equipment_name like :equipment_name  ORDER BY e.id_equipment"
+    )
+/*,
         
     @NamedQuery(
             name = "findEquipmentByPrice",
@@ -105,7 +111,8 @@ public class Equipment implements Serializable {
 
     /**
      * Setter of the equipment ID
-     * @param id_equipment 
+     *
+     * @param id_equipment
      */
     public void setId_equipment(Long id_equipment) {
         this.id_equipment = id_equipment;
@@ -222,8 +229,7 @@ public class Equipment implements Serializable {
 
     /**
      *
-     * @return hash if the ID is not null or return 0 if the
-     * ID is null
+     * @return hash if the ID is not null or return 0 if the ID is null
      */
     @Override
     public int hashCode() {

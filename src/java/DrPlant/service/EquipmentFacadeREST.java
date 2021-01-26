@@ -26,7 +26,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * This class encapsule the methods of the Equipment 
+ * This class encapsule the methods of the Equipment
+ *
  * @author Eneko
  */
 @Stateless
@@ -42,10 +43,12 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     public EquipmentFacadeREST() {
         super(Equipment.class);
     }
-/**
- * Method that insert a equipment
- * @param entity 
- */
+
+    /**
+     * Method that insert a equipment
+     *
+     * @param entity
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
@@ -56,10 +59,12 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
-/**
- * Method that update a equipment
- * @param entity get the equipment
- */
+
+    /**
+     * Method that update a equipment
+     *
+     * @param entity get the equipment
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void edit(Equipment entity) {
@@ -69,10 +74,12 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
-/**
- * Method that delete a equipment
- * @param id id of the equipment
- */
+
+    /**
+     * Method that delete a equipment
+     *
+     * @param id id of the equipment
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
@@ -84,11 +91,13 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
         }
     }
-/**
- * Method that get a equipment by id
- * @param id id of the equipment
- * @return equipment  
- */
+
+    /**
+     * Method that get a equipment by id
+     *
+     * @param id id of the equipment
+     * @return equipment
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
@@ -101,10 +110,11 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         }
         return equipment;
     }
-/**
- * 
- * @return entityManager 
- */
+
+    /**
+     *
+     * @return entityManager
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -133,6 +143,7 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
 
     /**
      * Select of the equipments with a specific use
+     *
      * @param uses The use of the equipment
      * @return A List of the equipment of the specified use
      */
@@ -153,6 +164,7 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
 
     /**
      * List all the equipment stored
+     *
      * @return A List with all the equipment
      */
     @GET
@@ -172,7 +184,8 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
 
     /**
      * Find equipment by price
-     * @param minPrice 
+     *
+     * @param minPrice
      * @param maxPrice
      * @return A List with all the equipment in the price balance
      */
@@ -189,4 +202,18 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
         }
         return equipment;
     }*/
+    @GET
+    @Path("equipment_name/{use}/{name}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Equipment> findEquipmentByNameAndUse(@PathParam("use") Use uses, @PathParam("name") String name) {
+
+        List<Equipment> equipment;
+        try {
+            equipment = super.findEquipmentByNameAndUse(uses, name);
+        } catch (ReadException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        }
+        return equipment;
+    }
 }

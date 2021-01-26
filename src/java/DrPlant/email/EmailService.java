@@ -20,6 +20,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.xml.transform.Source;
 
 /**
  * Builds an Email Service capable of sending normal email to a given SMTP Host.
@@ -28,14 +29,16 @@ import javax.mail.internet.MimeMultipart;
 public class EmailService {
 
     PrivadaEmail priv = new PrivadaEmail();
-    private static final ResourceBundle EmailFile = ResourceBundle.getBundle("DrPlant.email.email");
+    //private static final ResourceBundle EmailFile = ResourceBundle.getBundle("DrPlant.email.email");
     // Server mail user & pass account
-    private String user = priv.descifrarTexto((byte[]) EmailFile.getObject("Email"));
-    private String pass = priv.descifrarTexto((byte[]) EmailFile.getObject("Passwd"));
-
+    
+    private String user = /*"2damigi1@gmail.com"*/priv.descifrarTexto("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\correo.txt");
+    private String pass = /*"serv1doR"*/priv.descifrarTexto("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\contraseña.txt");
+    
+    
     // DNS Host + SMTP Port
-    private String smtp_host = EmailFile.getString("Host");
-    private int smtp_port = new Integer (EmailFile.getString("Port"));
+    private String smtp_host = "smtp.gmail.com";
+    private int smtp_port = 465;
 
     @SuppressWarnings("unused")
     public EmailService() {
@@ -58,7 +61,8 @@ public class EmailService {
      *
      */
     public void sendMail(String receiver, String nuevaContraseña) throws MessagingException {
-
+        //user= priv.cifrarTexto(new String(priv.fileReader("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\encryption\\RSA_Private.key")), "serv1doR");
+        //System.out.println(priv.descifrarTexto("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\contraseña.txt")+priv.descifrarTexto("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\correo.txt"));
         // Mail properties
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
@@ -90,22 +94,34 @@ public class EmailService {
         // A message part (the message, but can be also a File, etc...)
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
         mimeBodyPart.setContent("<!DOCTYPE html>\n"
-                + "<html>\n"
-                + "    <head>\n"
-                + "        <title>TODO supply a title</title>\n"
-                + "        <meta charset=\"UTF-8\">\n"
-                + "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-                + "    </head>\n"
-                + "    <body> \n"
-                + "        <div>\n"
-                + "            <img alt=\"No funciono\" src=\"https://cdn.dribbble.com/users/2068059/screenshots/4216858/science_plant_logo.png?compress=1&resize=200x150\"/>\n"
-                + "            <h1>Dr. Plant S.L. le informa de que su nueva contraseña es:    </h1>\n"
-                + "            <h2>" + nuevaContraseña + "</h2>\n"
-                + "            Gracias por confiar en nosotros :)\n"
-                + "        </div>\n"
-                + "    </body>\n"
-                + "</html>\n"
-                + "", "text/html");
+                    + "<html>\n"
+                    + "    <head>\n"
+                    + "        <title>TODO supply a title</title>\n"
+                    + "        <meta charset=\"UTF-8\">\n"
+                    + "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n "
+                    + "        <style type=\"text/css\">\n"
+                    + "           #contenedor { \n"
+                    + "                background-color: lightgray;               \n"
+                    + "                padding: 5% 5% 5% 5%;\n"
+                    + "                text-align: center;\n"
+                    + "                display: block;"
+                    + "            }\n"
+                    + "            body{\n"
+                    + "                padding-left: 5%;\n"
+                    + "                padding-right: 5%;\n"
+                    + "            }\n"
+                    + "        </style>"
+                    + "    </head>\n"
+                    + "    <body> \n"
+                    + "        <div id=\"contenedor\">\n"
+                    + "            <img alt=\"No funciono\" src=\"https://cdn.dribbble.com/users/2068059/screenshots/4216858/science_plant_logo.png?compress=1&resize=200x150\"/>\n"
+                    + "            <h1>Dr. Plant S.L. le informa de que su nueva contraseña es:    </h1>\n"
+                    + "            <h2>" + nuevaContraseña + "</h2>\n"
+                    + "            Gracias por confiar en nosotros :)\n"
+                    + "        </div>\n"
+                    + "    </body>\n"
+                    + "</html>\n"
+                    + "", "text/html");
         multipart.addBodyPart(mimeBodyPart);
 
         // Adding up the parts to the MIME message
