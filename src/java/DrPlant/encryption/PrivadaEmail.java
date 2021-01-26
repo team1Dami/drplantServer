@@ -5,13 +5,17 @@
  */
 package DrPlant.encryption;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -109,9 +113,13 @@ public class PrivadaEmail {
      */
     public String descifrarTexto(String path) {
         String ret = null;
-        String clave = new String (this.fileReader("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\encryption\\RSA_Private.key"));
+        
+        //ResourceBundle resource = ResourceBundle.getBundle("/DrPlant/encryption/CLAVE_PRIVADA");
+        //resource.getString("PRIVATE_KEY_PATH");
+        
+        String clave = new String (this.fileReader());
         // Fichero leído
-        byte[] fileContent = fileReader(path); // Path del fichero EjemploAES.dat
+        byte[] fileContent = contentFileReader(path); // Path del fichero EjemploAES.dat
         KeySpec keySpec = null;
         SecretKeyFactory secretKeyFactory = null;
         try {
@@ -183,27 +191,62 @@ public class PrivadaEmail {
      * @param path Path del fichero
      * @return El texto del fichero
      */
-    public byte[] fileReader(String path) {
-        System.out.println("Estoy leyendo "+path);
-        byte ret[] = null;
-        File file = new File(path);
+    public byte[] fileReader() {
+        InputStream keyfis = PrivadaEmail.class.getClassLoader()
+                .getResourceAsStream("DrPlant/encryption/RSA_Private.key");
+       
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
         try {
-            ret = Files.readAllBytes(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+            // read bytes from the input stream and store them in buffer
+            while ((len = keyfis.read(buffer)) != -1) {
+                // write bytes from the buffer into output stream
+                os.write(buffer, 0, len);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PrivadaEmail.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return ret;
-    }
+        try {
+            keyfis.close();
+        } catch (IOException ex) {
+            Logger.getLogger(PrivadaEmail.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return os.toByteArray();
+        }
+    
+    public byte[] contentFileReader(String path) {
+        InputStream keyfis = PrivadaEmail.class.getClassLoader()
+                .getResourceAsStream("DrPlant/email/"+path);
+       
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        try {
+            // read bytes from the input stream and store them in buffer
+            while ((len = keyfis.read(buffer)) != -1) {
+                // write bytes from the buffer into output stream
+                os.write(buffer, 0, len);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PrivadaEmail.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            keyfis.close();
+        } catch (IOException ex) {
+            Logger.getLogger(PrivadaEmail.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return os.toByteArray();
+        }
 
     public static void main(String[] args) {
-        ResourceBundle resource = ResourceBundle.getBundle("DrPlant/email/CLAVE_PRIVADA");
-        String path = resource.getString("PRIVATE_KEY_PATH");
-        System.out.println(path);
+        
+        
         PrivadaEmail ejemploAES = new PrivadaEmail();
         /*String mensajeCifrado = ejemploAES.cifrarTexto(new String(ejemploAES.fileReader("/DrPlant/encryption/RSA_Private.key")), "serv1doR");
         System.out.println("Cifrado! -> " + mensajeCifrado);
         System.out.println("-----------");*/
-        System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\correo.txt"));
+        System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("correo.txt"));
         System.out.println("-----------");
     }
 }

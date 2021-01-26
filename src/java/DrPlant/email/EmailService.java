@@ -32,8 +32,8 @@ public class EmailService {
     //private static final ResourceBundle EmailFile = ResourceBundle.getBundle("DrPlant.email.email");
     // Server mail user & pass account
     
-    private String user = /*"2damigi1@gmail.com"*/priv.descifrarTexto("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\correo.txt");
-    private String pass = /*"serv1doR"*/priv.descifrarTexto("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\contraseña.txt");
+    private String user = /*"2damigi1@gmail.com"*/priv.descifrarTexto("correo.txt");
+    private String pass = /*"serv1doR"*/priv.descifrarTexto("contraseña.txt");
     
     
     // DNS Host + SMTP Port
