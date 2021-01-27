@@ -245,7 +245,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
         //PrivadaEmail priv = null;
         String nuevaContraseña;
         //Genera una contraseña nueva
-        nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
+        nuevaContraseña = DrPlant.email.passwordGenerator.getPassword();
         //Manda la nueva contraseña
         EmailService service = new EmailService();
         service.sendMail(u.getEmail(), nuevaContraseña);

@@ -6,14 +6,11 @@
 package DrPlant.encryption;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,11 +110,10 @@ public class PrivadaEmail {
      */
     public String descifrarTexto(String path) {
         String ret = null;
-        
+
         //ResourceBundle resource = ResourceBundle.getBundle("/DrPlant/encryption/CLAVE_PRIVADA");
         //resource.getString("PRIVATE_KEY_PATH");
-        
-        String clave = new String (this.fileReader());
+        String clave = new String(this.fileReader());
         // Fichero leído
         byte[] fileContent = contentFileReader(path); // Path del fichero EjemploAES.dat
         KeySpec keySpec = null;
@@ -138,7 +134,7 @@ public class PrivadaEmail {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 
             // Iniciamos el Cipher en ENCRYPT_MODE y le pasamos la clave privada
-          //  cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+            //  cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             // Leemos el fichero codificado 
             IvParameterSpec ivParam = new IvParameterSpec(Arrays.copyOfRange(fileContent, 0, 16));
 
@@ -194,7 +190,7 @@ public class PrivadaEmail {
     public byte[] fileReader() {
         InputStream keyfis = PrivadaEmail.class.getClassLoader()
                 .getResourceAsStream("DrPlant/encryption/RSA_Private.key");
-       
+
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len;
@@ -213,12 +209,12 @@ public class PrivadaEmail {
             Logger.getLogger(PrivadaEmail.class.getName()).log(Level.SEVERE, null, ex);
         }
         return os.toByteArray();
-        }
-    
+    }
+
     public byte[] contentFileReader(String path) {
         InputStream keyfis = PrivadaEmail.class.getClassLoader()
-                .getResourceAsStream("DrPlant/email/"+path);
-       
+                .getResourceAsStream("DrPlant/email/" + path);
+
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len;
@@ -237,30 +233,16 @@ public class PrivadaEmail {
             Logger.getLogger(PrivadaEmail.class.getName()).log(Level.SEVERE, null, ex);
         }
         return os.toByteArray();
-        }
-
-    public static void main(String[] args) {
-        
-        
-        PrivadaEmail ejemploAES = new PrivadaEmail();
-        /*String mensajeCifrado = ejemploAES.cifrarTexto(new String(ejemploAES.fileReader("/DrPlant/encryption/RSA_Private.key")), "serv1doR");
-        System.out.println("Cifrado! -> " + mensajeCifrado);
-        System.out.println("-----------");*/
-        System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("correo.txt"));
-        System.out.println("-----------");
     }
+
+    /*public static void main(String[] args) {
+    
+    
+    PrivadaEmail ejemploAES = new PrivadaEmail();
+    /*String mensajeCifrado = ejemploAES.cifrarTexto(new String(ejemploAES.fileReader("/DrPlant/encryption/RSA_Private.key")), "serv1doR");
+    System.out.println("Cifrado! -> " + mensajeCifrado);
+    System.out.println("-----------");
+    System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("correo.txt"));
+    System.out.println("-----------");
+    }*/
 }
-
-
-
-
-/*
-Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            byte[] encodedMessage = cipher.doFinal(username.getBytes());
-            byte[] iv = cipher.getIV();
-            // Write the initialization vector (IV) and encoded message in a file
-            oos = new ObjectOutputStream(new FileOutputStream("emailJAMP.dat"));
-            oos.writeObject(iv);
-            oos.writeObject(encodedMessage);
-*/
