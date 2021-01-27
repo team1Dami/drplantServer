@@ -537,4 +537,12 @@ public abstract class AbstractFacade<T> {
                 .setParameter("email", email)
                 .executeUpdate();
     }
+    
+    public List<Equipment> findEquipmentByNameAndUse(Use uses, String name) throws ReadException{
+        return getEntityManager()
+                .createNamedQuery("findEquipmentByNameAndUse")
+                .setParameter("use_equipment", uses)
+                .setParameter("equipment_name", "%"+name+"%")
+                .getResultList();
+    }
 }

@@ -1,5 +1,6 @@
 package DrPlant.service;
 
+import DrPlant.email.EmailService;
 import DrPlant.encryption.*;
 import DrPlant.entity.User;
 import DrPlant.enumerations.UserPrivilege;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -226,7 +228,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
     @GET
     @Path("email/{email}")
     //@Consumes({MediaType.APPLICATION_XML})
-    public void changePassword(@PathParam("email") String email) {
+    public void changePassword(@PathParam("email") String email) throws MessagingException {
 
         User u = null;
         try {
@@ -243,13 +245,15 @@ public class UserFacadeREST extends AbstractFacade<User> {
         //PrivadaEmail priv = null;
         String nuevaContraseña;
         //Genera una contraseña nueva
-        nuevaContraseña = DrPlant.emailService.passwordGenerator.getPassword();
+        nuevaContraseña = DrPlant.email.passwordGenerator.getPassword();
         //Manda la nueva contraseña
-        DrPlant.emailService.EmailService.mandarEmail(nuevaContraseña, u.getEmail());
+        EmailService service = new EmailService();
+        service.sendMail(u.getEmail(), nuevaContraseña);
 
         /*byte[] bytes = priv.fileReader("./src/java/DrPlant/encryption/Private");
         String str = new String(bytes);
         nuevaContraseña=priv.cifrarTexto(str, nuevaContraseña);*/
+        nuevaContraseña = Hash.cifrarTexto(nuevaContraseña);
         //Cambia la contraseña en la base de datos
         super.changePassword(nuevaContraseña, u.getEmail());
 
