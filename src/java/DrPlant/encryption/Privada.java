@@ -49,22 +49,6 @@ public class Privada {
         return decodedMessage;
     }
 
-    /**
-     * Retorna el contenido de un fichero
-     *
-     * @param path Path del fichero
-     * @return El texto del fichero
-     */
-    /* public byte[] fileReader(String path) {
-        byte ret[] = null;
-        File file = new File(path);
-        try {
-            ret = Files.readAllBytes(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }*/
     public byte[] fileReader(String path) { 
         try {
             InputStream keyfis = Privada.class.getClassLoader()
