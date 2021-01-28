@@ -234,15 +234,4 @@ public class PrivadaEmail {
         }
         return os.toByteArray();
     }
-
-    /*public static void main(String[] args) {
-    
-    
-    PrivadaEmail ejemploAES = new PrivadaEmail();
-    /*String mensajeCifrado = ejemploAES.cifrarTexto(new String(ejemploAES.fileReader("/DrPlant/encryption/RSA_Private.key")), "serv1doR");
-    System.out.println("Cifrado! -> " + mensajeCifrado);
-    System.out.println("-----------");
-    System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("correo.txt"));
-    System.out.println("-----------");
-    }*/
 }
