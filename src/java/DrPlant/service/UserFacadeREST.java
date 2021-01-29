@@ -106,6 +106,7 @@ public class UserFacadeREST extends AbstractFacade<User> {
     public void edit(User entity) {
 
         try {
+            entity.setPasswd(hash(entity.getPasswd()));
             super.edit(entity);
             LOGGER.log(Level.INFO, "UserRESTful service: update ");
         } catch (UpdateException ex) {

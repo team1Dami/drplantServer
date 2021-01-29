@@ -37,14 +37,7 @@ public class Hash {
 			// Actualiza el MessageDigest con el array de bytes 
             messageDigest.update(text);
 			// Calcula el resumen (función digest)
-            //messageDigest.digest();
-
-            System.out.println("Mensaje original: "+texto);
-            System.out.println("Número de Bytes: "+text.length);
-            System.out.println("Algoritmo usado: "+messageDigest.getAlgorithm());
-            System.out.println("Resumen del Mensaje: "+messageDigest.digest());
-            System.out.println("Mensaje en Hexadecimal: "+Hexadecimal(messageDigest.digest()));
-            System.out.println("Proveedor: "+messageDigest.getProvider());
+            //messageDigest.digest();          
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
