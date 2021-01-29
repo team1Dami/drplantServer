@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * <li><strong>email:</strong> The email of the user</li>
  * <li><strong>fullname:</strong> The name and last name of the user</li>
  * <li><strong>status:</strong> It's the plants's status, that can be:
- <ul>
+ * <ul>
  * <li>enable</li>
  * <li>disable</li>
  * </ul>
@@ -50,7 +50,6 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Ruben, Eneko
  */
-
 @Entity
 @Table(name = "User", schema = "drplant")
 @NamedQueries({
@@ -69,25 +68,25 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "changePassword",
             query = "UPDATE User u SET u.passwd =:contraseña WHERE u.email=:email")
     ,
-
     @NamedQuery(name = "getAllUsers",
-            query = "SELECT u FROM User u "),
+            query = "SELECT u FROM User u ")
+    ,
     @NamedQuery(name = "findUserByLogin",
-            query = "SELECT u FROM User u WHERE u.login=:login"),
+            query = "SELECT u FROM User u WHERE u.login=:login")
+    ,
     @NamedQuery(name = "findUserByEmail",
-            query = "SELECT u FROM User u WHERE u.email=:email"),
-        })
+            query = "SELECT u FROM User u WHERE u.email=:email"),})
 @XmlRootElement
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    private static final Logger LOGGER =
-            Logger.getLogger("DrPlant.entity.User");
+
+    private static final Logger LOGGER
+            = Logger.getLogger("DrPlant.entity.User");
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column(name="login",unique=true)
+    @Column(name = "login", unique = true)
     private String login;
     private String email;
     private String fullname;
@@ -101,7 +100,7 @@ public class User implements Serializable {
 
     private java.sql.Date lastPasswdChange;
 
-    @OneToMany(cascade = ALL, mappedBy = "user",fetch = FetchType.EAGER)
+    @OneToMany(cascade = ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private Set<UserPlant> plants;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -142,15 +141,15 @@ public class User implements Serializable {
      *
      * @param status
      */
-    public void setStatus(Userstatus status) {        
-        this.status = status;       
+    public void setStatus(Userstatus status) {
+        this.status = status;
     }
 
     /**
      *
      * @return the Id of the user
      */
-   // @XmlTransient  // para indicar que no queremos que se envie esta información de vuelta al cliente
+    // @XmlTransient  // para indicar que no queremos que se envie esta información de vuelta al cliente
     public Integer getId() {
         return id;
     }
@@ -269,6 +268,7 @@ public class User implements Serializable {
 
     /**
      * Get list of plants asociated with the user
+     *
      * @return list of plants
      */
     @XmlTransient
@@ -277,16 +277,19 @@ public class User implements Serializable {
     }
 
     /**
-     * Set all user´s plants 
-     * @param plants 
+     * Set all user´s plants
+     *
+     * @param plants
      */
     public void setPlants(Set<UserPlant> plants) {
         this.plants = plants;
     }
+
     /**
-    * Get list of equipments
-    * @return list of user´s equipment
-    */
+     * Get list of equipments
+     *
+     * @return list of user´s equipment
+     */
     @XmlTransient
     public Set<Equipment> getEquipments() {
         return equipments;
@@ -294,13 +297,13 @@ public class User implements Serializable {
 
     /**
      * Set user´s equipments
-     * @param equipments 
+     *
+     * @param equipments
      */
     public void setEquipments(Set<Equipment> equipments) {
         this.equipments = equipments;
     }
 
-    
     /**
      *
      * @return hash if the id is not null or return 0 if the id is null
