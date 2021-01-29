@@ -91,7 +91,7 @@ public class PrivadaEmail {
             byte[] combined = concatArrays(iv, encodedMessage);
 
             // Escribimos el fichero cifrado 
-            fileWriter("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\contraseña.txt", combined);
+            //fileWriter("Z:\\2DAMi\\Reto2\\SERVIDOR\\drplantServer\\src\\java\\DrPlant\\email\\contraseña.txt", combined);
 
             // Retornamos el texto cifrado
             ret = new String(encodedMessage);
@@ -106,7 +106,8 @@ public class PrivadaEmail {
      * Descifra un texto con AES, modo CBC y padding PKCS5Padding (simétrica) y
      * lo retorna
      *
-     * @param clave La clave del usuario
+     * @param path
+     * @return 
      */
     public String descifrarTexto(String path) {
         String ret = null;
@@ -184,7 +185,6 @@ public class PrivadaEmail {
     /**
      * Retorna el contenido de un fichero
      *
-     * @param path Path del fichero
      * @return El texto del fichero
      */
     public byte[] fileReader() {
@@ -211,6 +211,11 @@ public class PrivadaEmail {
         return os.toByteArray();
     }
 
+    /**
+     * Reads the file information
+     * @param path The final path to know what txt do you want to read
+     * @return The encrypted information
+     */
     public byte[] contentFileReader(String path) {
         InputStream keyfis = PrivadaEmail.class.getClassLoader()
                 .getResourceAsStream("DrPlant/email/" + path);
@@ -235,14 +240,4 @@ public class PrivadaEmail {
         return os.toByteArray();
     }
 
-    /*public static void main(String[] args) {
-    
-    
-    PrivadaEmail ejemploAES = new PrivadaEmail();
-    /*String mensajeCifrado = ejemploAES.cifrarTexto(new String(ejemploAES.fileReader("/DrPlant/encryption/RSA_Private.key")), "serv1doR");
-    System.out.println("Cifrado! -> " + mensajeCifrado);
-    System.out.println("-----------");
-    System.out.println("Descifrado! -> " + ejemploAES.descifrarTexto("correo.txt"));
-    System.out.println("-----------");
-    }*/
 }

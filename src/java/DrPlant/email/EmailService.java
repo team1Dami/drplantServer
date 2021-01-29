@@ -37,6 +37,7 @@ public class EmailService {
     private String smtp_host = "smtp.gmail.com";
     private int smtp_port = 465;
 
+    
     @SuppressWarnings("unused")
     public EmailService() {
     }
