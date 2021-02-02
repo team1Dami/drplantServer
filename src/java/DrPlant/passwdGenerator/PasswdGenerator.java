@@ -5,8 +5,7 @@
  */
 package DrPlant.passwdGenerator;
 
-import DrPlant.entity.Email;
-
+import DrPlant.entity.Email
 
 /**
  *
