@@ -16,6 +16,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -127,11 +128,13 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
         try {
             plague = super.find(id);
+            if(plague == null){
+                throw new NotFoundException();
+            }
 
         } catch (ReadException ex) {
-            LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-
-            throw new InternalServerErrorException(ex);
+            LOGGER.log(Level.SEVERE, "PlagueRESTful service: Not found Error ", ex.getMessage());
+            throw new NotFoundException(ex);
         }
 
         return plague;
@@ -170,9 +173,9 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
             plague = super.findPlagueByCommonName(commonName);
 
         } catch (ReadException ex) {
-            LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "PlagueRESTful service: Not found Error ", ex.getMessage());
 
-            throw new InternalServerErrorException(ex);
+            throw new NotFoundException(ex);
         }
 
         return plague;
@@ -198,9 +201,9 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
             plagues = super.findPlaguesByType(type);
 
         } catch (ReadException ex) {
-            LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "PlagueRESTful service: Not found Error ", ex.getMessage());
 
-            throw new InternalServerErrorException(ex);
+            throw new NotFoundException(ex);
         }
 
         return plagues;
@@ -224,8 +227,9 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
             plagues = super.findAllPlagues();
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
-            throw new InternalServerErrorException(ex);
+            throw new NotFoundException(ex);
         }
+        
         return plagues;
     }
 }
