@@ -118,7 +118,7 @@ public class ShopFacadeREST extends AbstractFacade<Shop> {
 
         Shop shop = null;
         try {
-            super.find(id);
+            shop=super.find(id);
             LOGGER.log(Level.INFO, "ShopRESTful service: find shop by id");
 
         } catch (ReadException ex) {
