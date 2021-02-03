@@ -94,6 +94,9 @@ import javax.xml.bind.annotation.XmlTransient;
     
     @NamedQuery(name = "getPlantByCommonName",
             query = "SELECT p FROM Plant p WHERE p.commonName LIKE :commonName ORDER BY commonName")
+    ,
+    @NamedQuery(name = "updateColdFrequence",
+            query = "UPDATE Plant p SET p.wateringFrequence = :frequence WHERE p.climate LIKE 'cold'")
 })
 @Entity
 @Table(name = "Plant", schema = "drplant")

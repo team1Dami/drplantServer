@@ -17,6 +17,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -55,7 +56,8 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         } catch (CreateException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception creating plant: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -71,10 +73,12 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         } catch (UpdateException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception updating plant: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
-
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
+    
+    
     /**
      * Method to delete a plant
      * @param id 
@@ -88,9 +92,11 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
         } catch (DeleteException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by id: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         } catch (ReadException ex) {
             Logger.getLogger(PlantFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NotFoundException();
         }
     }
     /**
@@ -104,11 +110,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public Plant find(@PathParam("id") String id) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by id", id);
-            return super.find(id);
+            //return super.find(id);
+            Plant plant=super.find(id);
+            if(plant==null){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception updating plant: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -120,11 +134,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getAllPlants() {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search all the plant");
-            return super.getAllPlants();
+            //return super.getAllPlants();
+            List<Plant> plant=super.getAllPlants();
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching all plants: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -138,11 +160,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantByType(@PathParam("plantType") PlantType plantType) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType", plantType);
-            return super.getPlantByType(plantType);
+            //return super.getPlantByType(plantType);
+            List<Plant> plant=super.getPlantByType(plantType);
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by PlantType: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
 
     }
@@ -157,12 +187,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantByPetFriendly(@PathParam("petFriendly") PetFriendly petFriendly) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by PetFriendly", petFriendly);
-            return super.getPlantByPetFriendly(petFriendly);
+            //return super.getPlantByPetFriendly(petFriendly);
+            List<Plant> plant=super.getPlantByPetFriendly(petFriendly);
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by PetFriendly: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
-
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -176,11 +213,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantByClimate(@PathParam("climate") Climate climate) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by Climate", climate);
-            return super.getPlantByClimate(climate);
+            //return super.getPlantByClimate(climate);
+            List<Plant> plant=super.getPlantByClimate(climate);
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by Climate: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -195,11 +240,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantByTypeAndPetFriendly(@PathParam("plantType") PlantType plantType, @PathParam("petFriendly") PetFriendly petFriendly) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType and PetFriendly", plantType + " " + petFriendly);
-            return super.getPlantByTypeAndPetFriendly(plantType, petFriendly);
+            //return super.getPlantByTypeAndPetFriendly(plantType, petFriendly);
+            List<Plant> plant=super.getPlantByTypeAndPetFriendly(plantType, petFriendly);
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by PlantType and PetFriendly: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -214,11 +267,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantByTypeAndClimate(@PathParam("plantType") PlantType plantType, @PathParam("climate") Climate climate) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType and Climate", plantType + " " + climate);
-            return super.getPlantByTypeAndClimate(plantType, climate);
+            //return super.getPlantByTypeAndClimate(plantType, climate);
+            List<Plant> plant=super.getPlantByTypeAndClimate(plantType, climate);
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by PlantType and Climate : ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -233,11 +294,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantByPetFriendlyAndClimate(@PathParam("petFriendly") PetFriendly petFriendly, @PathParam("climate") Climate climate) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by PetFriendly and Climate", petFriendly + " " + climate);
-            return super.getPlantByPetFriendlyAndClimate(petFriendly, climate);
+            //return super.getPlantByPetFriendlyAndClimate(petFriendly, climate);
+            List<Plant> plant=super.getPlantByPetFriendlyAndClimate(petFriendly, climate);
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by PetFriendly and Climate: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -253,11 +322,19 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantWithAll(@PathParam("plantType") PlantType plantType, @PathParam("petFriendly") PetFriendly petFriendly, @PathParam("climate") Climate climate) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by PlantType, PetFriendly and Climate", plantType + " " + petFriendly + " " + climate);
-            return super.getPlantWithAll(plantType, petFriendly, climate);
-        } catch (ReadException ex) {
+            //return super.getPlantWithAll(plantType, petFriendly, climate);
+             List<Plant> plant=super.getPlantWithAll(plantType, petFriendly, climate);
+
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }        } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by PlantType, PetFriendly and Climate: ",
                     ex.getMessage());
-            throw new InternalServerErrorException();
+            //throw new InternalServerErrorException();
+            throw new NotFoundException();
         }
     }
     /**
@@ -271,13 +348,37 @@ public class PlantFacadeREST extends AbstractFacade<Plant> {
     public List<Plant> getPlantByCommonName(@PathParam("commonName") String commonName) {
         try {
             LOGGER.log(Level.INFO, "PlantRESTful service: search by common name", commonName);
-            return super.getPlantByCommonName(commonName);
+            //return super.getPlantByCommonName(commonName);
+            List<Plant> plant= (List<Plant>) super.getPlantByCommonName(commonName);
+            if(plant.isEmpty()){
+                throw new NotFoundException();
+            }
+            else{
+                return plant;
+            }
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "PlantRESTful service: Exception searching plant by common name: ",
                     ex.getMessage());
+            //throw new InternalServerErrorException();
+            throw new InternalServerErrorException();
+        }
+        
+    }
+    
+     
+    @GET
+    @Path("updateWatering/{wateringFrequence}")
+    public void edit(@PathParam("wateringFrequence") Float wateringFrequence) {
+        LOGGER.log(Level.INFO, "PlantRESTful service: edit: "); 
+        try{
+            super.updateColdFrequence(wateringFrequence);
+        }
+        catch(Exception e){
             throw new InternalServerErrorException();
         }
     }
+    
+    
 
     @Override
     protected EntityManager getEntityManager() {

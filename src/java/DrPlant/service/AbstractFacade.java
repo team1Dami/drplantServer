@@ -339,7 +339,7 @@ public abstract class AbstractFacade<T> {
         try {
             return getEntityManager()
                 .createNamedQuery("getPlantByCommonName")
-                .setParameter("commonName", "%" + commonName + "%")
+                .setParameter("commonName", commonName + "%")
                 .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
@@ -544,5 +544,12 @@ public abstract class AbstractFacade<T> {
                 .setParameter("use_equipment", uses)
                 .setParameter("equipment_name", "%"+name+"%")
                 .getResultList();
+    }
+    
+    public void updateColdFrequence(Float wateringFrequence)throws ReadException{
+        getEntityManager()
+                    .createNamedQuery("updateColdFrequence")
+                    .setParameter("frequence", wateringFrequence)
+                    .executeUpdate();;
     }
 }
