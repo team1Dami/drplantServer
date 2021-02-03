@@ -550,6 +550,6 @@ public abstract class AbstractFacade<T> {
         getEntityManager()
                     .createNamedQuery("updateColdFrequence")
                     .setParameter("frequence", wateringFrequence)
-                    .executeUpdate();;
+                    .executeUpdate();
     }
 }
