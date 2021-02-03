@@ -132,9 +132,9 @@ public abstract class AbstractFacade<T> {
     public List<Equipment> findEquipmentByUse(Object uses) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("findEquipmentByUse")
-                .setParameter("use_equipment", uses)
-                .getResultList();
+                    .createNamedQuery("findEquipmentByUse")
+                    .setParameter("use_equipment", uses)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -149,8 +149,8 @@ public abstract class AbstractFacade<T> {
     public List<Equipment> findAllEquipment() throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("findAllEquipment")
-                .getResultList();
+                    .createNamedQuery("findAllEquipment")
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -173,7 +173,6 @@ public abstract class AbstractFacade<T> {
                 .setParameter("max_price", maxPrice)
                 .getResultList();
     }*/
-
     /**
      * Search all the plants in the database
      *
@@ -183,8 +182,8 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getAllPlants() throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getAllPlants")
-                .getResultList();
+                    .createNamedQuery("getAllPlants")
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -200,9 +199,9 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getPlantByType(PlantType plantType) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantByType")
-                .setParameter("plantType", plantType)
-                .getResultList();
+                    .createNamedQuery("getPlantByType")
+                    .setParameter("plantType", plantType)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -218,9 +217,9 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getPlantByPetFriendly(PetFriendly petFriendly) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantByPetFriendly")
-                .setParameter("petfriendly", petFriendly)
-                .getResultList();
+                    .createNamedQuery("getPlantByPetFriendly")
+                    .setParameter("petfriendly", petFriendly)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -236,9 +235,9 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getPlantByClimate(Climate climate) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantByClimate")
-                .setParameter("climate", climate)
-                .getResultList();
+                    .createNamedQuery("getPlantByClimate")
+                    .setParameter("climate", climate)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -255,10 +254,10 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getPlantByTypeAndPetFriendly(PlantType plantType, PetFriendly petFriendly) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantByTypeAndPetFriendly")
-                .setParameter("plantType", plantType)
-                .setParameter("petfriendly", petFriendly)
-                .getResultList();
+                    .createNamedQuery("getPlantByTypeAndPetFriendly")
+                    .setParameter("plantType", plantType)
+                    .setParameter("petfriendly", petFriendly)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -275,10 +274,10 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getPlantByTypeAndClimate(PlantType plantType, Climate climate) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantByTypeAndClimate")
-                .setParameter("plantType", plantType)
-                .setParameter("climate", climate)
-                .getResultList();
+                    .createNamedQuery("getPlantByTypeAndClimate")
+                    .setParameter("plantType", plantType)
+                    .setParameter("climate", climate)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -296,10 +295,10 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getPlantByPetFriendlyAndClimate(PetFriendly petFriendly, Climate climate) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantByPetFriendlyAndClimate")
-                .setParameter("petfriendly", petFriendly)
-                .setParameter("climate", climate)
-                .getResultList();
+                    .createNamedQuery("getPlantByPetFriendlyAndClimate")
+                    .setParameter("petfriendly", petFriendly)
+                    .setParameter("climate", climate)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -318,11 +317,11 @@ public abstract class AbstractFacade<T> {
     List<Plant> getPlantWithAll(PlantType plantType, PetFriendly petfriendly, Climate climate) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantWithAll")
-                .setParameter("plantType", plantType)
-                .setParameter("climate", climate)
-                .setParameter("petfriendly", petfriendly)
-                .getResultList();
+                    .createNamedQuery("getPlantWithAll")
+                    .setParameter("plantType", plantType)
+                    .setParameter("climate", climate)
+                    .setParameter("petfriendly", petfriendly)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -338,9 +337,9 @@ public abstract class AbstractFacade<T> {
     public List<Plant> getPlantByCommonName(String commonName) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getPlantByCommonName")
-                .setParameter("commonName", "%" + commonName + "%")
-                .getResultList();
+                    .createNamedQuery("getPlantByCommonName")
+                    .setParameter("commonName", "%" + commonName + "%")
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -356,8 +355,8 @@ public abstract class AbstractFacade<T> {
     public List<Shop> findAllShops() throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getAllShops")
-                .getResultList();
+                    .createNamedQuery("getAllShops")
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -374,9 +373,9 @@ public abstract class AbstractFacade<T> {
     public Shop findShopName(Object shop_name) throws ReadException {
         try {
             return (Shop) getEntityManager()
-                .createNamedQuery("getShopByName")
-                .setParameter("shop_name", shop_name)
-                .getSingleResult();
+                    .createNamedQuery("getShopByName")
+                    .setParameter("shop_name", shop_name)
+                    .getSingleResult();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -386,8 +385,8 @@ public abstract class AbstractFacade<T> {
     public List<User> findAllUsers() throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("getAllUsers")
-                .getResultList();
+                    .createNamedQuery("getAllUsers")
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -402,13 +401,13 @@ public abstract class AbstractFacade<T> {
      * @throws ReadException
      */
     public User findUserByLoginAndPasswd(Object login, Object passwd) throws ReadException {
-        
+
         try {
             return (User) getEntityManager()
-                .createNamedQuery("findUserByLoginAndPasswd")
-                .setParameter("login", login)
-                .setParameter("passwd", passwd)
-                .getSingleResult();
+                    .createNamedQuery("findUserByLoginAndPasswd")
+                    .setParameter("login", login)
+                    .setParameter("passwd", passwd)
+                    .getSingleResult();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -422,38 +421,38 @@ public abstract class AbstractFacade<T> {
      * @return
      * @throws ReadException
      */
-    public User findUserByLogin(Object login){
+    public User findUserByLogin(Object login) {
 
-         User u = null; 
+        User u = null;
         try {
             u = (User) getEntityManager()
-                .createNamedQuery("findUserByLogin")
-                .setParameter("login", login)
-                .getSingleResult();
-              
+                    .createNamedQuery("findUserByLogin")
+                    .setParameter("login", login)
+                    .getSingleResult();
+
         } catch (NoResultException ex) {
             return null;
         }
         return u;
     }
-    
-    public User findUserByLoginAndEmail(Object login,Object email){
 
-         User u = null;
+    public User findUserByLoginAndEmail(Object login, Object email) {
+
+        User u = null;
         try {
             u = (User) getEntityManager()
-                .createNamedQuery("findUserByLogin")
-                .setParameter("login", login)
-                .getSingleResult();
-              
+                    .createNamedQuery("findUserByLogin")
+                    .setParameter("login", login)
+                    .getSingleResult();
+
         } catch (NoResultException ex) {
-            try{
-                 u = (User) getEntityManager()
-                .createNamedQuery("findUserByEmail")
-                .setParameter("email", email)
-                .getSingleResult();
-              
-            }catch(NoResultException e){
+            try {
+                u = (User) getEntityManager()
+                        .createNamedQuery("findUserByEmail")
+                        .setParameter("email", email)
+                        .getSingleResult();
+
+            } catch (NoResultException e) {
                 return null;
             }
         }
@@ -470,9 +469,9 @@ public abstract class AbstractFacade<T> {
     public Plague findPlagueByCommonName(Object commonName) throws ReadException {
         try {
             return (Plague) getEntityManager()
-                .createNamedQuery("findPlagueByCommonName")
-                .setParameter("commonName", commonName)
-                .getSingleResult();
+                    .createNamedQuery("findPlagueByCommonName")
+                    .setParameter("commonName", commonName)
+                    .getSingleResult();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -488,9 +487,9 @@ public abstract class AbstractFacade<T> {
     public List<Plague> findPlaguesByType(Object type) throws ReadException {
         try {
             return getEntityManager()
-                .createNamedQuery("findPlaguesByType")
-                .setParameter("type", type)
-                .getResultList();
+                    .createNamedQuery("findPlaguesByType")
+                    .setParameter("type", type)
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -505,8 +504,8 @@ public abstract class AbstractFacade<T> {
     public List<Plague> findAllPlagues() throws ReadException {  // throw new WebApplicationException(Response.Status.NOT_FOUND);  // NotFoundException  //InternalServerErrorException  // ServiceUnavailableException
         try {
             return getEntityManager()
-                .createNamedQuery("findAllPlagues")
-                .getResultList();
+                    .createNamedQuery("findAllPlagues")
+                    .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
         }
@@ -514,27 +513,51 @@ public abstract class AbstractFacade<T> {
 
     /**
      * Method to view if the introduced e-mail is in the database
+     *
      * @param email
      * @return The e-mail that is on the DB
      * @throws DrPlant.exceptions.ReadException
-     * @throws NoResultException 
+     * @throws NoResultException
      */
-    public User validateEmail(String email) throws ReadException, NoResultException{
+    public User validateEmail(String email) throws ReadException, NoResultException {
         return (User) getEntityManager()
                 .createNamedQuery("validateEmail")
                 .setParameter("email", email)
                 .getSingleResult();
     }
+
     /**
      * Method to change the new password in the DB
+     *
      * @param nuevaContraseña The new password set and sent
-     * @param email  The user e-mail to search the user
+     * @param email The user e-mail to search the user
      */
-    public void changePassword (String nuevaContraseña, String email){
+    public void changePassword(String nuevaContraseña, String email) {
         getEntityManager()
                 .createNamedQuery("changePassword")
                 .setParameter("contraseña", nuevaContraseña)
                 .setParameter("email", email)
                 .executeUpdate();
     }
+
+    /**
+     * Method to update plagues where type = severe ADT changes
+     *
+     * @param control control to be set
+     * @param type type to be search
+     * @throws UpdateException
+     */
+    public void updatePlaguesSevereType(String control, PlagueType type) throws UpdateException {
+        try {
+            getEntityManager()
+                    .createNamedQuery("updatePlaguesSevereType")
+                    .setParameter("control", control)
+                    .setParameter("type", type)
+                    .executeUpdate();
+
+        } catch (Exception ex) {
+            throw new UpdateException(ex.getMessage());
+        }
+    }
+
 }

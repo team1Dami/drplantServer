@@ -128,7 +128,7 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
 
         try {
             plague = super.find(id);
-            if(plague == null){
+            if (plague == null) {
                 throw new NotFoundException();
             }
 
@@ -229,7 +229,19 @@ public class PlagueFacadeREST extends AbstractFacade<Plague> {
             LOGGER.log(Level.SEVERE, "PlagueRESTful service: server Error ", ex.getMessage());
             throw new NotFoundException(ex);
         }
-        
+
         return plagues;
+    }
+
+    @GET
+    @Path("updatePlaguesSevereType/{control}")
+    @Produces({MediaType.APPLICATION_XML})
+    public void updatePlaguesSevereType(@PathParam("control") String control, PlagueType type) {
+        type = PlagueType.severe;
+        try {
+            super.updatePlaguesSevereType(control, type);
+        } catch (UpdateException ex) {
+            Logger.getLogger(PlagueFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

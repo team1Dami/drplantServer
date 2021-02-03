@@ -65,6 +65,10 @@ import javax.xml.bind.annotation.XmlTransient;
             query = "SELECT p FROM Plague p WHERE p.scienceName =:scienceName"
     )
     ,
+    @NamedQuery(
+            name = "updatePlaguesSevereType",
+            query = "UPDATE Plague p SET p.control=:control WHERE p.type =:type"
+    ),
 })
 
 @XmlRootElement
