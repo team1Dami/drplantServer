@@ -261,6 +261,37 @@ public class UserFacadeREST extends AbstractFacade<User> {
         //return u;
     }
 
+    /**
+     * Method to delete a especific user by the id
+     *
+     * @param entity
+     */
+    @PUT
+    @Path("email/")
+    @Consumes({MediaType.APPLICATION_XML})
+    public void changeCustomPassword(User entity) {
+
+        try {
+            EmailService service = new EmailService();
+            service.sendConfirmationMail(entity.getEmail());
+            byte[] encryptedPass = parseHexBinary(entity.getPasswd());
+
+            String passCifradaPrivada = descifrar(encryptedPass);
+            String passHasheada = hash(passCifradaPrivada);
+            entity.setPasswd(passHasheada);
+            super.edit(entity);
+            LOGGER.log(Level.INFO, "UserRESTful service: update ");
+        } catch (UpdateException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "UserRESTful service: Exception updating user", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        } catch (MessagingException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "UserRESTful service: Exception sending the email user", ex.getMessage());
+            throw new InternalServerErrorException(ex);
+        }
+    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;

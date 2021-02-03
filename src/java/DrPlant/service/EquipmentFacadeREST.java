@@ -14,10 +14,12 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -157,7 +159,7 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             equipment = super.findEquipmentByUse(uses);
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
-            throw new InternalServerErrorException(ex);
+            throw new NotFoundException(ex);
         }
         return equipment;
     }
@@ -212,8 +214,22 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
             equipment = super.findEquipmentByNameAndUse(uses, name);
         } catch (ReadException ex) {
             LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
-            throw new InternalServerErrorException(ex);
+            throw new NotFoundException(ex);
         }
         return equipment;
+    }
+    
+    @GET
+    @Path("sustrato/{price}")
+    @Produces({MediaType.APPLICATION_XML})
+    public void upadteSustrato(@PathParam("price") float price) {
+
+       
+        try {
+            super.updateSustratoPrice(price);
+        } catch (UpdateException ex) {
+            LOGGER.log(Level.SEVERE, "EquipmentRESTful service: server Error ", ex.getMessage());
+            throw new NotFoundException(ex);
+        }
     }
 }

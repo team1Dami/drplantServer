@@ -66,6 +66,13 @@ import javax.xml.bind.annotation.XmlTransient;
             name = "findEquipmentByNameAndUse",
             query = "SELECT e FROM Equipment e  WHERE e.uses = :use_equipment AND e.equipment_name like :equipment_name  ORDER BY e.id_equipment"
     )
+
+    ,
+    
+    @NamedQuery(
+            name = "updatePriceSustrato",
+            query = "UPDATE Equipment e SET e.price = :price WHERE e.uses='sustrato'"
+    )
 /*,
         
     @NamedQuery(

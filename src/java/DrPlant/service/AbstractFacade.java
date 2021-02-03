@@ -115,7 +115,7 @@ public abstract class AbstractFacade<T> {
         try {
             return getEntityManager()
                     .createNamedQuery("findEquipmentByName")
-                    .setParameter("equipment_name", "%" + equipment_name + "%")
+                    .setParameter("equipment_name", /*"%" + */equipment_name + "%")
                     .getResultList();
         } catch (Exception ex) {
             throw new ReadException(ex.getMessage());
@@ -542,7 +542,11 @@ public abstract class AbstractFacade<T> {
         return getEntityManager()
                 .createNamedQuery("findEquipmentByNameAndUse")
                 .setParameter("use_equipment", uses)
-                .setParameter("equipment_name", "%"+name+"%")
+                .setParameter("equipment_name", /*"%"+*/name+"%")
                 .getResultList();
+    }
+
+    public void updateSustratoPrice(float price) throws UpdateException{
+        getEntityManager().createNamedQuery("updatePriceSustrato").setParameter("price", price).executeUpdate();
     }
 }
