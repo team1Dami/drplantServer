@@ -62,6 +62,7 @@ public class PrivadaEmail {
     public String cifrarTexto(String clave, String mensaje) {
         String ret = null;
         KeySpec keySpec = null;
+        clave="patata";
         SecretKeyFactory secretKeyFactory = null;
         try {
 
@@ -111,10 +112,10 @@ public class PrivadaEmail {
      */
     public String descifrarTexto(String path) {
         String ret = null;
-
+         String clave = "patata";
         //ResourceBundle resource = ResourceBundle.getBundle("/DrPlant/encryption/CLAVE_PRIVADA");
         //resource.getString("PRIVATE_KEY_PATH");
-        String clave = new String(this.fileReader());
+        //String clave = new String(this.fileReader());
         // Fichero leído
         byte[] fileContent = contentFileReader(path); // Path del fichero EjemploAES.dat
         KeySpec keySpec = null;
